@@ -107,7 +107,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
                 Lowercase letters, digits and dashes.
               </p>
               <label className="col-span-2 flex items-center gap-2">
-                <input type="checkbox" checked={state.status} onChange={(e) => patch({ status: e.target.checked })} className="size-4 accent-[var(--color-accent-600)]" />
+                <input type="checkbox" checked={state.status} onChange={(e) => patch({ status: e.target.checked })} className="size-4" />
                 Include status scales (success, warning, danger, info)
               </label>
             </div>

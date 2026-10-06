@@ -24,7 +24,7 @@ function Slider({ label, value, min, max, step = 1, unit, onChange }: { label: s
         value={value}
         aria-valuetext={`${value}${unit}`}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="h-6 w-full accent-[var(--color-accent-600)]"
+        className="h-6 w-full"
       />
     </div>
   );

@@ -89,7 +89,7 @@ export function ExportPanel({
           )}
           {format === "tailwind-v4" && (
             <label className="flex items-center gap-2">
-              <input type="checkbox" checked={reset} onChange={(e) => setReset(e.target.checked)} className="size-4 accent-[var(--color-accent-600)]" />
+              <input type="checkbox" checked={reset} onChange={(e) => setReset(e.target.checked)} className="size-4" />
               <span>Remove default colors</span>
             </label>
           )}
