@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { gamutMap, oklchToHex, parseColor, wcagRatio } from "@/engine";
@@ -57,8 +57,14 @@ describe("typography rules", () => {
     expect(layout).not.toMatch(/Geist|Inter|Roboto|Mono\(/);
   });
   it("uses no weight classes outside normal, medium and semibold", () => {
-    const { execSync } = require("node:child_process") as typeof import("node:child_process");
-    const hits = execSync("grep -rnE \"font-(thin|extralight|light|bold|extrabold|black)\\b\" src --include=*.tsx --include=*.ts --include=*.css || true", { cwd: process.cwd() }).toString();
-    expect(hits.replace(/^.*design-tokens\.test\.ts.*$/gm, "").trim()).toBe("");
+    const bad = /font-(thin|extralight|light|bold|extrabold|black)\b/;
+    const walk = (dir: string): string[] =>
+      readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+        const full = path.join(dir, e.name);
+        if (e.isDirectory()) return e.name === "__tests__" ? [] : walk(full);
+        return /\.(tsx?|css)$/.test(e.name) ? [full] : [];
+      });
+    const offenders = walk(path.join(process.cwd(), "src")).filter((f) => bad.test(readFileSync(f, "utf8")));
+    expect(offenders).toEqual([]);
   });
 });
