@@ -1,6 +1,7 @@
 "use client";
 
-import { bestText, colorName, type NamedScale } from "@/engine";
+import { bestText, colorName, type NamedScale, type VisionMode } from "@/engine";
+import { visionStyle } from "./vision";
 import { cn } from "@/lib/cn";
 
 const ROLE: Record<NamedScale["kind"], string> = { brand: "Primary", accent: "Accent", neutral: "Neutral", status: "Status" };
@@ -10,11 +11,13 @@ export function ScaleTiles({
   selected,
   onSelect,
   onCopy,
+  vision = "normal",
 }: {
   scales: NamedScale[];
   selected: string;
   onSelect: (name: string) => void;
   onCopy: (hex: string, label: string) => void;
+  vision?: VisionMode;
 }) {
   const scale = scales.find((s) => s.name === selected) ?? scales[0]!;
   const anchor = scale.steps.find((s) => s.isAnchor);
@@ -71,7 +74,7 @@ export function ScaleTiles({
         ))}
       </div>
 
-      <ul className="grid grid-cols-4 gap-1.5 sm:grid-cols-6 lg:grid-cols-11">
+      <ul style={visionStyle(vision)} className="grid grid-cols-4 gap-1.5 sm:grid-cols-6 lg:grid-cols-11">
         {scale.steps.map((s) => {
           const fg = bestText(s.hex).color;
           return (

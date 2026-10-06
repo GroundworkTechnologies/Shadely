@@ -15,6 +15,7 @@ import {
   colorName,
   isValidName,
   type PaletteState,
+  type VisionMode,
 } from "@/engine";
 import { useCopy } from "@/hooks/use-copy";
 import { useHistory } from "@/hooks/use-history";
@@ -28,6 +29,8 @@ import { ColorInfoPanel } from "./color-info-panel";
 import { ScaleTiles } from "./scale-tiles";
 import { ShadeEditor } from "./shade-editor";
 import { TuningPanel } from "./tuning-panel";
+import { VisionCheck } from "./vision-check";
+import { VisionFilters } from "./vision";
 import { oklchToHex } from "@/engine";
 
 const isTyping = (t: EventTarget | null) =>
@@ -43,6 +46,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
   const [shareUrl, setShareUrl] = useState("");
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [tab, setTab] = useState<PreviewTabId>("cards");
+  const [vision, setVision] = useState<VisionMode>("normal");
   const { copy, notify, message } = useCopy();
   const saved = useSavedPalettes();
   const router = useRouter();
@@ -141,6 +145,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
 
   return (
     <div className="page-container py-8">
+      <VisionFilters />
       <div className="mb-6 max-w-3xl">
         <h1 className="text-3xl font-normal sm:text-4xl">Tailwind color palette generator</h1>
         <p className="mt-2 text-muted">
@@ -242,14 +247,15 @@ export function Workspace({ initial }: { initial: PaletteState }) {
         </div>
 
         <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-6">
-          <ScaleTiles scales={scales} selected={current.name} onSelect={setSelected} onCopy={copy} />
+          <ScaleTiles scales={scales} selected={current.name} onSelect={setSelected} onCopy={copy} vision={vision} />
           {current.kind === "brand" && <ShadeEditor scale={current} state={state} patch={patch} />}
-          <Preview scales={pscales} name={state.name} theme={state.theme} onTheme={(theme) => patch({ theme })} onExportShadcn={exportShadcn} tab={tab} onTab={setTab} />
+          <Preview scales={pscales} name={state.name} theme={state.theme} onTheme={(theme) => patch({ theme })} onExportShadcn={exportShadcn} tab={tab} onTab={setTab} vision={vision} onVision={setVision} />
         </div>
       </div>
 
       <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6">
         <ContrastPanel scale={current} />
+        <VisionCheck scales={pscales} />
         <ColorInfoPanel scale={current} onCopy={copy} />
         <ExportPanel
           scales={scales}

@@ -66,34 +66,64 @@ export function apcaTier(lc: number): ApcaTier {
 }
 
 export type ContrastMetric = "wcag" | "apca";
+/** What the color is used for: body text, large text, or UI components and graphics. */
+export type ContrastUsage = "body" | "large" | "ui";
+
+export const USAGE_LABELS: Record<ContrastUsage, string> = { body: "Body text", large: "Large text", ui: "UI and graphics" };
+
+/** Minimum contrast: WCAG 2.2 ratios (AA) and APCA Lc tiers. */
+export const THRESHOLDS: Record<ContrastMetric, Record<ContrastUsage, number>> = {
+  wcag: { body: 4.5, large: 3, ui: 3 },
+  apca: { body: 75, large: 60, ui: 45 },
+};
 
 export interface PairScore {
   /** WCAG ratio, or absolute APCA Lc. */
   value: number;
+  /** Reaches the threshold for the chosen usage. */
   pass: boolean;
   label: string;
 }
 
-/** Score text on a background. `pass` means usable for normal-size body text. */
-export function scorePair(text: string, background: string, metric: ContrastMetric): PairScore {
+/** Score text on a background against the threshold for its usage (default: body text). */
+export function scorePair(text: string, background: string, metric: ContrastMetric, usage: ContrastUsage = "body"): PairScore {
+  const min = THRESHOLDS[metric][usage];
   if (metric === "wcag") {
     const r = wcagRatio(text, background);
-    return { value: r, pass: r >= 4.5, label: wcagLevel(r) };
+    return { value: r, pass: r >= min, label: wcagLevel(r) };
   }
   const lc = Math.abs(apcaLc(text, background));
-  return { value: lc, pass: lc >= 75, label: apcaTier(lc) };
+  return { value: lc, pass: lc >= min, label: apcaTier(lc) };
 }
 
 /** Matrix [background][foreground] of scores for a list of colors. */
-export function contrastMatrix(hexes: readonly string[], metric: ContrastMetric): PairScore[][] {
-  return hexes.map((bg) => hexes.map((fg) => scorePair(fg, bg, metric)));
+export function contrastMatrix(hexes: readonly string[], metric: ContrastMetric, usage: ContrastUsage = "body"): PairScore[][] {
+  return hexes.map((bg) => hexes.map((fg) => scorePair(fg, bg, metric, usage)));
 }
 
 /** Whichever of white or black text reads better on this background. */
-export function bestText(background: string, metric: ContrastMetric = "wcag"): { color: "#ffffff" | "#000000"; score: PairScore } {
-  const w = scorePair("#ffffff", background, metric);
-  const k = scorePair("#000000", background, metric);
+export function bestText(background: string, metric: ContrastMetric = "wcag", usage: ContrastUsage = "body"): { color: "#ffffff" | "#000000"; score: PairScore } {
+  const w = scorePair("#ffffff", background, metric, usage);
+  const k = scorePair("#000000", background, metric, usage);
   return w.value >= k.value ? { color: "#ffffff", score: w } : { color: "#000000", score: k };
+}
+
+/**
+ * The on-palette text color for a background: the passing step with the lowest contrast,
+ * so text stays tinted and harmonious (for example brand-800 on brand-100) instead of plain black.
+ */
+export function paletteText<T extends { hex: string; stop: number }>(
+  steps: readonly T[],
+  background: string,
+  metric: ContrastMetric = "wcag",
+  usage: ContrastUsage = "body",
+): { step: T; score: PairScore } | null {
+  let best: { step: T; score: PairScore } | null = null;
+  for (const step of steps) {
+    const score = scorePair(step.hex, background, metric, usage);
+    if (score.pass && (!best || score.value < best.score.value)) best = { step, score };
+  }
+  return best;
 }
 
 /** First stop (in the given order) that reaches the threshold against a color. */

@@ -1,7 +1,8 @@
 "use client";
 
 import { Segmented } from "@/components/ui/segmented";
-import type { NamedScale, PreviewTheme } from "@/engine";
+import type { NamedScale, PreviewTheme, VisionMode } from "@/engine";
+import { VisionSelect, visionStyle } from "@/components/workspace/vision";
 import { cn } from "@/lib/cn";
 import { previewVars } from "@/lib/preview-theme";
 import { Apps } from "./apps";
@@ -42,6 +43,8 @@ export function Preview({
   onExportShadcn,
   tab,
   onTab,
+  vision,
+  onVision,
 }: {
   scales: NamedScale[];
   name: string;
@@ -50,6 +53,8 @@ export function Preview({
   onExportShadcn: () => void;
   tab: PreviewTabId;
   onTab: (t: PreviewTabId) => void;
+  vision: VisionMode;
+  onVision: (m: VisionMode) => void;
 }) {
   const setTab = onTab;
   const Active = TABS.find((t) => t[0] === tab)![2];
@@ -70,7 +75,9 @@ export function Preview({
         <h2 id="preview-h" className="text-base font-medium">
           Live preview
         </h2>
-        <Segmented
+        <div className="flex flex-wrap items-center gap-3">
+          <VisionSelect value={vision} onChange={onVision} />
+          <Segmented
           label="Preview theme"
           value={theme}
           onChange={onTheme}
@@ -79,6 +86,7 @@ export function Preview({
             { value: "dark", label: "Dark" },
           ]}
         />
+        </div>
       </div>
 
       <div role="tablist" aria-label="Preview pages" onKeyDown={onKey} className="mb-3 flex gap-1 overflow-x-auto pb-1">
@@ -104,7 +112,7 @@ export function Preview({
           id="preview-panel"
           role="tabpanel"
           aria-labelledby={`ptab-${tab}`}
-          style={{ ...previewVars(scales, theme), colorScheme: theme } as React.CSSProperties}
+          style={{ ...previewVars(scales, theme), colorScheme: theme, ...visionStyle(vision) } as React.CSSProperties}
           className="@container overflow-hidden rounded-card border border-border bg-(--p-bg) text-(--p-fg)"
         >
           <Active />
