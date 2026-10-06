@@ -53,6 +53,7 @@ const FORMATS: Record<string, ExportFormat> = {
   json: "json",
   dtcg: "dtcg",
   ts: "tokens-studio",
+  sh: "shadcn",
 };
 const FORMAT_KEYS = Object.fromEntries(Object.entries(FORMATS).map(([k, v]) => [v, k])) as Record<ExportFormat, string>;
 const SYNTAXES: ColorSyntax[] = ["oklch", "hex", "hsl", "rgb", "p3"];

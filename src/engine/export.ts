@@ -1,8 +1,10 @@
+import { hexToOklch } from "./color-space";
 import { formatHsl, formatOklch, formatP3, formatRgb, type ColorSyntax } from "./format";
+import { SHADCN_COLOR_TOKENS, shadcnTokens } from "./semantic";
 import type { NamedScale } from "./palettes";
 import type { ScaleStep } from "./scale";
 
-export type ExportFormat = "tailwind-v4" | "tailwind-v3" | "css" | "scss" | "json" | "dtcg" | "tokens-studio";
+export type ExportFormat = "tailwind-v4" | "tailwind-v3" | "css" | "scss" | "json" | "dtcg" | "tokens-studio" | "shadcn";
 export type V3Module = "cjs" | "esm" | "ts";
 
 export interface ExportOptions {
@@ -24,6 +26,7 @@ export const FORMAT_LABELS: Record<ExportFormat, string> = {
   json: "JSON",
   dtcg: "Design tokens (DTCG)",
   "tokens-studio": "Tokens Studio / Figma",
+  shadcn: "shadcn/ui theme",
 };
 
 export const FORMAT_FILES: Record<ExportFormat, string> = {
@@ -34,6 +37,7 @@ export const FORMAT_FILES: Record<ExportFormat, string> = {
   json: "tintwork-colors.json",
   dtcg: "tintwork-tokens.json",
   "tokens-studio": "tintwork-tokens-studio.json",
+  shadcn: "tintwork-shadcn-theme.css",
 };
 
 export function colorString(step: ScaleStep, syntax: ColorSyntax): string {
@@ -119,6 +123,25 @@ function tokensStudio(scales: NamedScale[], o: ExportOptions): string {
   return JSON.stringify(t, null, 2) + "\n";
 }
 
+function shadcn(scales: NamedScale[], o: ExportOptions): string {
+  const hasAll = ["brand", "neutral", "success", "warning", "danger", "info"].every((k) =>
+    scales.some((s) => (s.kind === "status" ? s.name === k : s.kind === k)),
+  );
+  if (!hasAll) return "/* shadcn/ui theme needs the brand, neutral and status scales. */\n";
+  const fmt = (hex: string) => {
+    if (o.syntax === "hex") return hex;
+    const ok = hexToOklch(hex);
+    return ok ? formatOklch(ok) : hex;
+  };
+  const block = (sel: string, theme: "light" | "dark") => {
+    const t = shadcnTokens(scales, theme);
+    const lines = SHADCN_COLOR_TOKENS.map((k) => `  --${k}: ${fmt(t[k]!)};`);
+    return `${sel} {\n${theme === "light" ? "  --radius: 0.625rem;\n" : ""}${lines.join("\n")}\n}`;
+  };
+  const map = SHADCN_COLOR_TOKENS.map((k) => `  --color-${k}: var(--${k});`).join("\n");
+  return `${blockHeader(o.sourceUrl)}${block(":root", "light")}\n\n${block(".dark", "dark")}\n\n@theme inline {\n  --radius-sm: calc(var(--radius) - 4px);\n  --radius-md: calc(var(--radius) - 2px);\n  --radius-lg: var(--radius);\n  --radius-xl: calc(var(--radius) + 4px);\n${map}\n}\n`;
+}
+
 /** Render scales in the requested format. Deterministic. */
 export function exportScales(scales: NamedScale[], o: ExportOptions): string {
   switch (o.format) {
@@ -136,5 +159,7 @@ export function exportScales(scales: NamedScale[], o: ExportOptions): string {
       return dtcg(scales);
     case "tokens-studio":
       return tokensStudio(scales, o);
+    case "shadcn":
+      return shadcn(scales, o);
   }
 }

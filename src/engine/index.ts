@@ -9,3 +9,4 @@ export * from "./contrast";
 export * from "./palettes";
 export * from "./export";
 export * from "./state";
+export * from "./semantic";
