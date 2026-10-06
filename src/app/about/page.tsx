@@ -16,7 +16,7 @@ export default function About() {
         <a className="underline underline-offset-2" href={SITE.companyUrl}>
           {SITE.company}
         </a>
-        , a software company in Kenya.
+        .
       </p>
       <h2>How scales are made</h2>
       <p>

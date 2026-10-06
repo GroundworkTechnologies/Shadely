@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Command as CommandIcon, Link2, Redo2, Save, Undo2 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PREVIEW_TABS, Preview, type PreviewTabId } from "@/components/preview/preview";
@@ -9,29 +10,33 @@ import {
   buildScales,
   NEUTRAL_FAMILIES,
   encodeState,
-  FORMAT_LABELS,
-  type ExportFormat,
   gamutMap,
   colorName,
   isValidName,
   type PaletteState,
   type VisionMode,
 } from "@/engine";
+import { FORMAT_LABELS, type ExportFormat } from "@/engine/export-formats";
 import { useCopy } from "@/hooks/use-copy";
 import { useHistory } from "@/hooks/use-history";
 import { useSavedPalettes } from "@/hooks/use-saved-palettes";
 import { previewScales } from "@/lib/preview-theme";
 import { ColorInput } from "./color-input";
-import { CommandPalette, type Command } from "./command-palette";
-import { ContrastPanel } from "./contrast-panel";
-import { ExportPanel } from "./export-panel";
-import { ColorInfoPanel } from "./color-info-panel";
+import type { Command } from "./command-palette";
 import { ScaleTiles } from "./scale-tiles";
+import { GroundworkCta } from "@/components/site/groundwork-cta";
+import { LazySection } from "./lazy-section";
 import { ShadeEditor } from "./shade-editor";
 import { TuningPanel } from "./tuning-panel";
-import { VisionCheck } from "./vision-check";
 import { VisionFilters } from "./vision";
 import { oklchToHex } from "@/engine";
+
+// Below-the-fold panels and the command palette load after the first paint.
+const ContrastPanel = dynamic(() => import("./contrast-panel").then((m) => m.ContrastPanel));
+const VisionCheck = dynamic(() => import("./vision-check").then((m) => m.VisionCheck));
+const ColorInfoPanel = dynamic(() => import("./color-info-panel").then((m) => m.ColorInfoPanel));
+const ExportPanel = dynamic(() => import("./export-panel").then((m) => m.ExportPanel));
+const CommandPalette = dynamic(() => import("./command-palette").then((m) => m.CommandPalette), { ssr: false });
 
 const isTyping = (t: EventTarget | null) =>
   t instanceof HTMLElement && (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A", "SUMMARY"].includes(t.tagName));
@@ -45,6 +50,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
   const { state, set, undo, redo, canUndo, canRedo } = useHistory(initial);
   const [shareUrl, setShareUrl] = useState("");
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [paletteSeen, setPaletteSeen] = useState(false);
   const [tab, setTab] = useState<PreviewTabId>("cards");
   const [vision, setVision] = useState<VisionMode>("normal");
   const { copy, notify, message } = useCopy();
@@ -90,6 +96,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
       const inField = e.target instanceof HTMLElement && (e.target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName));
       if (mod && e.key.toLowerCase() === "k") {
         e.preventDefault();
+        setPaletteSeen(true);
         setPaletteOpen((o) => !o);
         return;
       }
@@ -239,7 +246,10 @@ export function Workspace({ initial }: { initial: PaletteState }) {
               <Button variant="ghost" className="size-9 px-0" onClick={redo} disabled={!canRedo} aria-label="Redo" title="Redo (Shift+Ctrl/Cmd+Z)">
                 <Redo2 className="size-4" aria-hidden />
               </Button>
-              <Button variant="ghost" className="size-9 px-0" onClick={() => setPaletteOpen(true)} aria-label="Open command palette" title="Command palette (Ctrl/Cmd+K)">
+              <Button variant="ghost" className="size-9 px-0" onClick={() => {
+                  setPaletteSeen(true);
+                  setPaletteOpen(true);
+                }} aria-label="Open command palette" title="Command palette (Ctrl/Cmd+K)">
                 <CommandIcon className="size-4" aria-hidden />
               </Button>
             </div>
@@ -254,23 +264,32 @@ export function Workspace({ initial }: { initial: PaletteState }) {
       </div>
 
       <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6">
-        <ContrastPanel scale={current} />
-        <VisionCheck scales={pscales} />
-        <ColorInfoPanel scale={current} onCopy={copy} />
-        <ExportPanel
-          scales={scales}
-          fullScales={pscales}
-          format={state.format}
-          syntax={state.syntax}
-          shareUrl={shareUrl}
-          onFormat={(format) => patch({ format })}
-          onSyntax={(syntax) => patch({ syntax })}
-          onCopy={copy}
-          onNotify={notify}
-        />
+        <LazySection id="contrast" minHeight={520}>
+          <ContrastPanel scale={current} />
+        </LazySection>
+        <LazySection id="vision" minHeight={360}>
+          <VisionCheck scales={pscales} />
+        </LazySection>
+        <LazySection id="color-info" minHeight={560}>
+          <ColorInfoPanel scale={current} onCopy={copy} />
+        </LazySection>
+        <LazySection id="export" minHeight={560}>
+          <ExportPanel
+            scales={scales}
+            fullScales={pscales}
+            format={state.format}
+            syntax={state.syntax}
+            shareUrl={shareUrl}
+            onFormat={(format) => patch({ format })}
+            onSyntax={(syntax) => patch({ syntax })}
+            onCopy={copy}
+            onNotify={notify}
+          />
+        </LazySection>
+        <GroundworkCta />
       </div>
 
-      <CommandPalette commands={commands} open={paletteOpen} onClose={() => setPaletteOpen(false)} />
+      {(paletteOpen || paletteSeen) && <CommandPalette commands={commands} open={paletteOpen} onClose={() => setPaletteOpen(false)} />}
 
       <div role="status" aria-live="polite" className={message ? "fixed bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-control bg-foreground px-4 py-2 text-sm text-background shadow-float" : "sr-only-live"}>
         {message}

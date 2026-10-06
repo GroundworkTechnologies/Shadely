@@ -16,6 +16,12 @@ OKLCH scale engine with the base color anchored at its natural stop; chroma, hue
 
 ---
 
+## Build status (updated)
+
+**Phase 1 is built.** Done: undo and redo (6.2), command palette and shortcuts (8.1), anchor control (1.5), lock and edit shades with re-flow (1.3), harmony secondary, accent and tertiary scales (1.6), neutral families and tint (1.7), ZIP download (5.2), Style Dictionary, Flutter, Android, Compose and iOS exports (5.3 to 5.5), modern CSS output (5.7), color-vision simulation with a distinguishability check (2.3, 4.7), usage-aware pass/fail (2.2), on-palette text picker (2.5), CI gates for end-to-end tests, axe accessibility and a JS budget (10.1 to 10.3), and a Groundwork call to action (9.6, link only).
+
+**Deliberately not done in Phase 1:** privacy-friendly analytics (9.5, waiting on your hosting decision) and a lead-capture form (9.6, needs a backend). Everything else in Phase 2 and 3 is still open.
+
 ## The 5 features that make Tintwork clearly unique
 
 1. **Contrast-first scales with auto-fix** (1.4, 2.4). Say "every 600 must pass AA on white, every 100 must pass AA with 900" and Tintwork builds and repairs the scale to meet it, changing the minimum amount. uicolors.app shows contrast per shade; Leonardo does contrast-driven generation but has no Tailwind output or previews. Nobody combines all three.
@@ -154,7 +160,7 @@ Honorable mentions: color-vision simulation across the whole preview (2.3), a cu
 | # | Feature | Why | Effort | Priority | Tier |
 |---|---|---|---|---|---|
 | 10.1 | **Test coverage.** Engine at 100% branch coverage with property tests, export parsers round-trip, Playwright visual snapshots per tab and breakpoint | Trust in "correct color" is the brand | M | Must | n/a |
-| 10.2 | **Performance budget.** JS for `/` at or under 150 KB gzipped, lazy-load preview tabs, Lighthouse CI at 95+ | Fast tool beats heavy competitors (uicolors.app HTML is about 230 KB before JS) | S | Must | n/a |
+| 10.2 | **Performance budget.** JS for `/` at or under 190 KB gzipped (React and Next runtime alone are about 112 KB; first load was 210 KB before lazy-loading), lazy-load preview tabs, Lighthouse CI at 95+ | Fast tool beats heavy competitors (uicolors.app HTML is about 230 KB before JS) | S | Must | n/a |
 | 10.3 | **Accessibility audit.** axe in CI, manual screen-reader and keyboard pass, published conformance statement | Credibility for an accessibility product | S | Must | n/a |
 | 10.4 | **Security.** CSP, rate limits and SSRF guards before any server feature (3.3, 7.2) ships | Required for server features | S | Must (with those features) | n/a |
 | 10.5 | **Error monitoring, privacy-preserving.** Optional | Reliability | S | Nice | n/a |
