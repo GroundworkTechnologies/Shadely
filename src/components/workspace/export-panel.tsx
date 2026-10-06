@@ -1,9 +1,10 @@
 "use client";
 
-import { Copy, Download } from "lucide-react";
+import { Copy, Download, FolderArchive } from "lucide-react";
 import { useMemo } from "react";
 import {
   exportScales,
+  exportZip,
   FORMAT_FILES,
   FORMAT_LABELS,
   type ColorSyntax,
@@ -16,6 +17,8 @@ import { cn } from "@/lib/cn";
 import { useState } from "react";
 
 const SHADCN_NOTE = "Uses OKLCH or hex. Paste into your globals.css; it includes :root, .dark and the @theme inline mapping.";
+/** Formats with a fixed color encoding: the color syntax choice does not apply. */
+const IGNORES_SYNTAX = new Set<ExportFormat>(["dtcg", "style-dictionary", "css-modern", "flutter", "android", "compose", "ios"]);
 const SYNTAX_LABELS: Record<ColorSyntax, string> = { oklch: "OKLCH", hex: "Hex", hsl: "HSL", rgb: "RGB", p3: "Display-P3" };
 
 export function ExportPanel({
@@ -27,6 +30,7 @@ export function ExportPanel({
   onFormat,
   onSyntax,
   onCopy,
+  onNotify,
 }: {
   scales: NamedScale[];
   /** Always includes neutral and status scales; used by the shadcn theme. */
@@ -37,12 +41,13 @@ export function ExportPanel({
   onFormat: (f: ExportFormat) => void;
   onSyntax: (s: ColorSyntax) => void;
   onCopy: (text: string, label: string) => void;
+  onNotify: (message: string) => void;
 }) {
   const [v3Module, setV3Module] = useState<V3Module>("esm");
   const [reset, setReset] = useState(false);
 
   const code = useMemo(
-    () => exportScales(format === "shadcn" ? fullScales : scales, { format, syntax, v3Module, resetDefaults: reset, sourceUrl: shareUrl || undefined }),
+    () => exportScales(scales, { format, syntax, v3Module, resetDefaults: reset, sourceUrl: shareUrl || undefined, full: fullScales }),
     [scales, fullScales, format, syntax, v3Module, reset, shareUrl],
   );
 
@@ -52,6 +57,16 @@ export function ExportPanel({
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  const downloadZip = () => {
+    const bytes = exportZip(scales, { syntax, v3Module, resetDefaults: reset, sourceUrl: shareUrl || undefined, full: fullScales });
+    const url = URL.createObjectURL(new Blob([bytes as BlobPart], { type: "application/zip" }));
+    const a = Object.assign(document.createElement("a"), { href: url, download: `tintwork-${scales[0]?.name ?? "palette"}.zip` });
+    a.click();
+    URL.revokeObjectURL(url);
+    onNotify("ZIP downloaded");
+  };
+  const ignoresSyntax = IGNORES_SYNTAX.has(format);
 
   const warn =
     format === "shadcn"
@@ -63,13 +78,18 @@ export function ExportPanel({
   return (
     <section aria-labelledby="export-h" id="export" className="scroll-mt-4 rounded-card border border-border bg-surface">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
-        <h2 id="export-h" className="text-base font-medium">
-          Export
-        </h2>
+        <div className="flex items-center gap-3">
+          <h2 id="export-h" className="text-base font-medium">
+            Export
+          </h2>
+          <Button onClick={downloadZip} title="Every format in one ZIP: Tailwind, CSS, SCSS, tokens, shadcn, Flutter, Android, iOS">
+            <FolderArchive className="size-4" aria-hidden /> Download all (ZIP)
+          </Button>
+        </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <label className="flex items-center gap-2">
             <span className="text-muted">Color</span>
-            <select value={syntax} onChange={(e) => onSyntax(e.target.value as ColorSyntax)} className="h-9 rounded-control border border-control bg-surface px-2">
+            <select value={syntax} disabled={ignoresSyntax} title={ignoresSyntax ? "This format uses a fixed color encoding" : undefined} onChange={(e) => onSyntax(e.target.value as ColorSyntax)} className="h-9 rounded-control border border-control bg-surface px-2">
               {(Object.keys(SYNTAX_LABELS) as ColorSyntax[]).map((k) => (
                 <option key={k} value={k}>
                   {SYNTAX_LABELS[k]}

@@ -43,7 +43,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
   const [shareUrl, setShareUrl] = useState("");
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [tab, setTab] = useState<PreviewTabId>("cards");
-  const { copy, message } = useCopy();
+  const { copy, notify, message } = useCopy();
   const saved = useSavedPalettes();
   const router = useRouter();
 
@@ -260,6 +260,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
           onFormat={(format) => patch({ format })}
           onSyntax={(syntax) => patch({ syntax })}
           onCopy={copy}
+          onNotify={notify}
         />
       </div>
 

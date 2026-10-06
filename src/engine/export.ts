@@ -1,10 +1,22 @@
 import { hexToOklch } from "./color-space";
 import { formatHsl, formatOklch, formatP3, formatRgb, type ColorSyntax } from "./format";
+import {
+  androidColorsXml,
+  androidNightXml,
+  composeKotlin,
+  flutterDart,
+  modernCss,
+  styleDictionaryConfig,
+  styleDictionaryTokens,
+  swiftColors,
+  xcassetsFiles,
+} from "./export-platforms";
 import { SHADCN_COLOR_TOKENS, shadcnTokens } from "./semantic";
+import { createZip, type ZipFile } from "./zip";
 import type { NamedScale } from "./palettes";
 import type { ScaleStep } from "./scale";
 
-export type ExportFormat = "tailwind-v4" | "tailwind-v3" | "css" | "scss" | "json" | "dtcg" | "tokens-studio" | "shadcn";
+export type ExportFormat = "tailwind-v4" | "tailwind-v3" | "css" | "scss" | "json" | "dtcg" | "tokens-studio" | "shadcn" | "style-dictionary" | "css-modern" | "flutter" | "android" | "compose" | "ios";
 export type V3Module = "cjs" | "esm" | "ts";
 
 export interface ExportOptions {
@@ -16,6 +28,11 @@ export interface ExportOptions {
   resetDefaults?: boolean;
   /** Share link written into a header comment so the palette can be reopened. */
   sourceUrl?: string;
+  /**
+   * The complete set (brand, neutral, status) used for semantic tokens in the shadcn, Flutter,
+   * Android, Compose and iOS exports. Defaults to the scales being exported.
+   */
+  full?: NamedScale[];
 }
 
 export const FORMAT_LABELS: Record<ExportFormat, string> = {
@@ -27,6 +44,12 @@ export const FORMAT_LABELS: Record<ExportFormat, string> = {
   dtcg: "Design tokens (DTCG)",
   "tokens-studio": "Tokens Studio / Figma",
   shadcn: "shadcn/ui theme",
+  "css-modern": "Modern CSS (light-dark)",
+  "style-dictionary": "Style Dictionary",
+  flutter: "Flutter (Dart)",
+  android: "Android (colors.xml)",
+  compose: "Jetpack Compose",
+  ios: "iOS (SwiftUI)",
 };
 
 export const FORMAT_FILES: Record<ExportFormat, string> = {
@@ -38,6 +61,12 @@ export const FORMAT_FILES: Record<ExportFormat, string> = {
   dtcg: "tintwork-tokens.json",
   "tokens-studio": "tintwork-tokens-studio.json",
   shadcn: "tintwork-shadcn-theme.css",
+  "css-modern": "tintwork-modern.css",
+  "style-dictionary": "tintwork-style-dictionary.json",
+  flutter: "tintwork_colors.dart",
+  android: "colors.xml",
+  compose: "Color.kt",
+  ios: "TintworkColors.swift",
 };
 
 export function colorString(step: ScaleStep, syntax: ColorSyntax): string {
@@ -124,6 +153,7 @@ function tokensStudio(scales: NamedScale[], o: ExportOptions): string {
 }
 
 function shadcn(scales: NamedScale[], o: ExportOptions): string {
+  scales = o.full ?? scales;
   const hasAll = ["brand", "neutral", "success", "warning", "danger", "info"].every((k) =>
     scales.some((s) => (s.kind === "status" ? s.name === k : s.kind === k)),
   );
@@ -161,5 +191,54 @@ export function exportScales(scales: NamedScale[], o: ExportOptions): string {
       return tokensStudio(scales, o);
     case "shadcn":
       return shadcn(scales, o);
+    case "style-dictionary":
+      return styleDictionaryTokens(scales);
+    case "css-modern":
+      return modernCss(scales, o.full ?? scales, o.sourceUrl);
+    case "flutter":
+      return flutterDart(scales, o.full ?? scales);
+    case "android":
+      return androidColorsXml(scales, o.full ?? scales);
+    case "compose":
+      return composeKotlin(scales, o.full ?? scales);
+    case "ios":
+      return swiftColors(scales, o.full ?? scales);
   }
+}
+
+/** Every format as separate files, ready to zip. */
+export function exportFiles(scales: NamedScale[], o: Omit<ExportOptions, "format">): ZipFile[] {
+  const full = o.full ?? scales;
+  const opts = (format: ExportFormat, extra: Partial<ExportOptions> = {}): ExportOptions => ({ ...o, format, full, ...extra });
+  const files: ZipFile[] = [
+    { path: "tailwind/theme.css", content: exportScales(scales, opts("tailwind-v4")) },
+    { path: "tailwind/tailwind.config.js", content: exportScales(scales, opts("tailwind-v3", { syntax: "hex", v3Module: "esm" })) },
+    { path: "css/variables.css", content: exportScales(scales, opts("css")) },
+    { path: "css/modern.css", content: exportScales(scales, opts("css-modern")) },
+    { path: "css/shadcn-theme.css", content: exportScales(full, opts("shadcn")) },
+    { path: "scss/_colors.scss", content: exportScales(scales, opts("scss")) },
+    { path: "json/colors.json", content: exportScales(scales, opts("json")) },
+    { path: "tokens/dtcg.json", content: exportScales(scales, opts("dtcg")) },
+    { path: "tokens/tokens-studio.json", content: exportScales(scales, opts("tokens-studio")) },
+    { path: "tokens/style-dictionary/tokens/color.json", content: styleDictionaryTokens(scales) },
+    { path: "tokens/style-dictionary/config.json", content: styleDictionaryConfig() },
+    { path: "flutter/tintwork_colors.dart", content: flutterDart(scales, full) },
+    { path: "android/values/colors.xml", content: androidColorsXml(scales, full) },
+    { path: "android/Color.kt", content: composeKotlin(scales, full) },
+    { path: "ios/TintworkColors.swift", content: swiftColors(scales, full) },
+    ...xcassetsFiles(scales, full),
+  ];
+  const night = androidNightXml(full);
+  if (night) files.push({ path: "android/values-night/colors.xml", content: night });
+  const names = scales.map((s) => s.name).join(", ");
+  files.push({
+    path: "README.md",
+    content: `# Tintwork palette export\n\nGenerated by Tintwork (Groundwork Technologies).\n${o.sourceUrl ? `\nOpen and edit this palette: ${o.sourceUrl}\n` : ""}\nScales: ${names}\n\n| Folder | Contents |\n|---|---|\n| tailwind/ | Tailwind v4 \`@theme\` and v3 config |\n| css/ | CSS variables, modern CSS (OKLCH + light-dark), shadcn/ui theme |\n| scss/ | SCSS variables and maps |\n| json/, tokens/ | JSON, W3C design tokens, Tokens Studio, Style Dictionary |\n| flutter/ | Dart: MaterialColor swatches and Material 3 color schemes |\n| android/ | colors.xml (light and night), Jetpack Compose Color.kt |\n| ios/ | SwiftUI colors and an Xcode asset catalog with light and dark |\n`,
+  });
+  return files;
+}
+
+/** All formats in one ZIP archive. */
+export function exportZip(scales: NamedScale[], o: Omit<ExportOptions, "format">): Uint8Array {
+  return createZip(exportFiles(scales, o));
 }

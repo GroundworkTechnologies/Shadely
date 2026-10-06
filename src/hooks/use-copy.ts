@@ -18,5 +18,12 @@ export function useCopy() {
     timer.current = setTimeout(() => setMessage(""), 2200);
   }, []);
 
-  return { copy, message };
+  /** Show a status message without touching the clipboard. */
+  const notify = useCallback((text: string) => {
+    setMessage(text);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setMessage(""), 2200);
+  }, []);
+
+  return { copy, notify, message };
 }

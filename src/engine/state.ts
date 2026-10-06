@@ -71,6 +71,12 @@ const FORMATS: Record<string, ExportFormat> = {
   dtcg: "dtcg",
   ts: "tokens-studio",
   sh: "shadcn",
+  sd: "style-dictionary",
+  cm: "css-modern",
+  fl: "flutter",
+  an: "android",
+  kt: "compose",
+  sw: "ios",
 };
 const FORMAT_KEYS = Object.fromEntries(Object.entries(FORMATS).map(([k, v]) => [v, k])) as Record<ExportFormat, string>;
 const SYNTAXES: ColorSyntax[] = ["oklch", "hex", "hsl", "rgb", "p3"];
