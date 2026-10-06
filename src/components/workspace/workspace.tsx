@@ -8,6 +8,7 @@ import {
   buildScales,
   encodeState,
   gamutMap,
+  colorName,
   isValidName,
   type PaletteState,
 } from "@/engine";
@@ -64,6 +65,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
   const [selected, setSelected] = useState(initial.name);
   const current = scales.find((x) => x.name === selected) ?? scales[0]!;
   const limited = scales[0]!.steps.some((x) => x.clipped);
+  const suggested = colorName(state.base).slug;
   const [justSaved, setJustSaved] = useState(false);
 
   const exportShadcn = useCallback(() => {
@@ -105,6 +107,15 @@ export function Workspace({ initial }: { initial: PaletteState }) {
               </label>
               <p id="name-hint" className="col-span-2 -mt-1 text-xs text-muted">
                 Lowercase letters, digits and dashes.
+                {suggested !== state.name && (
+                  <>
+                    {" "}
+                    Suggested: <strong className="font-medium text-foreground">{suggested}</strong>{" "}
+                    <button type="button" onClick={() => patch({ name: suggested })} className="rounded-control px-1 font-medium text-foreground underline underline-offset-2">
+                      Use
+                    </button>
+                  </>
+                )}
               </p>
               <label className="col-span-2 flex items-center gap-2">
                 <input type="checkbox" checked={state.status} onChange={(e) => patch({ status: e.target.checked })} className="size-4" />
@@ -122,7 +133,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
             </Button>
             <Button
               onClick={() => {
-                saved.add({ name: `${state.name} ${state.base}`, query: encodeState(state), base: state.base });
+                saved.add({ name: `${colorName(state.base).family} ${state.base}`, query: encodeState(state), base: state.base });
                 setJustSaved(true);
                 setTimeout(() => setJustSaved(false), 1800);
               }}

@@ -1,6 +1,6 @@
 "use client";
 
-import { bestText, type NamedScale } from "@/engine";
+import { bestText, colorName, type NamedScale } from "@/engine";
 import { cn } from "@/lib/cn";
 
 const ROLE: Record<NamedScale["kind"], string> = { brand: "Primary", neutral: "Neutral", status: "Status" };
@@ -18,6 +18,7 @@ export function ScaleTiles({
 }) {
   const scale = scales.find((s) => s.name === selected) ?? scales[0]!;
   const anchor = scale.steps.find((s) => s.isAnchor);
+  const named = colorName((anchor ?? scale.steps[5]!).hex);
 
   const onKey = (e: React.KeyboardEvent) => {
     const i = scales.findIndex((s) => s.name === scale.name);
@@ -33,8 +34,11 @@ export function ScaleTiles({
     <section aria-label="Color scales" className="rounded-card border border-border bg-surface p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <h2 className="text-base font-medium">{scale.name}</h2>
+          <h2 className="text-base font-medium">{named.family}</h2>
           <span className="rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-medium text-muted">{ROLE[scale.kind]}</span>
+          <span className="hidden text-sm text-muted sm:inline">
+            Nearest named color: {named.specific} · <span className="tabular-nums">{scale.name}</span>
+          </span>
         </div>
         <nav aria-label="Scale tools" className="flex gap-1 text-sm">
           {[
@@ -75,8 +79,8 @@ export function ScaleTiles({
               <button
                 type="button"
                 onClick={() => onCopy(s.hex, `${scale.name}-${s.stop}`)}
-                aria-label={`${scale.name} ${s.stop}, ${s.hex}${s.isAnchor ? ", your base color" : ""}${s.clipped ? ", chroma reduced to fit the gamut" : ""}. Copy hex`}
-                title={`${scale.name}-${s.stop}  ${s.hex}`}
+                aria-label={`${named.family} ${s.stop}, ${scale.name}-${s.stop}, ${s.hex}${s.isAnchor ? ", your base color" : ""}${s.clipped ? ", chroma reduced to fit the gamut" : ""}. Copy hex`}
+                title={`${named.family} ${s.stop} · ${scale.name}-${s.stop} · ${s.hex}`}
                 style={{ backgroundColor: s.hex, color: fg }}
                 className="relative flex h-24 w-full flex-col justify-end rounded-card p-2.5 text-left outline-offset-2 hover:brightness-95"
               >

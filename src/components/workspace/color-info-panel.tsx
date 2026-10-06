@@ -1,7 +1,7 @@
 "use client";
 
 import { Copy } from "lucide-react";
-import { formatHsl, formatOklch, formatRgb, type NamedScale } from "@/engine";
+import { colorName, formatHsl, formatOklch, formatRgb, type NamedScale } from "@/engine";
 
 export function ColorInfoPanel({ scale, onCopy }: { scale: NamedScale; onCopy: (text: string, label: string) => void }) {
   const cell = (text: string, label: string) => (
@@ -14,7 +14,7 @@ export function ColorInfoPanel({ scale, onCopy }: { scale: NamedScale; onCopy: (
     <section aria-labelledby="info-h" id="color-info" className="scroll-mt-4 rounded-card border border-border bg-surface">
       <div className="border-b border-border p-5">
         <h2 id="info-h" className="text-base font-medium">
-          Color info <span className="font-normal text-muted">· {scale.name}</span>
+          Color info <span className="font-normal text-muted">· {colorName((scale.steps.find((s) => s.isAnchor) ?? scale.steps[5]!).hex).family} ({scale.name})</span>
         </h2>
         <p className="text-sm text-muted">Every value for every stop. Click any value to copy it.</p>
       </div>

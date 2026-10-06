@@ -2,7 +2,7 @@
 
 import { Check } from "lucide-react";
 import { useState } from "react";
-import { bestText, contrastMatrix, formatRatio, scorePair, type ContrastMetric, type NamedScale } from "@/engine";
+import { bestText, colorName, contrastMatrix, formatRatio, scorePair, type ContrastMetric, type NamedScale } from "@/engine";
 import { Segmented } from "@/components/ui/segmented";
 import { cn } from "@/lib/cn";
 
@@ -25,7 +25,7 @@ export function ContrastPanel({ scale }: { scale: NamedScale }) {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
         <div>
           <h2 id="contrast-h" className="text-base font-medium">
-            Accessibility <span className="font-normal text-muted">· {scale.name}</span>
+            Accessibility <span className="font-normal text-muted">· {colorName((scale.steps.find((s) => s.isAnchor) ?? scale.steps[5]!).hex).family} ({scale.name})</span>
           </h2>
           <p className="text-sm text-muted">
             Body-text threshold: {threshold}.{" "}

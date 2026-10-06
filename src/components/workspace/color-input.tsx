@@ -2,7 +2,7 @@
 
 import { Shuffle } from "lucide-react";
 import { useId, useState } from "react";
-import { normalizeHex } from "@/engine";
+import { colorName, normalizeHex } from "@/engine";
 import { Button } from "@/components/ui/button";
 
 export function ColorInput({ value, onChange, onShuffle }: { value: string; onChange: (hex: string) => void; onShuffle: () => void }) {
@@ -11,6 +11,7 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
   const [draft, setDraft] = useState<string | null>(null);
   const [invalid, setInvalid] = useState(false);
   const text = draft ?? value;
+  const named = colorName(value);
 
   const commit = (raw: string) => {
     const hex = normalizeHex(raw);
@@ -49,7 +50,7 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
             setInvalid(false);
           }}
           className="h-10 min-w-0 flex-1 rounded-control border border-control bg-surface px-3 tabular-nums text-sm aria-invalid:border-danger"
-          placeholder="#3b82f6, rgb(), hsl(), oklch()"
+          placeholder="Hex, rgb(), hsl() or oklch()"
         />
         <Button onClick={onShuffle} aria-label="Random color" title="Random color (Space)" className="h-10 shrink-0 px-3">
           <Shuffle className="size-4" aria-hidden />
@@ -57,7 +58,7 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
         </Button>
       </div>
       <p id={`${id}-hint`} className={invalid ? "mt-1.5 text-xs text-danger" : "mt-1.5 text-xs text-muted"}>
-        {invalid ? "Not a valid color. Try #3b82f6, rgb(59 130 246), hsl(217 91% 60%) or oklch(62% 0.2 260)." : "Hex, rgb(), hsl() or oklch()."}
+        {invalid ? "Not a valid color. Try #3b82f6, rgb(59 130 246), hsl(217 91% 60%) or oklch(62% 0.2 260)." : `${named.family} · nearest named color ${named.specific}`}
       </p>
     </div>
   );
