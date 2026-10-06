@@ -29,9 +29,9 @@ function Wallet1() {
         <p className="text-xs text-(--p-muted)">Good morning</p>
         <p className="text-lg font-medium">Amani</p>
         <div className="mt-3 rounded-xl bg-(--p-primary) p-4 text-(--p-primary-fg)">
-          <p className="text-xs opacity-90">Total balance</p>
+          <p className="text-xs">Total balance</p>
           <p className="mt-1 text-3xl font-normal tabular-nums">$8,420</p>
-          <p className="mt-3 tabular-nums text-xs opacity-90">•••• 4821</p>
+          <p className="mt-3 tabular-nums text-xs">•••• 4821</p>
         </div>
         <div className="mt-4 flex justify-between">
           {[
@@ -85,7 +85,7 @@ function Habits() {
             </svg>
             <div className="absolute inset-0 grid place-content-center text-center">
               <p className="text-2xl font-normal">68%</p>
-              <p className="text-xs opacity-80">of daily goal</p>
+              <p className="text-xs">of daily goal</p>
             </div>
           </div>
         </div>

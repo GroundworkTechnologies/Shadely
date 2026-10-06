@@ -5,18 +5,21 @@ import type { NamedScale, PreviewTheme, VisionMode } from "@/engine";
 import { VisionSelect, visionStyle } from "@/components/workspace/vision";
 import { cn } from "@/lib/cn";
 import { previewVars } from "@/lib/preview-theme";
-import { Apps } from "./apps";
-import { Branding } from "./branding";
+import dynamic from "next/dynamic";
 import { Cards } from "./cards";
-import { Charts } from "./charts";
-import { ComponentsDemo } from "./components-demo";
 import { PreviewContext } from "./context";
-import { Dashboard } from "./dashboard";
-import { Gradients } from "./gradients";
-import { Headings } from "./headings";
-import { Logos } from "./logos";
-import { ShadcnPreview } from "./shadcn";
-import { Website } from "./website";
+
+// Only the first tab ships in the initial bundle; the rest load when opened.
+const Website = dynamic(() => import("./website").then((m) => m.Website));
+const Branding = dynamic(() => import("./branding").then((m) => m.Branding));
+const Dashboard = dynamic(() => import("./dashboard").then((m) => m.Dashboard));
+const ComponentsDemo = dynamic(() => import("./components-demo").then((m) => m.ComponentsDemo));
+const ShadcnPreview = dynamic(() => import("./shadcn").then((m) => m.ShadcnPreview));
+const Apps = dynamic(() => import("./apps").then((m) => m.Apps));
+const Charts = dynamic(() => import("./charts").then((m) => m.Charts));
+const Gradients = dynamic(() => import("./gradients").then((m) => m.Gradients));
+const Logos = dynamic(() => import("./logos").then((m) => m.Logos));
+const Headings = dynamic(() => import("./headings").then((m) => m.Headings));
 
 const TABS = [
   ["cards", "Cards", Cards],

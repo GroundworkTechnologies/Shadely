@@ -17,7 +17,7 @@ const eslintConfig = [
       ],
     },
   },
-  { ignores: [".next/**", "node_modules/**", "next-env.d.ts"] },
+  { ignores: [".next/**", "node_modules/**", "next-env.d.ts", "playwright-report/**", "test-results/**"] },
 ];
 
 export default eslintConfig;

@@ -38,7 +38,7 @@ export function Cards() {
         </div>
         <div className="relative">
           <h3 className="text-3xl font-normal leading-tight">Track your expenses</h3>
-          <p className="mt-1 text-sm opacity-80">See every shilling at a glance.</p>
+          <p className="mt-1 text-sm">See every shilling at a glance.</p>
         </div>
       </div>
 
@@ -66,7 +66,7 @@ export function Cards() {
         </div>
         <div className="relative">
           <h3 className="text-3xl font-normal leading-tight">Gain control</h3>
-          <p className="mt-1 text-sm opacity-90">Budgets, goals and alerts in one place.</p>
+          <p className="mt-1 text-sm">Budgets, goals and alerts in one place.</p>
           <span className="mt-4 inline-flex h-9 items-center gap-1.5 rounded-full bg-(--p-primary-fg) px-4 text-sm font-medium text-(--p-primary)">
             Upgrade <ArrowUpRight className="size-4" aria-hidden />
           </span>

@@ -1,0 +1,121 @@
+import { expect, test } from "@playwright/test";
+
+const search = (url: string) => new URL(url).search;
+/** Open a page and wait until it has hydrated, so typing is not lost to a late React mount. */
+const open = async (page: import("@playwright/test").Page, url = "/") => {
+  await page.goto(url, { waitUntil: "networkidle" });
+};
+
+test.describe("generator", () => {
+  test("loads with a default palette and no console errors", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
+    await open(page);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Tailwind color palette generator");
+    await expect(page.getByRole("tablist", { name: "Scale" }).getByRole("tab")).toHaveCount(6);
+    expect(errors).toEqual([]);
+  });
+
+  test("typing a color updates the scale name and the URL", async ({ page }) => {
+    await open(page);
+    await page.getByRole("textbox", { name: "Base color", exact: true }).fill("#505cc6");
+    await expect(page.locator("section[aria-label='Color scales'] h2")).toHaveText("Indigo");
+    await expect.poll(() => search(page.url())).toContain("b=505cc6");
+  });
+
+  test("invalid input shows a message and keeps the last good color", async ({ page }) => {
+    await open(page, "/?b=505cc6");
+    await page.getByRole("textbox", { name: "Base color", exact: true }).fill("banana");
+    await expect(page.getByText("Not a valid color")).toBeVisible();
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("textbox", { name: "Base color", exact: true })).toHaveValue("#505cc6");
+  });
+
+  test("space shuffles, undo and redo restore", async ({ page }) => {
+    await open(page, "/?b=505cc6");
+    await page.mouse.click(700, 60);
+    await page.keyboard.press("Space");
+    await expect.poll(() => search(page.url())).not.toContain("b=505cc6");
+    const shuffled = search(page.url());
+    await page.keyboard.press("Control+z");
+    await expect.poll(() => search(page.url())).toContain("b=505cc6");
+    await page.keyboard.press("Control+Shift+z");
+    await expect.poll(() => search(page.url())).toBe(shuffled);
+  });
+
+  test("pinning a shade keeps it exact and is shareable", async ({ page }) => {
+    await open(page, "/?b=505cc6");
+    await page.getByText("Edit shades").click();
+    await page.getByLabel("brand 200 hex").fill("#c9d7f3");
+    await expect.poll(() => decodeURIComponent(search(page.url()))).toContain("lk=200:c9d7f3");
+    await page.reload();
+    await expect(page.getByLabel("brand 200 hex")).toHaveValue("#c9d7f3");
+  });
+
+  test("command palette runs a command from the keyboard", async ({ page }) => {
+    await open(page);
+    await page.mouse.click(700, 60);
+    await page.keyboard.press("Control+k");
+    await expect(page.getByRole("dialog", { name: "Command palette" })).toBeVisible();
+    await page.keyboard.type("export as scss");
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("dialog")).toBeHidden();
+    await expect.poll(() => search(page.url())).toContain("f=scss");
+  });
+
+  test("ZIP bundle downloads", async ({ page }) => {
+    await open(page);
+    await page.locator("#export").scrollIntoViewIfNeeded();
+    const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: /Download all/ }).click()]);
+    expect(download.suggestedFilename()).toMatch(/^tintwork-.*\.zip$/);
+  });
+
+  test("every preview page renders", async ({ page }) => {
+    await open(page);
+    const tabs = page.getByRole("tablist", { name: "Preview pages" }).getByRole("tab");
+    const n = await tabs.count();
+    expect(n).toBe(11);
+    for (let i = 0; i < n; i++) {
+      await tabs.nth(i).click();
+      await expect(page.locator("#preview-panel")).not.toBeEmpty();
+    }
+  });
+});
+
+test.describe("responsive", () => {
+  for (const width of [360, 390, 768, 1100, 1500]) {
+    test(`no horizontal scroll at ${width}px on every preview page`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await open(page);
+      const tabs = page.getByRole("tablist", { name: "Preview pages" }).getByRole("tab");
+      for (let i = 0; i < (await tabs.count()); i++) {
+        await tabs.nth(i).click();
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        expect(overflow, `tab ${i}`).toBeLessThanOrEqual(0);
+      }
+    });
+  }
+  test("header, content and footer share one left edge", async ({ page }) => {
+    for (const width of [390, 1500]) {
+      await page.setViewportSize({ width, height: 900 });
+      await open(page);
+      const edges = await page.evaluate(() => [document.querySelector("header a"), document.querySelector("h1"), document.querySelector("footer p")].map((e) => Math.round(e!.getBoundingClientRect().left)));
+      expect(new Set(edges).size, `${width}: ${edges}`).toBe(1);
+    }
+  });
+});
+
+test.describe("performance budget", () => {
+  test("first-load JavaScript for / stays under budget (gzip)", async ({ page }) => {
+    const { gzipSync } = await import("node:zlib");
+    const pending: Promise<number>[] = [];
+    page.on("response", (r) => {
+      if ((r.headers()["content-type"] ?? "").includes("javascript")) pending.push(r.body().then((b) => gzipSync(b).length).catch(() => 0));
+    });
+    await page.goto("/", { waitUntil: "networkidle" });
+    const kb = (await Promise.all(pending)).reduce((a, b) => a + b, 0) / 1024;
+    console.log(`first-load JS (gzip): ${kb.toFixed(1)} KB across ${pending.length} files`);
+    expect(kb).toBeLessThan(Number(process.env.JS_BUDGET_KB ?? 190));
+  });
+});

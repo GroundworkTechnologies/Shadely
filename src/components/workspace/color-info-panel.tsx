@@ -11,7 +11,7 @@ export function ColorInfoPanel({ scale, onCopy }: { scale: NamedScale; onCopy: (
     </button>
   );
   return (
-    <section aria-labelledby="info-h" id="color-info" className="scroll-mt-4 rounded-card border border-border bg-surface">
+    <section aria-labelledby="info-h" className="rounded-card border border-border bg-surface">
       <div className="border-b border-border p-5">
         <h2 id="info-h" className="text-base font-medium">
           Color info <span className="font-normal text-muted">· {colorName((scale.steps.find((s) => s.isAnchor) ?? scale.steps[5]!).hex).family} ({scale.name})</span>

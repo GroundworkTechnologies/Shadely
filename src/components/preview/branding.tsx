@@ -10,7 +10,7 @@ export function Branding() {
         <Mark name="stack" className="size-12" />
         <div>
           <p className="text-4xl font-semibold">Kilele</p>
-          <p className="mt-1 opacity-90">Brand guidelines · {name} palette</p>
+          <p className="mt-1">Brand guidelines · {name} palette</p>
         </div>
       </div>
 
@@ -40,7 +40,7 @@ export function Branding() {
       </div>
 
       <div className="flex flex-col justify-between rounded-xl bg-(--p-tint) p-6 text-(--p-tint-fg) @4xl:col-span-2">
-        <p className="text-xs font-medium uppercase tracking-wide opacity-80">Business card</p>
+        <p className="text-xs font-medium uppercase tracking-wide">Business card</p>
         <div className="mt-4 rounded-xl bg-(--p-surface) p-4 text-(--p-fg)">
           <Mark name="stack" className="size-6 text-(--p-primary)" />
           <p className="mt-6 font-medium">Amani Wanjiru</p>

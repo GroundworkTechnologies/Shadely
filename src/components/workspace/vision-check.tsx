@@ -17,7 +17,7 @@ export function VisionCheck({ scales }: { scales: NamedScale[] }) {
   const risky = pairs.filter((p) => p.level !== "ok");
 
   return (
-    <section aria-labelledby="vision-h" id="vision" className="scroll-mt-4 rounded-card border border-border bg-surface">
+    <section aria-labelledby="vision-h" className="rounded-card border border-border bg-surface">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
         <div>
           <h2 id="vision-h" className="text-base font-medium">

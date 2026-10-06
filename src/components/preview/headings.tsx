@@ -30,16 +30,16 @@ export function Headings() {
         </section>
 
         <section className="rounded-xl p-6" style={{ background: "var(--p-primary)", color: "var(--p-primary-fg)" }}>
-          <p className="text-xs font-medium uppercase tracking-wide opacity-80">On primary</p>
+          <p className="text-xs font-medium uppercase tracking-wide">On primary</p>
           <h3 className="mt-3 text-4xl font-normal">Bold statement on brand color</h3>
-          <p className="mt-3 max-w-md opacity-90">Text on the primary color uses the best-contrast foreground automatically.</p>
+          <p className="mt-3 max-w-md">Text on the primary color uses the best-contrast foreground automatically.</p>
         </section>
       </div>
 
       <div className="grid gap-4 @2xl:grid-cols-3">
         {["Plan", "Build", "Ship"].map((t, i) => (
           <section key={t} className="rounded-xl border border-(--p-border) bg-(--p-surface) p-5">
-            <span className="text-5xl font-normal tabular-nums text-(--p-tint-2)" aria-hidden>
+            <span className="text-5xl font-normal tabular-nums text-(--p-soft-fg)" aria-hidden>
               0{i + 1}
             </span>
             <h4 className="mt-2 text-xl font-medium">{t}</h4>

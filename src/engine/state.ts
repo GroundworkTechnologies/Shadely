@@ -2,7 +2,7 @@ import { parseColor } from "./parse";
 import { STOPS, type Stop } from "./types";
 import { oklchToHex } from "./color-space";
 import type { ColorSyntax } from "./format";
-import type { ExportFormat } from "./export";
+import type { ExportFormat } from "./export-formats";
 
 export const NEUTRAL_FAMILIES = ["slate", "gray", "zinc", "neutral", "stone", "taupe", "mauve", "mist", "olive"] as const;
 export type NeutralFamily = (typeof NEUTRAL_FAMILIES)[number];

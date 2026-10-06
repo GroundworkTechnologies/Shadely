@@ -76,7 +76,7 @@ export function ExportPanel({
       : null;
 
   return (
-    <section aria-labelledby="export-h" id="export" className="scroll-mt-4 rounded-card border border-border bg-surface">
+    <section aria-labelledby="export-h" className="rounded-card border border-border bg-surface">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
         <div className="flex items-center gap-3">
           <h2 id="export-h" className="text-base font-medium">

@@ -89,7 +89,7 @@ export function Landing() {
       <Section className="pt-0">
         <div className="rounded-xl bg-(--p-primary) px-6 py-10 text-center text-(--p-primary-fg) @2xl:py-12">
           <h4 className="text-2xl font-medium">Ready when you are</h4>
-          <p className="mx-auto mt-2 max-w-sm text-sm opacity-90">Start free. Upgrade when the team grows.</p>
+          <p className="mx-auto mt-2 max-w-sm text-sm">Start free. Upgrade when the team grows.</p>
           <span className="mt-6 inline-flex h-10 items-center rounded-lg bg-(--p-primary-fg) px-5 text-sm font-medium text-(--p-primary)">Create account</span>
         </div>
       </Section>

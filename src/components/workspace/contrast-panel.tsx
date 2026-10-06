@@ -23,7 +23,7 @@ export function ContrastPanel({ scale }: { scale: NamedScale }) {
   const threshold = metric === "wcag" ? `${min}:1 (AA)` : `Lc ${min}`;
 
   return (
-    <section aria-labelledby="contrast-h" id="contrast" className="scroll-mt-4 rounded-card border border-border bg-surface">
+    <section aria-labelledby="contrast-h" className="rounded-card border border-border bg-surface">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
         <div>
           <h2 id="contrast-h" className="text-base font-medium">
@@ -124,11 +124,11 @@ export function ContrastPanel({ scale }: { scale: NamedScale }) {
                           key={fg.stop}
                           title={same ? undefined : `${bg.stop} background, ${fg.stop} text: ${fmt(metric, cell.value)} ${cell.label}`}
                           aria-label={same ? `${bg.stop} on itself` : `${bg.stop} background, ${fg.stop} text: ${fmt(metric, cell.value)}, ${cell.label}`}
-                          className={cn("relative size-8 rounded-sm font-medium", same && "opacity-30")}
+                          data-sample={same ? undefined : "Aa"}
+                          className={cn("relative size-8 rounded-sm font-medium before:content-[attr(data-sample)]", same && "opacity-30")}
                           style={{ backgroundColor: bg.hex, color: fg.hex }}
                         >
-                          {same ? "" : "Aa"}
-                          {!same && cell.pass && <Check aria-hidden strokeWidth={3} className="absolute right-0.5 top-0.5 size-2.5 rounded-full bg-white p-px text-black" />}
+                                                    {!same && cell.pass && <Check aria-hidden strokeWidth={3} className="absolute right-0.5 top-0.5 size-2.5 rounded-full bg-white p-px text-black" />}
                         </td>
                       );
                     })}
