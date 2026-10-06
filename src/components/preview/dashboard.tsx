@@ -32,10 +32,10 @@ function Sidebar() {
   ] as const;
   return (
     <aside className="hidden w-52 shrink-0 border-r border-(--p-border) bg-(--p-surface) p-3 md:block">
-      <p className="px-2 py-3 font-semibold">Acme</p>
+      <p className="px-2 py-3 font-medium">Acme</p>
       <nav aria-label="Dashboard preview" className="grid gap-1 text-sm">
         {items.map(([I, label, active]) => (
-          <span key={label} aria-current={active ? "page" : undefined} className={active ? "flex items-center gap-2 rounded-md bg-(--p-soft) px-2.5 py-2 font-medium text-(--p-soft-fg)" : "flex items-center gap-2 rounded-md px-2.5 py-2 text-(--p-muted)"}>
+          <span key={label} aria-current={active ? "page" : undefined} className={active ? "flex items-center gap-2 rounded-lg bg-(--p-soft) px-2.5 py-2 font-medium text-(--p-soft-fg)" : "flex items-center gap-2 rounded-lg px-2.5 py-2 text-(--p-muted)"}>
             <I className="size-4" aria-hidden /> {label}
           </span>
         ))}
@@ -60,7 +60,7 @@ function DashboardMain() {
   return (
     <div className="grid gap-4 p-5">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Overview</h3>
+        <h3 className="text-lg font-medium">Overview</h3>
         <PBtn kind="soft">Export CSV</PBtn>
       </div>
       <div className="grid gap-4 sm:grid-cols-3">
@@ -71,7 +71,7 @@ function DashboardMain() {
         ].map(([label, value, delta, tone]) => (
           <PCard key={label}>
             <p className="text-sm text-(--p-muted)">{label}</p>
-            <p className="mt-1 text-2xl font-semibold">{value}</p>
+            <p className="mt-1 text-2xl font-normal">{value}</p>
             <div className="mt-2">
               <PBadge tone={tone as "success"}>{delta}</PBadge>
             </div>

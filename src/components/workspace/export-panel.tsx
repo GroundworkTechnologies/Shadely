@@ -61,15 +61,15 @@ export function ExportPanel({
       : null;
 
   return (
-    <section aria-labelledby="export-h" id="export" className="scroll-mt-4 rounded-2xl border border-border bg-surface">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
-        <h2 id="export-h" className="text-base font-semibold">
+    <section aria-labelledby="export-h" id="export" className="scroll-mt-4 rounded-card border border-border bg-surface">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
+        <h2 id="export-h" className="text-base font-medium">
           Export
         </h2>
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <label className="flex items-center gap-2">
             <span className="text-muted">Color</span>
-            <select value={syntax} onChange={(e) => onSyntax(e.target.value as ColorSyntax)} className="h-9 rounded-md border border-border bg-surface px-2">
+            <select value={syntax} onChange={(e) => onSyntax(e.target.value as ColorSyntax)} className="h-9 rounded-control border border-control bg-surface px-2">
               {(Object.keys(SYNTAX_LABELS) as ColorSyntax[]).map((k) => (
                 <option key={k} value={k}>
                   {SYNTAX_LABELS[k]}
@@ -80,7 +80,7 @@ export function ExportPanel({
           {format === "tailwind-v3" && (
             <label className="flex items-center gap-2">
               <span className="text-muted">File</span>
-              <select value={v3Module} onChange={(e) => setV3Module(e.target.value as V3Module)} className="h-9 rounded-md border border-border bg-surface px-2">
+              <select value={v3Module} onChange={(e) => setV3Module(e.target.value as V3Module)} className="h-9 rounded-control border border-control bg-surface px-2">
                 <option value="esm">ESM</option>
                 <option value="cjs">CommonJS</option>
                 <option value="ts">TypeScript</option>
@@ -114,8 +114,8 @@ export function ExportPanel({
         ))}
       </div>
 
-      <div className="relative bg-surface-muted p-4" role="tabpanel">
-        {warn && <p className="mb-3 rounded-md border border-border bg-surface px-3 py-2 text-sm">{warn}</p>}
+      <div className="relative bg-surface-muted p-5" role="tabpanel">
+        {warn && <p className="mb-3 rounded-control border border-border bg-surface px-3 py-2 text-sm">{warn}</p>}
         <div className="absolute right-4 top-4 flex gap-2">
           <Button onClick={() => onCopy(code, FORMAT_LABELS[format] + " copied")} variant="primary">
             <Copy className="size-4" aria-hidden /> Copy
@@ -124,7 +124,7 @@ export function ExportPanel({
             <Download className="size-4" aria-hidden />
           </Button>
         </div>
-        <pre tabIndex={0} aria-label="Export code" className="max-h-96 overflow-auto rounded-md pr-28 pt-12 font-mono text-[13px] leading-relaxed sm:pt-0">
+        <pre tabIndex={0} aria-label="Export code" className="max-h-96 overflow-auto rounded-control pr-28 pt-12 tabular-nums text-xs leading-relaxed sm:pt-0">
           <code>{code}</code>
         </pre>
       </div>

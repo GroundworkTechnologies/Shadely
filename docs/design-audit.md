@@ -7,7 +7,7 @@ Measured with `grep` over `src/` on 2026-10-06. Scope: app chrome and all 11 pre
 | Area | Current state | Problem |
 |---|---|---|
 | Typefaces | Geist Sans + Geist Mono (two families). `font-mono` in 13 places; Tailwind preflight also forces a monospace stack on `code`, `kbd`, `pre`. OG images use Satori's built-in fallback font. | Brief: Manrope only, everywhere. |
-| Font weights | 74 `font-medium`, **46 `font-semibold`**, **5 `font-bold`**, 5 `font-normal`. Browser defaults add bold to `strong` and `th`. OG images set `fontWeight: 700`. | Brief: 300/400/500, 600 rarely, never 700. Semibold is overused as a default emphasis; large headings are bold/semibold instead of light. |
+| Font weights | 74 `font-medium`, **46 `font-semibold`**, **5 `font-bold`**, 5 `font-normal`. Browser defaults add bold to `strong` and `th`. OG images set `fontWeight: 700`. | Brief (updated): only regular 400, medium 500, semibold 600. Nothing lighter or heavier. Semibold is overused as a default emphasis; large headings are bold/semibold instead of light. |
 | Radii | 9+ distinct values: `rounded-md` 39, `-full` 30, `-2xl` 25, `-xl` 12, `-lg` 11, `-3xl` 11, `-sm`, `rounded`, `[3px]`, `[2.5rem]`. Controls use md (6px); panels use 2xl (16px); preview cards use 3xl (24px). | Brief: one radius family, 8 to 12 px. |
 | Shadows | `shadow-sm` ×4, `shadow-xs`, `shadow-md`, `shadow-lg` (toast, popover-like cards). | Brief: 1px borders over shadows. Keep one elevation for floating UI only. |
 | Type sizes | Scale is fine (xs/sm/base…) but 8× `text-[11px]`, 2× `text-[10px]`, 1× `text-[13px]` are ad hoc. Heading tracking is set per element (`tracking-tight` ×17); `tracking-widest` ×3 on micro labels. | Sub-12px text is hard to read. Tracking should come from the type tokens, not each element. |
@@ -24,8 +24,8 @@ Measured with `grep` over `src/` on 2026-10-06. Scope: app chrome and all 11 pre
 
 ## 2. Decisions
 
-1. **One family, Manrope**, weights 300/400/500/600 via `next/font/google`. `--font-mono` is aliased to Manrope so nothing can fall back to a monospace face; numeric alignment uses `tabular-nums`. `strong`, `b`, `th` default weights are reset to 500/600 in base CSS.
-2. **Weights by role:** display and large headings (≥ 24 px) 300; body 400; labels, buttons, nav, panel titles 500; 600 only for brand wordmarks and the single "Aa" specimen. No 700+.
+1. **One family, Manrope**, weights 400/500/600 via `next/font/google`. `--font-mono` is aliased to Manrope so nothing can fall back to a monospace face; numeric alignment uses `tabular-nums`. `strong`, `b`, `th` default weights are reset to 500/600 in base CSS.
+2. **Weights by role:** display and large headings (≥ 24 px) 400 with tighter tracking; body 400; labels, buttons, nav, panel titles 500; 600 only for brand wordmarks. Nothing lighter than 400 or heavier than 600.
 3. **Tracking from tokens:** `--text-*--letter-spacing` on `2xl` and up (-0.01em to -0.025em); per-element `tracking-tight` removed.
 4. **Radius tokens:** `--radius-control` 8 px (buttons, inputs, tabs, tiles), `--radius-card` 12 px (panels, preview cards). Pills and avatars stay fully round; phone frames keep their device radius.
 5. **Neutral chrome:** pure gray (chroma 0) generated with the Tintwork engine, white page in light, near-black (≈ #111) in dark. Primary action is near-black (light) / near-white (dark).

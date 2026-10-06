@@ -10,7 +10,7 @@ import { buildScales, decodeState } from "@/engine";
 function Swatches({ query }: { query: string }) {
   const brand = buildScales(decodeState(query))[0]!;
   return (
-    <div className="flex overflow-hidden rounded-md border border-border" aria-hidden>
+    <div className="flex overflow-hidden rounded-control border border-border" aria-hidden>
       {brand.steps.map((s) => (
         <span key={s.stop} className="h-8 w-5" style={{ backgroundColor: s.hex }} />
       ))}
@@ -58,19 +58,19 @@ export function SavedList() {
           New palette
         </Link>
       </div>
-      {error && <p role="alert" className="mb-3 text-sm text-red-700 dark:text-red-400">{error}</p>}
+      {error && <p role="alert" className="mb-3 text-sm text-danger">{error}</p>}
       {!items.length ? (
-        <p className="rounded-lg border border-dashed border-border p-8 text-center text-muted">No saved palettes yet. Use “Save palette” in the generator.</p>
+        <p className="rounded-control border border-dashed border-border p-8 text-center text-muted">No saved palettes yet. Use “Save palette” in the generator.</p>
       ) : (
         <ul className="grid gap-3">
           {items.map((p) => (
-            <li key={p.id} className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-surface p-3">
+            <li key={p.id} className="flex flex-wrap items-center gap-3 rounded-control border border-border bg-surface p-3">
               <Swatches query={p.query} />
               <input
                 aria-label="Palette name"
                 defaultValue={p.name}
                 onBlur={(e) => e.target.value.trim() && rename(p.id, e.target.value.trim())}
-                className="h-9 min-w-0 flex-1 rounded-md border border-transparent bg-transparent px-2 hover:border-border"
+                className="h-9 min-w-0 flex-1 rounded-control border border-control bg-transparent px-2"
               />
               {/* Plain link: a full load re-reads the palette from the URL. */}
               <a href={`/?${p.query}`} className={buttonClass("secondary")}>

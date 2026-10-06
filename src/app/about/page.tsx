@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <article className="mx-auto max-w-2xl px-4 py-10 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_p]:mt-3 [&_p]:text-muted [&_li]:mt-1 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-muted">
-      <h1 className="text-3xl font-semibold tracking-tight">About {SITE.name}</h1>
+    <article className="mx-auto max-w-2xl px-4 py-10 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-medium [&_p]:mt-3 [&_p]:text-muted [&_li]:mt-1 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-muted">
+      <h1 className="text-3xl font-normal">About {SITE.name}</h1>
       <p>
         {SITE.name} turns one color into a complete, accessible Tailwind palette. It is built by{" "}
         <a className="underline underline-offset-2" href={SITE.companyUrl}>

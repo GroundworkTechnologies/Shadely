@@ -13,7 +13,7 @@ export default function TailwindColorsPage() {
   const families = tailwindFamilies();
   return (
     <div className="mx-auto max-w-[1100px] px-4 py-10">
-      <h1 className="text-3xl font-semibold tracking-tight">Tailwind CSS default colors</h1>
+      <h1 className="text-3xl font-normal">Tailwind CSS default colors</h1>
       <p className="mt-2 max-w-2xl text-muted">
         Read straight from the installed Tailwind v4 theme, so values never drift. Click a shade to copy its OKLCH value. “Use” opens it as the base of a new palette.
       </p>
@@ -26,7 +26,7 @@ export default function TailwindColorsPage() {
                 Use {f.name} 500
               </Link>
             </div>
-            <ul className="grid grid-cols-11 overflow-hidden rounded-lg border border-border">
+            <ul className="grid grid-cols-11 overflow-hidden rounded-control border border-border">
               {f.steps.map((s) => (
                 <li key={s.stop}>
                   <CopySwatch hex={s.hex} oklch={s.oklch} label={`${f.name}-${s.stop}`} />

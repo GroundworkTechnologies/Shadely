@@ -45,16 +45,16 @@ function Tile({ spec, name }: { spec: Spec; name: string }) {
     } catch {}
   };
   return (
-    <figure className="overflow-hidden rounded-2xl border border-(--p-border) bg-(--p-surface)">
+    <figure className="overflow-hidden rounded-xl border border-(--p-border) bg-(--p-surface)">
       <div className="h-36" style={{ background: spec.css }} role="img" aria-label={`${spec.title} gradient`} />
       <figcaption className="flex items-center justify-between gap-2 p-3 text-sm">
         <div className="min-w-0">
           <p className="font-medium">{spec.title}</p>
-          <p className="truncate font-mono text-[11px] text-(--p-muted)" title={snippet}>
+          <p className="truncate tabular-nums text-xs text-(--p-muted)" title={snippet}>
             {snippet}
           </p>
         </div>
-        <button type="button" onClick={copy} aria-label={`Copy ${spec.title} classes`} className="inline-flex size-8 shrink-0 items-center justify-center rounded-md border border-(--p-border-strong) text-(--p-muted) hover:bg-(--p-surface-2)">
+        <button type="button" onClick={copy} aria-label={`Copy ${spec.title} classes`} className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-(--p-border-strong) text-(--p-muted) hover:bg-(--p-surface-2)">
           {done ? <span className="text-xs">✓</span> : <Copy className="size-3.5" aria-hidden />}
         </button>
       </figcaption>

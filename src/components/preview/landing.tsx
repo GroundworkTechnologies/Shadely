@@ -5,7 +5,7 @@ export function Landing() {
   return (
     <div>
       <nav className="flex items-center justify-between border-b border-(--p-border) bg-(--p-surface) px-5 py-3 text-sm">
-        <span className="font-semibold">Acme</span>
+        <span className="font-medium">Acme</span>
         <div className="hidden gap-5 text-(--p-muted) sm:flex">
           <span>Product</span>
           <span>Pricing</span>
@@ -15,7 +15,7 @@ export function Landing() {
       </nav>
       <div className="px-5 py-12 text-center sm:py-16">
         <PBadge>New · v2.0</PBadge>
-        <h3 className="mx-auto mt-4 max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl">Ship interfaces your whole team can read</h3>
+        <h3 className="mx-auto mt-4 max-w-xl text-3xl font-normal sm:text-4xl">Ship interfaces your whole team can read</h3>
         <p className="mx-auto mt-3 max-w-md text-(--p-muted)">A short supporting line that shows how muted text sits on your background color.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <PBtn className="h-10 px-5">Get started</PBtn>
@@ -35,7 +35,7 @@ export function Landing() {
               <h4 className="font-medium">{name}</h4>
               {featured ? <PBadge>Popular</PBadge> : null}
             </div>
-            <p className="mt-3 text-3xl font-semibold">
+            <p className="mt-3 text-3xl font-normal">
               {price}
               <span className="text-sm font-normal text-(--p-muted)"> /mo</span>
             </p>

@@ -1,7 +1,7 @@
 import { AlertTriangle, CheckCircle2, Info, XCircle } from "lucide-react";
 import { PBadge, PBtn, PCard } from "./parts";
 
-const field = "h-9 w-full rounded-md border border-(--p-border-strong) bg-(--p-surface) px-3 text-sm placeholder:text-(--p-muted) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--p-ring)";
+const field = "h-9 w-full rounded-lg border border-(--p-border-strong) bg-(--p-surface) px-3 text-sm placeholder:text-(--p-muted) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-(--p-ring)";
 
 export function FormsDemo() {
   const alerts = [
@@ -13,7 +13,7 @@ export function FormsDemo() {
   return (
     <div className="grid gap-4 p-5 lg:grid-cols-2">
       <PCard>
-        <h3 className="font-semibold">Create account</h3>
+        <h3 className="font-medium">Create account</h3>
         <form className="mt-4 grid gap-3" onSubmit={(e) => e.preventDefault()}>
           <label className="grid gap-1 text-sm font-medium">
             Email

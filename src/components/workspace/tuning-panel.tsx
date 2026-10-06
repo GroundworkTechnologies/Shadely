@@ -10,7 +10,7 @@ function Slider({ label, value, min, max, step = 1, unit, onChange }: { label: s
     <div>
       <div className="mb-1 flex items-center justify-between text-sm">
         <label htmlFor={id}>{label}</label>
-        <output htmlFor={id} className="font-mono text-xs text-muted">
+        <output htmlFor={id} className="tabular-nums text-xs text-muted">
           {value}
           {unit}
         </output>
@@ -34,12 +34,12 @@ export function TuningPanel({ tuning, onChange }: { tuning: Tuning; onChange: (t
   const set = (patch: Partial<Tuning>) => onChange({ ...tuning, ...patch });
   const dirty = JSON.stringify(tuning) !== JSON.stringify(DEFAULT_TUNING);
   return (
-    <details className="group rounded-lg border border-border bg-surface" open>
-      <summary className="flex list-none items-center justify-between px-4 py-3 text-sm font-medium">
+    <details className="group rounded-control border border-border bg-surface" open>
+      <summary className="flex list-none items-center justify-between px-5 py-4 text-sm font-medium">
         Fine-tune
         <span className="text-xs font-normal text-muted">{dirty ? "customised" : "defaults"}</span>
       </summary>
-      <div className="grid gap-4 border-t border-border p-4">
+      <div className="grid gap-4 border-t border-border p-5">
         <Slider label="Chroma" value={tuning.chroma} min={0} max={200} step={5} unit="%" onChange={(chroma) => set({ chroma })} />
         <Slider label="Hue shift (darker stops)" value={tuning.hue} min={-60} max={60} unit="°" onChange={(hue) => set({ hue })} />
         <Slider label="Lightest stop (50)" value={tuning.top} min={900} max={1000} step={5} unit="‰" onChange={(top) => set({ top })} />

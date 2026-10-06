@@ -21,10 +21,10 @@ export function ContrastPanel({ scale }: { scale: NamedScale }) {
   const threshold = metric === "wcag" ? "4.5:1 (AA)" : "Lc 75";
 
   return (
-    <section aria-labelledby="contrast-h" id="contrast" className="scroll-mt-4 rounded-2xl border border-border bg-surface">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
+    <section aria-labelledby="contrast-h" id="contrast" className="scroll-mt-4 rounded-card border border-border bg-surface">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
         <div>
-          <h2 id="contrast-h" className="text-base font-semibold">
+          <h2 id="contrast-h" className="text-base font-medium">
             Accessibility <span className="font-normal text-muted">· {scale.name}</span>
           </h2>
           <p className="text-sm text-muted">
@@ -45,18 +45,18 @@ export function ContrastPanel({ scale }: { scale: NamedScale }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 p-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 p-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
         <div>
           <h3 className="mb-2 text-sm font-medium">Each shade as a background</h3>
           <ul className="grid gap-1.5">
             {scale.steps.map((s) => {
               const best = bestText(s.hex, metric);
               return (
-                <li key={s.stop} className="flex items-center gap-3 rounded-md px-3 py-1.5 text-sm" style={{ backgroundColor: s.hex, color: best.color }}>
+                <li key={s.stop} className="flex items-center gap-3 rounded-control px-3 py-1.5 text-sm" style={{ backgroundColor: s.hex, color: best.color }}>
                   <span className="w-9 font-medium tabular-nums">{s.stop}</span>
-                  <span className="font-mono text-xs opacity-90">{best.color === "#ffffff" ? "white" : "black"} text</span>
+                  <span className="tabular-nums text-xs opacity-90">{best.color === "#ffffff" ? "white" : "black"} text</span>
                   <span className="ml-auto tabular-nums">{fmt(metric, best.score.value)}</span>
-                  <span className="w-20 text-right text-xs font-semibold">
+                  <span className="w-20 text-right text-xs font-medium">
                     {best.score.pass ? "✓ " : "✕ "}
                     {best.score.label}
                   </span>
@@ -80,7 +80,7 @@ export function ContrastPanel({ scale }: { scale: NamedScale }) {
           <h3 className="mb-2 text-sm font-medium">Pairing matrix</h3>
           <p className="mb-2 text-xs text-muted">Rows are backgrounds, columns are text. A tick means the pair passes {threshold} for body text.</p>
           <div className="overflow-x-auto">
-            <table className="border-separate border-spacing-0.5 text-center text-[11px]">
+            <table className="border-separate border-spacing-0.5 text-center text-xs">
               <caption className="sr-only">Contrast of every {scale.name} shade used as text on every {scale.name} shade</caption>
               <thead>
                 <tr>
@@ -106,7 +106,7 @@ export function ContrastPanel({ scale }: { scale: NamedScale }) {
                           key={fg.stop}
                           title={same ? undefined : `${bg.stop} background, ${fg.stop} text: ${fmt(metric, cell.value)} ${cell.label}`}
                           aria-label={same ? `${bg.stop} on itself` : `${bg.stop} background, ${fg.stop} text: ${fmt(metric, cell.value)}, ${cell.label}`}
-                          className={cn("relative size-8 rounded-sm font-semibold", same && "opacity-30")}
+                          className={cn("relative size-8 rounded-sm font-medium", same && "opacity-30")}
                           style={{ backgroundColor: bg.hex, color: fg.hex }}
                         >
                           {same ? "" : "Aa"}

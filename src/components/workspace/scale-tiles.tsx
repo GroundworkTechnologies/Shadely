@@ -30,10 +30,10 @@ export function ScaleTiles({
   };
 
   return (
-    <section aria-label="Color scales" className="rounded-2xl border border-border bg-surface p-4">
+    <section aria-label="Color scales" className="rounded-card border border-border bg-surface p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <h2 className="text-base font-semibold">{scale.name}</h2>
+          <h2 className="text-base font-medium">{scale.name}</h2>
           <span className="rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-medium text-muted">{ROLE[scale.kind]}</span>
         </div>
         <nav aria-label="Scale tools" className="flex gap-1 text-sm">
@@ -42,7 +42,7 @@ export function ScaleTiles({
             ["#color-info", "Color info"],
             ["#export", "Export"],
           ].map(([href, label]) => (
-            <a key={href} href={href} className="rounded-md px-2.5 py-1.5 text-muted hover:bg-surface-muted hover:text-foreground">
+            <a key={href} href={href} className="rounded-control px-2.5 py-1.5 text-muted hover:bg-surface-muted hover:text-foreground">
               {label}
             </a>
           ))}
@@ -59,7 +59,7 @@ export function ScaleTiles({
             aria-selected={s.name === scale.name}
             tabIndex={s.name === scale.name ? 0 : -1}
             onClick={() => onSelect(s.name)}
-            className={cn("flex shrink-0 items-center gap-2 rounded-md px-3 py-1.5 text-sm", s.name === scale.name ? "bg-surface-muted font-medium text-foreground" : "text-muted hover:text-foreground")}
+            className={cn("flex shrink-0 items-center gap-2 rounded-control px-3 py-1.5 text-sm", s.name === scale.name ? "bg-surface-muted font-medium text-foreground" : "text-muted hover:text-foreground")}
           >
             <span aria-hidden className="size-3 rounded-full border border-border" style={{ backgroundColor: s.steps[5]!.hex }} />
             {s.name}
@@ -78,7 +78,7 @@ export function ScaleTiles({
                 aria-label={`${scale.name} ${s.stop}, ${s.hex}${s.isAnchor ? ", your base color" : ""}${s.clipped ? ", chroma reduced to fit the gamut" : ""}. Copy hex`}
                 title={`${scale.name}-${s.stop}  ${s.hex}`}
                 style={{ backgroundColor: s.hex, color: fg }}
-                className="relative flex h-24 w-full flex-col justify-end rounded-xl p-2.5 text-left outline-offset-2 hover:brightness-95"
+                className="relative flex h-24 w-full flex-col justify-end rounded-card p-2.5 text-left outline-offset-2 hover:brightness-95"
               >
                 {s.isAnchor && <span aria-hidden className="absolute left-2.5 top-2.5 size-2 rounded-full" style={{ backgroundColor: fg }} />}
                 {s.clipped && (
@@ -86,8 +86,8 @@ export function ScaleTiles({
                     ~
                   </span>
                 )}
-                <span className="text-sm font-semibold leading-tight">{s.stop}</span>
-                <span className="font-mono text-[11px] uppercase leading-tight opacity-90">{s.hex.slice(1)}</span>
+                <span className="text-sm font-medium leading-tight">{s.stop}</span>
+                <span className="tabular-nums text-xs uppercase leading-tight opacity-90">{s.hex.slice(1)}</span>
               </button>
             </li>
           );

@@ -2,7 +2,7 @@ import { AlertCircle, Terminal } from "lucide-react";
 import { formatOklch, hexToOklch, SHADCN_COLOR_TOKENS, shadcnTokens } from "@/engine";
 import { usePreview } from "./context";
 
-const btn = "inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--sh-ring)";
+const btn = "inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--sh-ring)";
 
 export function ShadcnPreview() {
   const { scales, theme, onExportShadcn } = usePreview();
@@ -13,25 +13,25 @@ export function ShadcnPreview() {
     <div className="grid gap-4 p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="max-w-xl text-sm text-(--p-muted)">
-          These components use the exact shadcn/ui variables Tintwork exports, in {theme} mode. Paste the theme into <code className="font-mono">globals.css</code> and every shadcn component picks it up.
+          These components use the exact shadcn/ui variables Tintwork exports, in {theme} mode. Paste the theme into <code className="tabular-nums">globals.css</code> and every shadcn component picks it up.
         </p>
-        <button type="button" onClick={onExportShadcn} className="inline-flex h-9 items-center rounded-md bg-(--p-primary) px-4 text-sm font-medium text-(--p-primary-fg) hover:bg-(--p-primary-hover)">
+        <button type="button" onClick={onExportShadcn} className="inline-flex h-9 items-center rounded-lg bg-(--p-primary) px-4 text-sm font-medium text-(--p-primary-fg) hover:bg-(--p-primary-hover)">
           Get shadcn theme CSS
         </button>
       </div>
 
-      <div style={vars} className="grid gap-4 rounded-2xl bg-(--sh-background) p-4 text-(--sh-foreground) lg:grid-cols-2">
-        <div className="self-start rounded-xl border border-(--sh-border) bg-(--sh-card) p-6 text-(--sh-card-foreground) shadow-sm">
-          <h3 className="font-semibold leading-none">Create project</h3>
+      <div style={vars} className="grid gap-4 rounded-xl bg-(--sh-background) p-4 text-(--sh-foreground) lg:grid-cols-2">
+        <div className="self-start rounded-xl border border-(--sh-border) bg-(--sh-card) p-6 text-(--sh-card-foreground)">
+          <h3 className="font-medium leading-none">Create project</h3>
           <p className="mt-1.5 text-sm text-(--sh-muted-foreground)">Deploy your new project in one click.</p>
           <div className="mt-5 grid gap-3">
             <label className="grid gap-1.5 text-sm font-medium">
               Name
-              <input className="h-9 rounded-md border border-(--sh-input) bg-transparent px-3 text-sm shadow-xs placeholder:text-(--sh-muted-foreground) focus-visible:outline-2 focus-visible:outline-(--sh-ring)" placeholder="My project" />
+              <input className="h-9 rounded-lg border border-(--sh-input) bg-transparent px-3 text-sm placeholder:text-(--sh-muted-foreground) focus-visible:outline-2 focus-visible:outline-(--sh-ring)" placeholder="My project" />
             </label>
             <label className="grid gap-1.5 text-sm font-medium">
               Framework
-              <select className="h-9 rounded-md border border-(--sh-input) bg-transparent px-3 text-sm">
+              <select className="h-9 rounded-lg border border-(--sh-input) bg-transparent px-3 text-sm">
                 <option>Next.js</option>
                 <option>SvelteKit</option>
               </select>
@@ -72,10 +72,10 @@ export function ShadcnPreview() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 rounded-xl border border-(--sh-border) bg-(--sh-card) p-4 text-sm">
-            <span className="rounded-md bg-(--sh-primary) px-2 py-0.5 text-xs font-semibold text-(--sh-primary-foreground)">Badge</span>
-            <span className="rounded-md bg-(--sh-secondary) px-2 py-0.5 text-xs font-semibold text-(--sh-secondary-foreground)">Secondary</span>
-            <span className="rounded-md border border-(--sh-border) px-2 py-0.5 text-xs font-semibold">Outline</span>
-            <span className="rounded-md bg-(--sh-muted) px-2 py-0.5 text-xs text-(--sh-muted-foreground)">Muted</span>
+            <span className="rounded-lg bg-(--sh-primary) px-2 py-0.5 text-xs font-medium text-(--sh-primary-foreground)">Badge</span>
+            <span className="rounded-lg bg-(--sh-secondary) px-2 py-0.5 text-xs font-medium text-(--sh-secondary-foreground)">Secondary</span>
+            <span className="rounded-lg border border-(--sh-border) px-2 py-0.5 text-xs font-medium">Outline</span>
+            <span className="rounded-lg bg-(--sh-muted) px-2 py-0.5 text-xs text-(--sh-muted-foreground)">Muted</span>
             <label className="ml-auto flex items-center gap-2">
               <span className="relative inline-flex h-5 w-9 items-center rounded-full bg-(--sh-primary)" aria-hidden>
                 <span className="ml-auto mr-0.5 size-4 rounded-full bg-(--sh-primary-foreground)" />
@@ -115,7 +115,7 @@ export function ShadcnPreview() {
 
       <details className="rounded-xl border border-(--p-border) bg-(--p-surface) text-sm">
         <summary className="cursor-pointer px-4 py-3 font-medium">Token values ({theme})</summary>
-        <dl className="grid gap-x-6 gap-y-1 border-t border-(--p-border) p-4 font-mono text-xs sm:grid-cols-2">
+        <dl className="grid gap-x-6 gap-y-1 border-t border-(--p-border) p-4 tabular-nums text-xs sm:grid-cols-2">
           {SHADCN_COLOR_TOKENS.map((k) => {
             const ok = hexToOklch(t[k]!);
             return (

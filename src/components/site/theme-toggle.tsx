@@ -37,7 +37,7 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
-      className="inline-flex size-9 items-center justify-center rounded-md border border-border bg-surface text-muted hover:text-foreground"
+      className="inline-flex size-9 items-center justify-center rounded-control border border-border bg-surface text-muted hover:text-foreground"
       aria-label={`Theme: ${mode}. Switch to ${next}`}
       title={`Theme: ${mode}`}
       onClick={() => store.set(next)}

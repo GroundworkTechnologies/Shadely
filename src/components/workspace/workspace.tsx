@@ -74,7 +74,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
   return (
     <div className="mx-auto max-w-[1500px] px-4 py-8">
       <div className="mb-6 max-w-3xl">
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Tailwind color palette generator</h1>
+        <h1 className="text-3xl font-normal sm:text-4xl">Tailwind color palette generator</h1>
         <p className="mt-2 text-muted">
           One brand color in, an accessible 50–950 scale out. Built in OKLCH, checked for contrast, previewed on real UI, exported for Tailwind v4, v3 and shadcn/ui.
         </p>
@@ -82,7 +82,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
 
       <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
         <div className="grid grid-cols-[minmax(0,1fr)] content-start gap-4">
-          <div className="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-2xl border border-border bg-surface p-4">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-card border border-border bg-surface p-5">
             <ColorInput value={state.base} onChange={(base) => patch({ base })} onShuffle={shuffle} />
             <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-3 text-sm">
               <label className="grid min-w-0 gap-1">
@@ -92,12 +92,12 @@ export function Workspace({ initial }: { initial: PaletteState }) {
                   onChange={(e) => isValidName(e.target.value) && patch({ name: e.target.value })}
                   aria-describedby="name-hint"
                   spellCheck={false}
-                  className="h-9 w-full min-w-0 rounded-md border border-border bg-surface px-2 font-mono"
+                  className="h-9 w-full min-w-0 rounded-control border border-control bg-surface px-2 tabular-nums"
                 />
               </label>
               <label className="grid min-w-0 gap-1">
                 <span className="font-medium">Neutral scale</span>
-                <select value={state.neutral} onChange={(e) => patch({ neutral: e.target.value as PaletteState["neutral"] })} className="h-9 w-full min-w-0 rounded-md border border-border bg-surface px-2">
+                <select value={state.neutral} onChange={(e) => patch({ neutral: e.target.value as PaletteState["neutral"] })} className="h-9 w-full min-w-0 rounded-control border border-control bg-surface px-2">
                   <option value="tinted">Tinted</option>
                   <option value="gray">Pure gray</option>
                   <option value="off">Off</option>
@@ -153,7 +153,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
         />
       </div>
 
-      <div role="status" aria-live="polite" className={message ? "fixed bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-md bg-foreground px-4 py-2 text-sm text-background shadow-lg" : "sr-only-live"}>
+      <div role="status" aria-live="polite" className={message ? "fixed bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-control bg-foreground px-4 py-2 text-sm text-background shadow-float" : "sr-only-live"}>
         {message}
       </div>
     </div>

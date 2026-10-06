@@ -24,10 +24,10 @@ function Arcs({ className }: { className?: string }) {
 export function Cards() {
   return (
     <div className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-3">
-      <div className="relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-3xl bg-(--p-tint) p-5 text-(--p-tint-fg)">
+      <div className="relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-xl bg-(--p-tint) p-5 text-(--p-tint-fg)">
         <Arcs className="absolute -bottom-6 -right-6 size-64 opacity-30" />
-        <div className="relative rounded-2xl bg-(--p-tint-2) p-4">
-          <div className="mx-auto h-48 w-28 rotate-6 rounded-2xl border-4 border-(--p-tint-fg) bg-(--p-surface) p-2">
+        <div className="relative rounded-xl bg-(--p-tint-2) p-4">
+          <div className="mx-auto h-48 w-28 rotate-6 rounded-xl border-4 border-(--p-tint-fg) bg-(--p-surface) p-2">
             <div className="h-2 w-10 rounded-full bg-(--p-primary)" />
             <div className="mt-2 h-14 rounded-lg bg-(--p-soft)" />
             <div className="mt-2 space-y-1.5">
@@ -37,20 +37,20 @@ export function Cards() {
           </div>
         </div>
         <div className="relative">
-          <h3 className="text-3xl font-semibold leading-tight tracking-tight">Track your expenses</h3>
+          <h3 className="text-3xl font-normal leading-tight">Track your expenses</h3>
           <p className="mt-1 text-sm opacity-80">See every shilling at a glance.</p>
         </div>
       </div>
 
-      <PCard className="flex flex-col rounded-3xl">
+      <PCard className="flex flex-col rounded-xl">
         <p className="text-sm text-(--p-muted)">Expenses</p>
-        <p className="mt-1 text-3xl font-semibold tabular-nums">$12,543</p>
+        <p className="mt-1 text-3xl font-normal tabular-nums">$12,543</p>
         <div className="mt-6 flex flex-1 items-end justify-between gap-2" role="img" aria-label="Stacked bar chart of monthly expenses">
           {BARS.map((b, i) => (
             <div key={MONTHS[i]} className="flex flex-1 flex-col items-center gap-1.5">
               <div className="flex w-full max-w-7 flex-col gap-1">
                 {[0, 1, 2].map((k) => (
-                  <div key={k} className="rounded-md" style={{ height: b[k]! * 2.2, background: `var(--b-${[300, 500, 700][k]})` }} />
+                  <div key={k} className="rounded-lg" style={{ height: b[k]! * 2.2, background: `var(--b-${[300, 500, 700][k]})` }} />
                 ))}
               </div>
               <span className="text-xs text-(--p-muted)">{MONTHS[i]}</span>
@@ -59,13 +59,13 @@ export function Cards() {
         </div>
       </PCard>
 
-      <div className="relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-3xl bg-(--p-primary) p-5 text-(--p-primary-fg)">
+      <div className="relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-xl bg-(--p-primary) p-5 text-(--p-primary-fg)">
         <Arcs className="absolute -bottom-6 -right-6 size-64 opacity-25" />
         <div className="flex items-center gap-2 text-sm font-medium">
           <Sparkles className="size-4" aria-hidden /> Premium
         </div>
         <div className="relative">
-          <h3 className="text-3xl font-semibold leading-tight tracking-tight">Gain control</h3>
+          <h3 className="text-3xl font-normal leading-tight">Gain control</h3>
           <p className="mt-1 text-sm opacity-90">Budgets, goals and alerts in one place.</p>
           <span className="mt-4 inline-flex h-9 items-center gap-1.5 rounded-full bg-(--p-primary-fg) px-4 text-sm font-medium text-(--p-primary)">
             Upgrade <ArrowUpRight className="size-4" aria-hidden />
@@ -73,9 +73,9 @@ export function Cards() {
         </div>
       </div>
 
-      <PCard className="rounded-3xl">
+      <PCard className="rounded-xl">
         <div className="flex items-center gap-3">
-          <span className="grid size-11 place-items-center rounded-full bg-(--p-primary) font-semibold text-(--p-primary-fg)" aria-hidden>
+          <span className="grid size-11 place-items-center rounded-full bg-(--p-primary) font-medium text-(--p-primary-fg)" aria-hidden>
             AW
           </span>
           <div>
@@ -93,7 +93,7 @@ export function Cards() {
         </div>
       </PCard>
 
-      <PCard className="rounded-3xl">
+      <PCard className="rounded-xl">
         <div className="mb-3 flex items-center justify-between">
           <p className="font-medium">Notifications</p>
           <Bell className="size-4 text-(--p-muted)" aria-hidden />
@@ -112,12 +112,12 @@ export function Cards() {
         </ul>
       </PCard>
 
-      <PCard className="rounded-3xl">
+      <PCard className="rounded-xl">
         <div className="flex items-center justify-between">
           <p className="text-sm text-(--p-muted)">Goal progress</p>
           <Heart className="size-4 text-(--p-soft-fg)" aria-hidden />
         </div>
-        <p className="mt-1 text-3xl font-semibold">72%</p>
+        <p className="mt-1 text-3xl font-normal">72%</p>
         <div className="mt-4 h-3 overflow-hidden rounded-full bg-(--p-soft)" role="progressbar" aria-valuenow={72} aria-valuemin={0} aria-valuemax={100} aria-label="Goal progress">
           <div className="h-full w-[72%] rounded-full bg-(--p-primary)" />
         </div>

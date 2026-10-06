@@ -51,9 +51,14 @@ describe.each([":root", ".dark"] as const)("design tokens in %s", (sel) => {
 });
 
 describe("typography rules", () => {
-  it("loads Manrope with only the four allowed weights", () => {
+  it("loads Manrope with only the three allowed weights (400, 500, 600)", () => {
     const layout = readFileSync(path.join(process.cwd(), "src/app/layout.tsx"), "utf8");
-    expect(layout).toMatch(/weight: \["300", "400", "500", "600"\]/);
+    expect(layout).toMatch(/weight: \["400", "500", "600"\]/);
     expect(layout).not.toMatch(/Geist|Inter|Roboto|Mono\(/);
+  });
+  it("uses no weight classes outside normal, medium and semibold", () => {
+    const { execSync } = require("node:child_process") as typeof import("node:child_process");
+    const hits = execSync("grep -rnE \"font-(thin|extralight|light|bold|extrabold|black)\\b\" src --include=*.tsx --include=*.ts --include=*.css || true", { cwd: process.cwd() }).toString();
+    expect(hits.replace(/^.*design-tokens\.test\.ts.*$/gm, "").trim()).toBe("");
   });
 });

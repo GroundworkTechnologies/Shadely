@@ -63,7 +63,7 @@ export function Preview({
   return (
     <section aria-labelledby="preview-h" className="min-w-0">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-        <h2 id="preview-h" className="text-base font-semibold">
+        <h2 id="preview-h" className="text-base font-medium">
           Live preview
         </h2>
         <Segmented
@@ -101,7 +101,7 @@ export function Preview({
           role="tabpanel"
           aria-labelledby={`ptab-${tab}`}
           style={{ ...previewVars(scales, theme), colorScheme: theme } as React.CSSProperties}
-          className="overflow-hidden rounded-2xl border border-border bg-(--p-bg) text-(--p-fg)"
+          className="overflow-hidden rounded-xl border border-border bg-(--p-bg) text-(--p-fg)"
         >
           <Active />
         </div>
