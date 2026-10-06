@@ -34,3 +34,13 @@ Measured with `grep` over `src/` on 2026-10-06. Scope: app chrome and all 11 pre
 8. **Icons:** lucide, stroke 1.5 px, enforced in base CSS.
 9. **Contrast guard:** a unit test parses the tokens in `globals.css` and fails the build if any text/background pair is below 4.5:1 or any control border below 3:1, in light and dark.
 10. **Exceptions kept on purpose:** the base-color row is 40 px tall (primary field); Tintwork's logo keeps a small teal accent (it is a brand mark, not UI chrome); the 11 previews keep their own illustrative colors, driven by the user's palette.
+
+## 3. Outcome
+
+- Manrope 400/500/600 is the only face in the app and in generated OG images (WOFF files in `src/assets/fonts`, SIL OFL licence alongside). A test fails the build if any other weight class or typeface appears.
+- Chrome is neutral: pure gray tokens, near-black primary action, neutral focus ring. Only generated palettes (and the small logo mark) carry color.
+- Radius is 8 px (controls) and 12 px (cards); one floating shadow; icons at 1.5 px stroke; 150 ms transitions.
+- Contrast: `src/lib/__tests__/design-tokens.test.ts` checks every text/background pair at 4.5:1 and control borders and focus ring at 3:1, light and dark.
+- Responsive: header, content and footer share one container (`page-container`); previews use container queries so they adapt to the preview panel, not the viewport.
+
+Next candidates: a visual regression suite (Playwright screenshots per tab and breakpoint), an axe pass in CI, and an optional "auto" palette name that follows the color name.
