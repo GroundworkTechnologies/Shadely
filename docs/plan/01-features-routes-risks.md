@@ -30,7 +30,6 @@
 - Figma plugin, VS Code extension, Tailwind plugin.
 - Accounts / team libraries / hosted palettes (only if demand).
 - Gradient and chart-palette generators (categorical, sequential, diverging).
-- i18n.
 
 ## 2. Route map
 
