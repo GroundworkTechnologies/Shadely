@@ -3,7 +3,7 @@
 import { bestText, colorName, type NamedScale } from "@/engine";
 import { cn } from "@/lib/cn";
 
-const ROLE: Record<NamedScale["kind"], string> = { brand: "Primary", neutral: "Neutral", status: "Status" };
+const ROLE: Record<NamedScale["kind"], string> = { brand: "Primary", accent: "Accent", neutral: "Neutral", status: "Status" };
 
 export function ScaleTiles({
   scales,

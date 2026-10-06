@@ -128,3 +128,42 @@ describe("reference scales (snapshot of hexes)", () => {
   it("near-white", () => expect(generateScale("#fafaf9").map((s) => s.hex)).toMatchSnapshot());
   it("near-black", () => expect(generateScale("#0a0a0a").map((s) => s.hex)).toMatchSnapshot());
 });
+
+describe("overrides (lock and edit shades)", () => {
+  const base = "#3b82f6";
+  it("pins overridden stops exactly and flags them", () => {
+    const s = generateScale(base, { overrides: { 300: "#aabbcc", 800: "#112244" } });
+    expect(s.find((x) => x.stop === 300)!.hex).toBe("#aabbcc");
+    expect(s.find((x) => x.stop === 800)!.hex).toBe("#112244");
+    expect(s.filter((x) => x.isOverride).map((x) => x.stop)).toEqual([300, 800]);
+    expect(s.find((x) => x.isAnchor)!.hex).toBe(base);
+  });
+  it("re-flows the other stops around the pinned ones", () => {
+    const plain = generateScale(base);
+    const pinned = generateScale(base, { overrides: { 300: "#9fb7e8" } });
+    expect(pinned.find((x) => x.stop === 200)!.hex).not.toBe(plain.find((x) => x.stop === 200)!.hex);
+  });
+  it("keeps lightness ordered when overrides are ordered", () => {
+    const s = generateScale(base, { overrides: { 200: "#c9d7f3", 700: "#1b4fb0" } });
+    for (let i = 1; i < s.length; i++) expect(s[i]!.oklch.l).toBeLessThanOrEqual(s[i - 1]!.oklch.l + 0.004);
+  });
+  it("ignores an override on the anchor stop and invalid hexes", () => {
+    const a = generateScale(base, { overrides: { 500: "#000000", 100: "nope" } as never });
+    expect(a).toEqual(generateScale(base).map((x) => ({ ...x })));
+  });
+  it("pinning every stop to the generated value changes nothing visible", () => {
+    const plain = generateScale(base);
+    const all = Object.fromEntries(plain.map((x) => [x.stop, x.hex]));
+    expect(generateScale(base, { overrides: all }).map((x) => x.hex)).toEqual(plain.map((x) => x.hex));
+  });
+});
+
+describe("explicit anchor", () => {
+  it("lands the base on any stop and stays ordered", () => {
+    for (const stop of [50, 100, 300, 500, 700, 900, 950] as const) {
+      const s = generateScale("#3b82f6", { anchor: stop });
+      expect(s.find((x) => x.isAnchor)!.stop).toBe(stop);
+      for (let i = 1; i < s.length; i++) expect(s[i]!.oklch.l, `${stop}/${i}`).toBeLessThanOrEqual(s[i - 1]!.oklch.l + 0.01);
+    }
+  });
+});

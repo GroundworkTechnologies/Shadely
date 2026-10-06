@@ -1,12 +1,24 @@
 import { hexToOklch } from "./color-space";
+import { FAMILY_ANCHORS } from "./naming-data";
 import { generateScale, type ScaleStep } from "./scale";
-import type { PaletteState } from "./state";
+import type { HarmonyMode, PaletteState } from "./state";
 
 export interface NamedScale {
   name: string;
-  kind: "brand" | "neutral" | "status";
+  kind: "brand" | "accent" | "neutral" | "status";
   steps: ScaleStep[];
 }
+
+/** Hue offsets (degrees) from the brand hue, in the order secondary, accent, tertiary. */
+export const HARMONY_OFFSETS: Record<Exclude<HarmonyMode, "off">, number[]> = {
+  analogous: [30],
+  complementary: [180],
+  split: [150, 210],
+  triadic: [120, 240],
+  tetradic: [60, 180, 240],
+  square: [90, 180, 270],
+};
+export const ACCENT_NAMES = ["secondary", "accent", "tertiary"] as const;
 
 export const STATUS_HUES = { success: 150, warning: 80, danger: 25, info: 245 } as const;
 
@@ -18,15 +30,32 @@ export function buildScales(state: PaletteState): NamedScale[] {
     chromaScale: tuning.chroma / 100,
     hueShift: tuning.hue,
   };
-  const out: NamedScale[] = [{ name: state.name, kind: "brand", steps: generateScale(state.base, opts) }];
+  const brandOpts = { ...opts, anchor: state.anchor, overrides: state.overrides };
+  const out: NamedScale[] = [{ name: state.name, kind: "brand", steps: generateScale(state.base, brandOpts) }];
   const base = hexToOklch(state.base) ?? { l: 0.6, c: 0.1, h: 0 };
 
+  if (state.harmony !== "off") {
+    HARMONY_OFFSETS[state.harmony].forEach((offset, i) => {
+      out.push({
+        name: ACCENT_NAMES[i]!,
+        kind: "accent",
+        steps: generateScale({ l: base.l, c: base.c, h: (base.h + offset) % 360 }, { ...opts, hueShift: 0 }),
+      });
+    });
+  }
+
   if (state.neutral !== "off") {
-    const c = state.neutral === "gray" ? 0 : Math.min(base.c * 0.08, 0.025);
+    const k = state.neutralTint / 100;
+    let tint = { c: Math.min(base.c * 0.08 * k, 0.04), h: base.h };
+    if (state.neutral === "pure") tint = { c: 0, h: base.h };
+    else if (state.neutral !== "tinted") {
+      const fam = FAMILY_ANCHORS.find(([n]) => n === state.neutral);
+      if (fam) tint = { c: Math.min(fam[2] * k, 0.06), h: fam[3] };
+    }
     out.push({
       name: "neutral",
       kind: "neutral",
-      steps: generateScale({ l: 0.62, c, h: base.h }, { ...opts, chromaScale: 1, hueShift: 0, lightnessRange: [0.985, 0.14] }),
+      steps: generateScale({ l: 0.62, c: tint.c, h: tint.h }, { ...opts, chromaScale: 1, hueShift: 0, lightnessRange: [0.985, 0.14] }),
     });
   }
   if (state.status) {

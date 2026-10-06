@@ -13,7 +13,7 @@ describe("buildScales", () => {
     expect(buildScales({ ...state, neutral: "off", status: false })).toHaveLength(1);
   });
   it("gray neutral has no chroma", () => {
-    const n = buildScales({ ...state, neutral: "gray" }).find((s) => s.kind === "neutral")!;
+    const n = buildScales({ ...state, neutral: "pure" }).find((s) => s.kind === "neutral")!;
     for (const s of n.steps) expect(s.oklch.c).toBeLessThan(0.01);
   });
   it("tuning affects output", () => {
@@ -66,7 +66,7 @@ describe("state codec", () => {
       ...DEFAULT_STATE,
       base: "#f59e0b",
       name: "sun",
-      neutral: "gray",
+      neutral: "pure",
       status: false,
       format: "tailwind-v3",
       syntax: "hex",

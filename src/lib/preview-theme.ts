@@ -2,7 +2,7 @@ import { bestText, buildScales, type NamedScale, type PaletteState, type Preview
 
 type Vars = Record<string, string>;
 
-const LETTER: Record<string, string> = { brand: "b", neutral: "n", success: "s", warning: "w", danger: "d", info: "i" };
+const LETTER: Record<string, string> = { brand: "b", neutral: "n", success: "s", warning: "w", danger: "d", info: "i", secondary: "a", accent: "c", tertiary: "t" };
 
 /** Preview always has every scale, even when the user turned some off for export. */
 export function previewScales(state: PaletteState): NamedScale[] {
@@ -14,7 +14,7 @@ export function previewVars(scales: NamedScale[], theme: PreviewTheme): Vars {
   const vars: Vars = {};
   const pick = (kind: string, stop: number) => scales.find((s) => (s.kind === "status" ? s.name : s.kind) === kind)?.steps.find((x) => x.stop === stop)?.hex ?? "#808080";
   for (const s of scales) {
-    const letter = LETTER[s.kind === "status" ? s.name : s.kind];
+    const letter = LETTER[s.kind === "status" || s.kind === "accent" ? s.name : s.kind];
     if (letter) for (const x of s.steps) vars[`--${letter}-${x.stop}`] = x.hex;
   }
   const dark = theme === "dark";
