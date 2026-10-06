@@ -27,6 +27,7 @@ import { ScaleTiles } from "./scale-tiles";
 import { GroundworkCta } from "@/components/site/groundwork-cta";
 import { LazySection } from "./lazy-section";
 import { ShadeEditor } from "./shade-editor";
+import { TargetsPanel } from "./targets-panel";
 import { TuningPanel } from "./tuning-panel";
 import { VisionFilters } from "./vision";
 import { oklchToHex } from "@/engine";
@@ -230,6 +231,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
             {limited && <p className="text-xs text-muted">Some shades were limited to fit the sRGB gamut (marked ~).</p>}
           </div>
 
+          <TargetsPanel targets={state.targets} brand={scales[0]!} onChange={(targets) => patch({ targets })} />
           <TuningPanel tuning={state.tuning} onChange={(tuning) => patch({ tuning })} anchor={state.anchor} onAnchor={(anchor) => patch({ anchor })} />
 
           <div className="flex flex-wrap gap-2">
@@ -265,7 +267,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
 
       <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6">
         <LazySection id="contrast" minHeight={520}>
-          <ContrastPanel scale={current} />
+          <ContrastPanel scale={current} onAddRule={(rule) => patch({ targets: [...state.targets, rule].slice(0, 12) })} />
         </LazySection>
         <LazySection id="vision" minHeight={360}>
           <VisionCheck scales={pscales} />

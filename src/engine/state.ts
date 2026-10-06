@@ -1,4 +1,5 @@
 import { parseColor } from "./parse";
+import { isValidRule, type ContrastRule, type RuleColor } from "./constraints";
 import { STOPS, type Stop } from "./types";
 import { oklchToHex } from "./color-space";
 import type { ColorSyntax } from "./format";
@@ -37,6 +38,8 @@ export interface PaletteState {
   overrides: Partial<Record<Stop, string>>;
   /** Derives secondary / accent scales from the brand hue. */
   harmony: HarmonyMode;
+  /** Contrast rules every scale is made to satisfy. */
+  targets: ContrastRule[];
   status: boolean;
   format: ExportFormat;
   syntax: ColorSyntax;
@@ -55,6 +58,7 @@ export const DEFAULT_STATE: PaletteState = {
   anchor: "auto",
   overrides: {},
   harmony: "off",
+  targets: [],
   status: true,
   format: "tailwind-v4",
   syntax: "oklch",
@@ -98,6 +102,27 @@ export function normalizeHex(input: string): string | null {
   return o ? oklchToHex(o) : null;
 }
 
+const ruleColorKey = (c: RuleColor) => (c === "white" ? "w" : c === "black" ? "k" : String(c));
+function parseRuleColor(raw: string | undefined): RuleColor | null {
+  if (raw === "w") return "white";
+  if (raw === "k") return "black";
+  const n = int(raw);
+  return n !== undefined && (STOPS as readonly number[]).includes(n) ? (n as Stop) : null;
+}
+function parseTargets(raw: string | undefined): ContrastRule[] {
+  const out: ContrastRule[] = [];
+  for (const part of (raw ?? "").split(",").slice(0, 12)) {
+    const [f, b, m] = part.split("~");
+    const fg = parseRuleColor(f);
+    const bg = parseRuleColor(b);
+    const min = Number(m);
+    if (fg === null || bg === null) continue;
+    const rule: ContrastRule = { fg, bg, min: Math.round(min * 10) / 10 };
+    if (isValidRule(rule)) out.push(rule);
+  }
+  return out;
+}
+
 function parseOverrides(raw: string | undefined): Partial<Record<Stop, string>> {
   const out: Partial<Record<Stop, string>> = {};
   for (const part of (raw ?? "").split(",")) {
@@ -122,6 +147,7 @@ export function encodeState(s: PaletteState): string {
   if (s.harmony !== "off") p.set("hm", HARMONY_KEYS[s.harmony]!);
   const locks = STOPS.filter((st) => s.overrides[st]).map((st) => `${st}:${s.overrides[st]!.slice(1)}`);
   if (locks.length) p.set("lk", locks.join(","));
+  if (s.targets.length) p.set("ct", s.targets.map((r) => `${ruleColorKey(r.fg)}~${ruleColorKey(r.bg)}~${r.min}`).join(","));
   if (s.status !== d.status) p.set("s", s.status ? "1" : "0");
   if (s.format !== d.format) p.set("f", FORMAT_KEYS[s.format]);
   if (s.syntax !== d.syntax) p.set("c", s.syntax);
@@ -168,6 +194,7 @@ export function decodeState(input: string | URLSearchParams | Record<string, str
     anchor: (STOPS as readonly number[]).includes(int(get("a")) ?? -1) ? (int(get("a")) as Stop) : d.anchor,
     overrides: parseOverrides(get("lk")),
     harmony: HARMONIES[get("hm") ?? ""] ?? d.harmony,
+    targets: parseTargets(get("ct")),
     status: get("s") === undefined ? d.status : get("s") !== "0",
     format: format ?? d.format,
     syntax: syntax ?? d.syntax,

@@ -1,5 +1,6 @@
 "use client";
 
+import { ShieldCheck } from "lucide-react";
 import { bestText, colorName, type NamedScale, type VisionMode } from "@/engine";
 import { visionStyle } from "./vision";
 import { cn } from "@/lib/cn";
@@ -82,7 +83,7 @@ export function ScaleTiles({
               <button
                 type="button"
                 onClick={() => onCopy(s.hex, `${scale.name}-${s.stop}`)}
-                aria-label={`${named.family} ${s.stop}, ${scale.name}-${s.stop}, ${s.hex}${s.isAnchor ? ", your base color" : ""}${s.clipped ? ", chroma reduced to fit the gamut" : ""}. Copy hex`}
+                aria-label={`${named.family} ${s.stop}, ${scale.name}-${s.stop}, ${s.hex}${s.isAnchor ? ", your base color" : ""}${s.clipped ? ", chroma reduced to fit the gamut" : ""}${s.adjusted ? ", adjusted to meet your contrast rules" : ""}${s.isOverride ? ", pinned" : ""}. Copy hex`}
                 title={`${named.family} ${s.stop} · ${scale.name}-${s.stop} · ${s.hex}`}
                 style={{ backgroundColor: s.hex, color: fg }}
                 className="relative flex h-24 w-full flex-col justify-end rounded-card p-2.5 text-left outline-offset-2 hover:brightness-95"
@@ -93,6 +94,7 @@ export function ScaleTiles({
                     ~
                   </span>
                 )}
+                {s.adjusted && <ShieldCheck aria-hidden className="absolute bottom-2 right-2 size-3.5 opacity-90" />}
                 <span className="text-sm font-medium leading-tight">{s.stop}</span>
                 <span className="tabular-nums text-xs uppercase leading-tight opacity-90">{s.hex.slice(1)}</span>
               </button>

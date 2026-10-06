@@ -2,7 +2,8 @@
 
 import { Check } from "lucide-react";
 import { useState } from "react";
-import { bestText, colorName, contrastMatrix, formatRatio, paletteText, scorePair, THRESHOLDS, USAGE_LABELS, type ContrastMetric, type ContrastUsage, type NamedScale } from "@/engine";
+import { bestText, colorName, contrastMatrix, formatRatio, paletteText, scorePair, THRESHOLDS, USAGE_LABELS, type ContrastMetric, type ContrastRule, type ContrastUsage, type NamedScale } from "@/engine";
+import { Button } from "@/components/ui/button";
 import { Segmented } from "@/components/ui/segmented";
 import { cn } from "@/lib/cn";
 
@@ -12,9 +13,12 @@ function firstStop(scale: NamedScale, metric: ContrastMetric, usage: ContrastUsa
   return scale.steps.find((s) => (textOnShade ? scorePair(other, s.hex, metric, usage) : scorePair(s.hex, other, metric, usage)).pass);
 }
 
-export function ContrastPanel({ scale }: { scale: NamedScale }) {
+export function ContrastPanel({ scale, onAddRule }: { scale: NamedScale; onAddRule: (rule: ContrastRule) => void }) {
   const [metric, setMetric] = useState<ContrastMetric>("wcag");
   const [usage, setUsage] = useState<ContrastUsage>("body");
+  const [fixFg, setFixFg] = useState<number>(600);
+  const [fixBg, setFixBg] = useState<number>(100);
+  const [fixMin, setFixMin] = useState(4.5);
   const hexes = scale.steps.map((s) => s.hex);
   const matrix = contrastMatrix(hexes, metric, usage);
   const onWhite = firstStop(scale, metric, usage, false, "#ffffff");
@@ -136,6 +140,32 @@ export function ContrastPanel({ scale }: { scale: NamedScale }) {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-2 rounded-control border border-border p-3 text-sm">
+            <span className="text-muted">Make</span>
+            <select aria-label="Text shade to fix" value={fixFg} onChange={(e) => setFixFg(Number(e.target.value))} className="h-9 rounded-control border border-control bg-surface px-1.5">
+              {scale.steps.map((s) => (
+                <option key={s.stop} value={s.stop}>
+                  {s.stop}
+                </option>
+              ))}
+            </select>
+            <span className="text-muted">text on</span>
+            <select aria-label="Background shade to fix" value={fixBg} onChange={(e) => setFixBg(Number(e.target.value))} className="h-9 rounded-control border border-control bg-surface px-1.5">
+              {scale.steps.map((s) => (
+                <option key={s.stop} value={s.stop}>
+                  {s.stop}
+                </option>
+              ))}
+            </select>
+            <select aria-label="Target level" value={fixMin} onChange={(e) => setFixMin(Number(e.target.value))} className="h-9 rounded-control border border-control bg-surface px-1.5">
+              <option value={3}>3:1 (large text)</option>
+              <option value={4.5}>4.5:1 (AA)</option>
+              <option value={7}>7:1 (AAA)</option>
+            </select>
+            <Button disabled={fixFg === fixBg} onClick={() => onAddRule({ fg: fixFg as ContrastRule["fg"], bg: fixBg as ContrastRule["bg"], min: fixMin })}>
+              Make it pass
+            </Button>
           </div>
         </div>
       </div>

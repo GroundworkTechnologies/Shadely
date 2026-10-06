@@ -31,6 +31,8 @@ export interface ScaleStep {
   isAnchor: boolean;
   /** True when this stop was pinned by the user. */
   isOverride: boolean;
+  /** True when a contrast rule moved this shade away from its generated value. */
+  adjusted?: boolean;
 }
 
 export const DEFAULT_LIGHTNESS_RANGE = [0.975, 0.27] as const;

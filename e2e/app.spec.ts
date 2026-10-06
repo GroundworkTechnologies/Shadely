@@ -119,3 +119,30 @@ test.describe("performance budget", () => {
     expect(kb).toBeLessThan(Number(process.env.JS_BUDGET_KB ?? 190));
   });
 });
+
+test.describe("contrast rules", () => {
+  test("a rule adjusts shades, is shareable, and can be added from the matrix", async ({ page }) => {
+    await open(page, "/?b=3b82f6");
+    await page.getByText("Contrast rules").click();
+    await page.getByRole("button", { name: "Add rule" }).click();
+    await page.getByLabel("Rule 1 minimum ratio").fill("7");
+    await expect(page.getByText(/Adjusted: moved 600/)).toBeVisible();
+    await expect.poll(() => decodeURIComponent(search(page.url()))).toContain("ct=w~600~7");
+    // The moved shade, plus any neighbor nudged to keep the lightness order.
+    expect(await page.locator("section[aria-label='Color scales'] button[aria-label*='adjusted to meet']").count()).toBeGreaterThanOrEqual(1);
+
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByLabel("Rule 1 minimum ratio")).toHaveValue("7");
+
+    await page.locator("#contrast").scrollIntoViewIfNeeded();
+    await page.getByLabel("Text shade to fix").selectOption("800");
+    await page.getByLabel("Background shade to fix").selectOption("100");
+    await page.getByRole("button", { name: "Make it pass" }).click();
+    await expect(page.getByLabel("Rule 2 minimum ratio")).toHaveValue("4.5");
+  });
+
+  test("a rule that would need to move the base color says so", async ({ page }) => {
+    await open(page, "/?b=3b82f6&ct=400~100~7"); // panel opens by itself when rules exist
+    await expect(page.getByText(/Can't fix/)).toBeVisible();
+  });
+});

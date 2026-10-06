@@ -1,5 +1,6 @@
 import { hexToOklch } from "./color-space";
 import { FAMILY_ANCHORS } from "./naming-data";
+import { applyContrastRules, type RuleResult } from "./constraints";
 import { generateScale, type ScaleStep } from "./scale";
 import type { HarmonyMode, PaletteState } from "./state";
 
@@ -7,6 +8,8 @@ export interface NamedScale {
   name: string;
   kind: "brand" | "accent" | "neutral" | "status";
   steps: ScaleStep[];
+  /** Outcome of the contrast rules applied to this scale, if any. */
+  rules?: RuleResult[];
 }
 
 /** Hue offsets (degrees) from the brand hue, in the order secondary, accent, tertiary. */
@@ -64,5 +67,9 @@ export function buildScales(state: PaletteState): NamedScale[] {
       out.push({ name, kind: "status", steps: generateScale({ l: 0.62, c, h }, { lightnessRange: [tuning.top / 1000, tuning.bottom / 1000] }) });
     }
   }
-  return out;
+  if (!state.targets.length) return out;
+  return out.map((scale) => {
+    const fixed = applyContrastRules(scale.steps, state.targets);
+    return { ...scale, steps: fixed.steps, rules: fixed.results };
+  });
 }
