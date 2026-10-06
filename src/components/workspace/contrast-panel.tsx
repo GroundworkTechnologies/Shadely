@@ -59,7 +59,7 @@ export function ContrastPanel({ scales }: { scales: NamedScale[] }) {
         </div>
       </div>
 
-      <div className="grid gap-6 p-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 p-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
         <div>
           <h3 className="mb-2 text-sm font-medium">Each shade as a background</h3>
           <ul className="grid gap-1.5">

@@ -74,24 +74,24 @@ export function Workspace({ initial }: { initial: PaletteState }) {
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[400px_minmax(0,1fr)]">
-        <div className="grid content-start gap-4">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[400px_minmax(0,1fr)]">
+        <div className="grid grid-cols-[minmax(0,1fr)] content-start gap-4">
           <div className="grid gap-4 rounded-lg border border-border bg-surface p-4">
             <ColorInput value={state.base} onChange={(base) => patch({ base })} onShuffle={shuffle} />
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <label className="grid gap-1">
+              <label className="grid min-w-0 gap-1">
                 <span className="font-medium">Palette name</span>
                 <input
                   value={state.name}
                   onChange={(e) => isValidName(e.target.value) && patch({ name: e.target.value })}
                   aria-describedby="name-hint"
                   spellCheck={false}
-                  className="h-9 rounded-md border border-border bg-surface px-2 font-mono"
+                  className="h-9 w-full min-w-0 rounded-md border border-border bg-surface px-2 font-mono"
                 />
               </label>
-              <label className="grid gap-1">
+              <label className="grid min-w-0 gap-1">
                 <span className="font-medium">Neutral scale</span>
-                <select value={state.neutral} onChange={(e) => patch({ neutral: e.target.value as PaletteState["neutral"] })} className="h-9 rounded-md border border-border bg-surface px-2">
+                <select value={state.neutral} onChange={(e) => patch({ neutral: e.target.value as PaletteState["neutral"] })} className="h-9 w-full min-w-0 rounded-md border border-border bg-surface px-2">
                   <option value="tinted">Tinted</option>
                   <option value="gray">Pure gray</option>
                   <option value="off">Off</option>
@@ -141,7 +141,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
         <Preview scales={pscales} theme={state.theme} onTheme={(theme) => patch({ theme })} />
       </div>
 
-      <div className="mt-8 grid gap-6">
+      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6">
         <ContrastPanel scales={scales} />
         <ExportPanel
           scales={scales}

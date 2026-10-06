@@ -24,7 +24,6 @@ export function ScaleStrip({ scale, onCopy }: { scale: NamedScale; onCopy: (hex:
               >
                 {s.isAnchor && <span aria-hidden className="absolute left-1/2 top-2 size-1.5 -translate-x-1/2 rounded-full" style={{ backgroundColor: fg }} />}
                 <span>{s.stop}</span>
-                <span className="hidden font-mono text-[10px] opacity-80 xl:block">{s.hex.slice(1)}</span>
               </button>
             </li>
           );

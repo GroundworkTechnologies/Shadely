@@ -88,3 +88,11 @@ Round trip `hex → oklch → hex` is identity for a stratified 4,096-sample gri
 
 ## 7. Known limitations to document
 Base colors extremely light/dark compress the scale on one side; very high-chroma yellows cannot have both high lightness and high chroma; P3 values show wider differences on P3 displays only; hex output of a P3 palette is a mapped fallback.
+
+## 8. Implementation notes (deviations from the spec above, made during the build)
+
+- **Chroma model.** The fixed `K` profile in §2–3 produced beige light shades for hues like amber, because available chroma depends strongly on hue. Replaced with `GAMUT_FRACTION` in `src/engine/curves.ts`: each stop's chroma is `share × fraction[stop] × maxChroma(L, H)`, where `share` is how much of the gamut the base color uses at its own stop. Pale stops 50/100 have a small absolute chroma floor so tints never read as gray.
+- **Gamut mapping JND** is 0.004, not 0.02. At 0.02, random bases drifted up to 12° in hue; at 0.004 the maximum observed drift is under 4° (tested ≤ 5°).
+- **Hue shift** is linear degrees per half-scale from the anchor; the "natural" Bezold–Brücke preset is not implemented yet.
+- **P3 mode** keeps the base color's wide-gamut chroma; it does not boost chroma by itself. `hex` is always the sRGB fallback.
+- **Reference curve** `L_REF` is hand-fitted to Tailwind v4; refitting from the package is still a TODO.
