@@ -7,33 +7,36 @@ import { usePreview } from "./context";
 interface Spec {
   title: string;
   css: string;
-  /** Tailwind utility classes, with `$` standing for the palette name. */
-  tw: string;
+  /**
+   * Tailwind utility classes split around the palette name. Kept as parts, joined at runtime,
+   * so Tailwind's source scanner never sees a half-built class and emits invalid CSS.
+   */
+  tw: string[];
 }
 
 const SPECS: Spec[] = [
-  { title: "Soft diagonal", css: "linear-gradient(135deg, var(--b-200), var(--b-500))", tw: "bg-linear-to-br from-$-200 to-$-500" },
-  { title: "Deep brand", css: "linear-gradient(160deg, var(--b-500), var(--b-900))", tw: "bg-linear-to-br from-$-500 to-$-900" },
-  { title: "Three stops", css: "linear-gradient(90deg, var(--b-300), var(--b-500), var(--b-800))", tw: "bg-linear-to-r from-$-300 via-$-500 to-$-800" },
-  { title: "Brand to sky", css: "linear-gradient(135deg, var(--b-500), var(--i-400))", tw: "bg-linear-to-br from-$-500 to-info-400" },
-  { title: "Brand to fresh", css: "linear-gradient(135deg, var(--b-500), var(--s-400))", tw: "bg-linear-to-br from-$-500 to-success-400" },
-  { title: "Sunset", css: "linear-gradient(135deg, var(--b-600), var(--w-400))", tw: "bg-linear-to-br from-$-600 to-warning-400" },
+  { title: "Soft diagonal", css: "linear-gradient(135deg, var(--b-200), var(--b-500))", tw: ["bg-linear-to-br from-", "-200 to-", "-500"] },
+  { title: "Deep brand", css: "linear-gradient(160deg, var(--b-500), var(--b-900))", tw: ["bg-linear-to-br from-", "-500 to-", "-900"] },
+  { title: "Three stops", css: "linear-gradient(90deg, var(--b-300), var(--b-500), var(--b-800))", tw: ["bg-linear-to-r from-", "-300 via-", "-500 to-", "-800"] },
+  { title: "Brand to sky", css: "linear-gradient(135deg, var(--b-500), var(--i-400))", tw: ["bg-linear-to-br from-", "-500 to-info-400"] },
+  { title: "Brand to fresh", css: "linear-gradient(135deg, var(--b-500), var(--s-400))", tw: ["bg-linear-to-br from-", "-500 to-success-400"] },
+  { title: "Sunset", css: "linear-gradient(135deg, var(--b-600), var(--w-400))", tw: ["bg-linear-to-br from-", "-600 to-warning-400"] },
   {
     title: "Radial glow",
     css: "radial-gradient(circle at 30% 20%, var(--b-400), var(--b-950) 70%)",
-    tw: "bg-[radial-gradient(circle_at_30%_20%,var(--color-$-400),var(--color-$-950)_70%)]",
+    tw: ["bg-[radial-gradient(circle_at_30%_20%,var(--color-", "-400),var(--color-", "-950)_70%)]"],
   },
   {
     title: "Mesh",
     css: "radial-gradient(at 15% 20%, var(--b-300) 0, transparent 50%), radial-gradient(at 85% 15%, var(--i-300) 0, transparent 50%), radial-gradient(at 70% 90%, var(--b-500) 0, transparent 55%), var(--b-100)",
-    tw: "custom CSS (copy the snippet)",
+    tw: ["custom CSS (see the gradient value)"],
   },
-  { title: "Conic", css: "conic-gradient(from 200deg at 50% 50%, var(--b-300), var(--b-600), var(--b-900), var(--b-300))", tw: "bg-conic from-$-300 via-$-600 to-$-300" },
+  { title: "Conic", css: "conic-gradient(from 200deg at 50% 50%, var(--b-300), var(--b-600), var(--b-900), var(--b-300))", tw: ["bg-conic from-", "-300 via-", "-600 to-", "-300"] },
 ];
 
 function Tile({ spec, name }: { spec: Spec; name: string }) {
   const [done, setDone] = useState(false);
-  const snippet = spec.tw.replaceAll("$", name);
+  const snippet = spec.tw.join(name);
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(snippet);
