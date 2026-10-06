@@ -24,11 +24,11 @@ export const L_REF: Record<Stop, number> = {
  * pale at 50), fitted to Tailwind v4: pale at the ends, full in the middle.
  */
 export const GAMUT_FRACTION: Record<Stop, number> = {
-  50: 0.8,
-  100: 0.85,
-  200: 0.8,
-  300: 0.9,
-  400: 0.95,
+  50: 0.5,
+  100: 0.55,
+  200: 0.65,
+  300: 0.8,
+  400: 0.92,
   500: 1,
   600: 1,
   700: 1,
@@ -36,3 +36,6 @@ export const GAMUT_FRACTION: Record<Stop, number> = {
   900: 0.9,
   950: 0.85,
 };
+
+/** Minimum chroma for the palest stops so tints never read as plain gray. */
+export const CHROMA_FLOOR: Partial<Record<Stop, number>> = { 50: 0.014, 100: 0.03 };

@@ -1,5 +1,5 @@
 import { hexToOklch, oklchToHex, hexToRgb8, rgb8ToHex } from "./color-space";
-import { GAMUT_FRACTION, L_REF } from "./curves";
+import { CHROMA_FLOOR, GAMUT_FRACTION, L_REF } from "./curves";
 import { gamutMap, maxChroma } from "./gamut";
 import { parseColor } from "./parse";
 import { STOPS, type GamutSpace, type Oklch, type Stop } from "./types";
@@ -104,7 +104,9 @@ export function generateScale(base: string | Oklch, opts: ScaleOptions = {}): Sc
     const isAnchor = i === anchorIdx;
     const hue = norm(origin.h + hueShift * Math.max(-1, Math.min(1, (i - anchorIdx) / 5)));
     const l = targets[i]!;
-    const c = Math.min(maxChroma(l, hue, space), share * GAMUT_FRACTION[stop] * maxChroma(l, hue, space) * chromaScale);
+    const cmax = maxChroma(l, hue, space);
+    const floor = (CHROMA_FLOOR[stop] ?? 0) * Math.min(1, origin.c / 0.15) * chromaScale;
+    const c = Math.min(cmax, Math.max(floor, share * GAMUT_FRACTION[stop] * cmax * chromaScale));
     const requested: Oklch = isAnchor ? origin : { l, c, h: hue };
 
     const srgb = gamutMap(requested, "srgb");

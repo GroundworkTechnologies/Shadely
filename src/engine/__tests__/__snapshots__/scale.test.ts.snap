@@ -2,27 +2,27 @@
 
 exports[`reference scales (snapshot of hexes) > amber 1`] = `
 [
-  "#fef5ec",
-  "#fde2c4",
-  "#fac78d",
+  "#fdf5ed",
+  "#f8e4ce",
+  "#f6c893",
   "#f59e0b",
   "#cf8400",
   "#ac6d00",
   "#915b00",
   "#7c4d00",
   "#653e00",
-  "#563401",
-  "#372103",
+  "#563400",
+  "#382000",
 ]
 `;
 
 exports[`reference scales (snapshot of hexes) > blue 1`] = `
 [
-  "#f3f7fd",
-  "#e2ecfb",
-  "#cbdbf5",
-  "#a6c5f5",
-  "#71a3f4",
+  "#f2f7ff",
+  "#e0ecff",
+  "#cedbf0",
+  "#aac5f0",
+  "#73a3f2",
   "#3b82f6",
   "#1667e3",
   "#1157c1",
@@ -34,26 +34,26 @@ exports[`reference scales (snapshot of hexes) > blue 1`] = `
 
 exports[`reference scales (snapshot of hexes) > emerald 1`] = `
 [
-  "#e6fef1",
-  "#b6fdd9",
-  "#5ef8b9",
-  "#34dfa0",
+  "#ecfbf3",
+  "#c9f7df",
+  "#7cf4be",
+  "#4cdda2",
   "#10b981",
   "#009a6a",
   "#008158",
   "#006d4a",
-  "#03583c",
-  "#0a4a32",
-  "#072e1f",
+  "#00583b",
+  "#064a32",
+  "#062e1e",
 ]
 `;
 
 exports[`reference scales (snapshot of hexes) > gray 1`] = `
 [
-  "#f6f7f7",
-  "#eaebed",
+  "#f6f7f8",
+  "#e9ebee",
   "#d9dadd",
-  "#c1c4c9",
+  "#c1c4c8",
   "#a0a4ac",
   "#828894",
   "#6b7280",
@@ -84,25 +84,25 @@ exports[`reference scales (snapshot of hexes) > near-white 1`] = `
 [
   "#fafaf9",
   "#eeeeeb",
-  "#ddddda",
-  "#c5c5c2",
-  "#a4a4a2",
-  "#888885",
-  "#71716f",
-  "#5f5f5d",
-  "#4c4c4b",
-  "#3f3f3e",
-  "#262626",
+  "#ddddd9",
+  "#c5c5c1",
+  "#a4a4a0",
+  "#888884",
+  "#71716e",
+  "#5f5f5c",
+  "#4c4c4a",
+  "#40403e",
+  "#262625",
 ]
 `;
 
 exports[`reference scales (snapshot of hexes) > rose 1`] = `
 [
-  "#fdf5f5",
-  "#fae6e6",
-  "#f5d2d3",
-  "#f4b2b5",
-  "#f38089",
+  "#fff4f4",
+  "#ffe4e5",
+  "#f1d4d4",
+  "#f0b5b7",
+  "#f1828a",
   "#f43f5e",
   "#d02a4a",
   "#af223e",
@@ -114,11 +114,11 @@ exports[`reference scales (snapshot of hexes) > rose 1`] = `
 
 exports[`reference scales (snapshot of hexes) > violet 1`] = `
 [
-  "#f7f6fd",
-  "#eae8fb",
-  "#d9d4f5",
-  "#c2b7f5",
-  "#a38bf4",
+  "#f7f5ff",
+  "#eae7fd",
+  "#d9d5f0",
+  "#c2b8ef",
+  "#a38cf1",
   "#8b5cf6",
   "#7b29f4",
   "#691dd4",
@@ -130,8 +130,8 @@ exports[`reference scales (snapshot of hexes) > violet 1`] = `
 
 exports[`reference scales (snapshot of hexes) > yellow 1`] = `
 [
-  "#fff7de",
-  "#ffe699",
+  "#fdf7e4",
+  "#fbe6a8",
   "#facc15",
   "#e0b600",
   "#bc9800",
