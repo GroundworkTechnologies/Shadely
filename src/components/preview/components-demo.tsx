@@ -6,7 +6,7 @@ export function ComponentsDemo() {
   return (
     <div>
       <FormsDemo />
-      <div className="grid gap-4 px-5 pb-5 lg:grid-cols-3">
+      <div className="grid gap-4 px-5 pb-5 @4xl:grid-cols-3">
         <PCard>
           <p className="mb-3 text-sm font-medium">Tabs</p>
           <div role="tablist" aria-label="Example tabs" className="flex gap-1 border-b border-(--p-border)">
@@ -62,7 +62,7 @@ export function ComponentsDemo() {
           </nav>
         </PCard>
 
-        <PCard className="lg:col-span-2">
+        <PCard className="@4xl:col-span-2">
           <p className="mb-3 text-sm font-medium">Toast, tooltip and avatars</p>
           <div className="flex flex-wrap items-center gap-4">
             <div role="status" className="flex items-center gap-3 rounded-lg border border-(--p-border) bg-(--p-surface) px-4 py-3 text-sm">

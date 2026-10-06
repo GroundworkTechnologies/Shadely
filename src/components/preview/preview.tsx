@@ -101,7 +101,7 @@ export function Preview({
           role="tabpanel"
           aria-labelledby={`ptab-${tab}`}
           style={{ ...previewVars(scales, theme), colorScheme: theme } as React.CSSProperties}
-          className="overflow-hidden rounded-xl border border-border bg-(--p-bg) text-(--p-fg)"
+          className="@container overflow-hidden rounded-card border border-border bg-(--p-bg) text-(--p-fg)"
         >
           <Active />
         </div>

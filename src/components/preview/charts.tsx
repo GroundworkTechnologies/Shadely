@@ -72,8 +72,8 @@ function Rings() {
 
 export function Charts() {
   return (
-    <div className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-3">
-      <PCard className="md:col-span-2">
+    <div className="grid gap-4 p-5 @2xl:grid-cols-2 @5xl:grid-cols-3">
+      <PCard className="@2xl:col-span-2">
         <p className="text-sm font-medium">Area and line</p>
         <svg viewBox="0 0 300 100" className="mt-3 h-44 w-full" role="img" aria-label="Area chart of two series trending upward">
           {[25, 50, 75].map((y) => (
@@ -139,9 +139,9 @@ export function Charts() {
         </div>
       </PCard>
 
-      <PCard className="md:col-span-2 xl:col-span-3">
+      <PCard className="@2xl:col-span-2 @5xl:col-span-3">
         <p className="mb-3 text-sm font-medium">Status sparklines</p>
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid gap-3 @lg:grid-cols-2 @4xl:grid-cols-4">
           {(
             [
               ["Uptime", "success", [30, 34, 33, 40, 38, 44, 46]],

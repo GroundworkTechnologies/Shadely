@@ -5,7 +5,7 @@ export function Headings() {
     <div className="grid gap-4 p-5">
       <section className="rounded-xl border border-(--p-border) bg-(--p-surface) px-6 py-12 text-center">
         <PBadge>Eyebrow label</PBadge>
-        <h3 className="mx-auto mt-4 max-w-2xl text-4xl font-normal sm:text-5xl">
+        <h3 className="mx-auto mt-4 max-w-2xl text-4xl font-normal @lg:text-5xl">
           Design systems that <span className="rounded-lg bg-(--p-tint) px-2 text-(--p-tint-fg)">feel</span> consistent
         </h3>
         <p className="mx-auto mt-4 max-w-xl text-(--p-muted)">Supporting copy sits in the muted tone. It stays readable on every surface of the palette.</p>
@@ -17,7 +17,7 @@ export function Headings() {
         </div>
       </section>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 @4xl:grid-cols-2">
         <section className="rounded-xl border border-(--p-border) bg-(--p-surface) p-6">
           <p className="mb-3 text-xs font-medium uppercase tracking-wide text-(--p-soft-fg)">Type scale</p>
           <h3 className="text-4xl font-normal">Heading one</h3>
@@ -36,7 +36,7 @@ export function Headings() {
         </section>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 @2xl:grid-cols-3">
         {["Plan", "Build", "Ship"].map((t, i) => (
           <section key={t} className="rounded-xl border border-(--p-border) bg-(--p-surface) p-5">
             <span className="text-5xl font-normal tabular-nums text-(--p-tint-2)" aria-hidden>

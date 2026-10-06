@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 
 function Phone({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div role="group" aria-label={label} className="mx-auto flex h-[34rem] w-[17rem] shrink-0 flex-col overflow-hidden rounded-[2.5rem] border-[10px] border-(--n-900) bg-(--p-bg)">
+    <div role="group" aria-label={label} className="mx-auto flex h-[36rem] w-[17rem] max-w-full shrink-0 flex-col overflow-hidden rounded-[2.5rem] border-[10px] border-(--n-900) bg-(--p-bg)">
       <div className="flex shrink-0 justify-center pt-2" aria-hidden>
         <span className="h-4 w-20 rounded-full bg-(--n-900)" />
       </div>
@@ -146,7 +146,7 @@ function Chat() {
 
 export function Apps() {
   return (
-    <div className="flex gap-6 overflow-x-auto p-6 lg:justify-center">
+    <div className="grid grid-cols-[minmax(0,1fr)] justify-items-center gap-8 p-6 @2xl:grid-cols-2 @2xl:[&>*:last-child:nth-child(odd)]:col-span-2 @5xl:grid-cols-3 @5xl:[&>*:last-child:nth-child(odd)]:col-span-1 @5xl:p-8">
       <Wallet1 />
       <Habits />
       <Chat />

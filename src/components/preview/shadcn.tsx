@@ -20,7 +20,7 @@ export function ShadcnPreview() {
         </button>
       </div>
 
-      <div style={vars} className="grid gap-4 rounded-xl bg-(--sh-background) p-4 text-(--sh-foreground) lg:grid-cols-2">
+      <div style={vars} className="grid gap-4 rounded-xl bg-(--sh-background) p-4 text-(--sh-foreground) @4xl:grid-cols-2">
         <div className="self-start rounded-xl border border-(--sh-border) bg-(--sh-card) p-6 text-(--sh-card-foreground)">
           <h3 className="font-medium leading-none">Create project</h3>
           <p className="mt-1.5 text-sm text-(--sh-muted-foreground)">Deploy your new project in one click.</p>
@@ -106,7 +106,7 @@ export function ShadcnPreview() {
           </div>
         </div>
 
-        <div className="flex gap-1 lg:col-span-2" role="img" aria-label="Chart colors 1 to 5">
+        <div className="flex gap-1 @4xl:col-span-2" role="img" aria-label="Chart colors 1 to 5">
           {(["chart-1", "chart-2", "chart-3", "chart-4", "chart-5"] as const).map((k) => (
             <div key={k} className="h-8 flex-1 first:rounded-l-md last:rounded-r-md" style={{ background: t[k] }} title={`${k} ${t[k]}`} />
           ))}
@@ -115,7 +115,7 @@ export function ShadcnPreview() {
 
       <details className="rounded-xl border border-(--p-border) bg-(--p-surface) text-sm">
         <summary className="cursor-pointer px-4 py-3 font-medium">Token values ({theme})</summary>
-        <dl className="grid gap-x-6 gap-y-1 border-t border-(--p-border) p-4 tabular-nums text-xs sm:grid-cols-2">
+        <dl className="grid gap-x-6 gap-y-1 border-t border-(--p-border) p-4 tabular-nums text-xs @lg:grid-cols-2">
           {SHADCN_COLOR_TOKENS.map((k) => {
             const ok = hexToOklch(t[k]!);
             return (

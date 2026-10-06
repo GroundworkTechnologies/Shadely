@@ -31,7 +31,7 @@ function Sidebar() {
     [Settings, "Settings", false],
   ] as const;
   return (
-    <aside className="hidden w-52 shrink-0 border-r border-(--p-border) bg-(--p-surface) p-3 md:block">
+    <aside className="hidden w-52 shrink-0 border-r border-(--p-border) bg-(--p-surface) p-3 @3xl:block">
       <p className="px-2 py-3 font-medium">Acme</p>
       <nav aria-label="Dashboard preview" className="grid gap-1 text-sm">
         {items.map(([I, label, active]) => (
@@ -63,7 +63,7 @@ function DashboardMain() {
         <h3 className="text-lg font-medium">Overview</h3>
         <PBtn kind="soft">Export CSV</PBtn>
       </div>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 @lg:grid-cols-3">
         {[
           ["Revenue", "$48.2k", "+12.4%", "success"],
           ["Active users", "3,204", "+3.1%", "info"],
@@ -78,7 +78,7 @@ function DashboardMain() {
           </PCard>
         ))}
       </div>
-      <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
+      <div className="grid gap-4 @4xl:grid-cols-[2fr_1fr]">
         <PCard>
           <p className="mb-3 text-sm font-medium">Traffic</p>
           <svg viewBox="0 0 300 100" className="h-40 w-full" role="img" aria-label="Line chart trending upward">

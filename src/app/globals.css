@@ -111,6 +111,16 @@
   --color-danger: var(--danger-text);
 }
 
+/* One horizontal rhythm for header, content and footer. */
+@utility page-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 90rem;
+  padding-inline: 1rem;
+  @media (min-width: 40rem) { padding-inline: 1.5rem; }
+  @media (min-width: 64rem) { padding-inline: 2rem; }
+}
+
 @layer base {
   html {
     background: var(--background);

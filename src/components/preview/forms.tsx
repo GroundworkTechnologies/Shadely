@@ -11,7 +11,7 @@ export function FormsDemo() {
     { tone: "danger", Icon: XCircle, title: "Payment failed", text: "Update your card to continue." },
   ] as const;
   return (
-    <div className="grid gap-4 p-5 lg:grid-cols-2">
+    <div className="grid gap-4 p-5 @4xl:grid-cols-2">
       <PCard>
         <h3 className="font-medium">Create account</h3>
         <form className="mt-4 grid gap-3" onSubmit={(e) => e.preventDefault()}>

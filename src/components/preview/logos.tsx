@@ -51,7 +51,7 @@ const TILES = [
 export function Logos() {
   return (
     <div className="grid gap-4 p-5">
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 @4xl:grid-cols-4">
         {TILES.map((t) => (
           <div key={t.word} role="img" aria-label={`${t.word} logo concept`} className={cn("flex h-40 flex-col items-center justify-center gap-3 rounded-xl", t.bg)}>
             <Mark name={t.mark} className="size-12" />
@@ -59,7 +59,7 @@ export function Logos() {
           </div>
         ))}
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 @2xl:grid-cols-3">
         <div className="flex items-center gap-4 rounded-xl border border-(--p-border) bg-(--p-surface) p-5">
           <span className="grid size-14 place-items-center rounded-xl bg-(--p-primary) text-(--p-primary-fg)">
             <Mark name="stack" className="size-8" />

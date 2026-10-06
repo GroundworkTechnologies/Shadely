@@ -24,7 +24,7 @@ export function Logo() {
 export function Header() {
   return (
     <header className="border-b border-border bg-background">
-      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3">
+      <div className="page-container flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-3">
         <Link href="/" aria-label="Tintwork home" className="rounded-control">
           <Logo />
         </Link>

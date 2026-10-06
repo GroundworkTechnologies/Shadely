@@ -72,7 +72,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
   }, [patch]);
 
   return (
-    <div className="mx-auto max-w-[1500px] px-4 py-8">
+    <div className="page-container py-8">
       <div className="mb-6 max-w-3xl">
         <h1 className="text-3xl font-normal sm:text-4xl">Tailwind color palette generator</h1>
         <p className="mt-2 text-muted">
@@ -132,7 +132,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
           </div>
         </div>
 
-        <div className="grid min-w-0 content-start gap-6">
+        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-6">
           <ScaleTiles scales={scales} selected={current.name} onSelect={setSelected} onCopy={copy} />
           <Preview scales={pscales} name={state.name} theme={state.theme} onTheme={(theme) => patch({ theme })} onExportShadcn={exportShadcn} />
         </div>

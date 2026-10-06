@@ -23,7 +23,7 @@ function Arcs({ className }: { className?: string }) {
 
 export function Cards() {
   return (
-    <div className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-4 p-5 @2xl:grid-cols-2 @5xl:grid-cols-3">
       <div className="relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-xl bg-(--p-tint) p-5 text-(--p-tint-fg)">
         <Arcs className="absolute -bottom-6 -right-6 size-64 opacity-30" />
         <div className="relative rounded-xl bg-(--p-tint-2) p-4">

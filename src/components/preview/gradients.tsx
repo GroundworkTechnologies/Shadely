@@ -65,7 +65,7 @@ function Tile({ spec, name }: { spec: Spec; name: string }) {
 export function Gradients() {
   const { name } = usePreview();
   return (
-    <div className="grid gap-4 p-5 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-4 p-5 @lg:grid-cols-2 @5xl:grid-cols-3">
       {SPECS.map((s) => (
         <Tile key={s.title} spec={s} name={name} />
       ))}
