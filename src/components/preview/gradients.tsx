@@ -63,10 +63,14 @@ function Tile({ spec, name }: { spec: Spec; name: string }) {
 }
 
 export function Gradients() {
-  const { name } = usePreview();
+  const { name, scales } = usePreview();
+  const hasSecondary = scales.some((s) => s.name === "secondary");
+  const specs = hasSecondary
+    ? [{ title: "Brand to secondary", css: "linear-gradient(135deg, var(--b-500), var(--a-400))", tw: ["bg-linear-to-br from-", "-500 to-secondary-400"] }, ...SPECS]
+    : SPECS;
   return (
     <div className="grid gap-4 p-5 @lg:grid-cols-2 @5xl:grid-cols-3">
-      {SPECS.map((s) => (
+      {specs.map((s) => (
         <Tile key={s.title} spec={s} name={name} />
       ))}
     </div>

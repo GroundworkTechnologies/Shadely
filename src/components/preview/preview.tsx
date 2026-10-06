@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Segmented } from "@/components/ui/segmented";
 import type { NamedScale, PreviewTheme } from "@/engine";
 import { cn } from "@/lib/cn";
@@ -32,7 +31,8 @@ const TABS = [
   ["headings", "Headings", Headings],
 ] as const;
 
-type TabId = (typeof TABS)[number][0];
+export type PreviewTabId = (typeof TABS)[number][0];
+export const PREVIEW_TABS = TABS.map(([id, label]) => ({ id, label }));
 
 export function Preview({
   scales,
@@ -40,14 +40,18 @@ export function Preview({
   theme,
   onTheme,
   onExportShadcn,
+  tab,
+  onTab,
 }: {
   scales: NamedScale[];
   name: string;
   theme: PreviewTheme;
   onTheme: (t: PreviewTheme) => void;
   onExportShadcn: () => void;
+  tab: PreviewTabId;
+  onTab: (t: PreviewTabId) => void;
 }) {
-  const [tab, setTab] = useState<TabId>("cards");
+  const setTab = onTab;
   const Active = TABS.find((t) => t[0] === tab)![2];
 
   const onKey = (e: React.KeyboardEvent) => {
