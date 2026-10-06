@@ -39,6 +39,9 @@ export function previewVars(scales: NamedScale[], theme: PreviewTheme): Vars {
     "--p-soft": pick("brand", dark ? 950 : 50),
     "--p-soft-fg": pick("brand", dark ? 300 : 700),
     "--p-ring": pick("brand", dark ? 400 : 500),
+    "--p-tint": pick("brand", dark ? 900 : 200),
+    "--p-tint-2": pick("brand", dark ? 800 : 300),
+    "--p-tint-fg": pick("brand", dark ? 100 : 950),
   });
   for (const k of ["success", "warning", "danger", "info"]) {
     vars[`--p-${k}-bg`] = pick(k, dark ? 950 : 50);

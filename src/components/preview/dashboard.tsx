@@ -1,3 +1,4 @@
+import { BarChart3, CreditCard, Home, Settings, Users } from "lucide-react";
 import { PBadge, PBtn, PCard } from "./parts";
 
 const SERIES = ["--b-500", "--i-500", "--s-500", "--w-500", "--d-500"];
@@ -21,7 +22,40 @@ function Donut() {
   );
 }
 
+function Sidebar() {
+  const items = [
+    [Home, "Overview", true],
+    [BarChart3, "Reports", false],
+    [Users, "Customers", false],
+    [CreditCard, "Billing", false],
+    [Settings, "Settings", false],
+  ] as const;
+  return (
+    <aside className="hidden w-52 shrink-0 border-r border-(--p-border) bg-(--p-surface) p-3 md:block">
+      <p className="px-2 py-3 font-semibold">Acme</p>
+      <nav aria-label="Dashboard preview" className="grid gap-1 text-sm">
+        {items.map(([I, label, active]) => (
+          <span key={label} aria-current={active ? "page" : undefined} className={active ? "flex items-center gap-2 rounded-md bg-(--p-soft) px-2.5 py-2 font-medium text-(--p-soft-fg)" : "flex items-center gap-2 rounded-md px-2.5 py-2 text-(--p-muted)"}>
+            <I className="size-4" aria-hidden /> {label}
+          </span>
+        ))}
+      </nav>
+    </aside>
+  );
+}
+
 export function Dashboard() {
+  return (
+    <div className="flex">
+      <Sidebar />
+      <div className="min-w-0 flex-1">
+        <DashboardMain />
+      </div>
+    </div>
+  );
+}
+
+function DashboardMain() {
   const pts = LINE.map((v, i) => `${(i / (LINE.length - 1)) * 300},${100 - v}`).join(" ");
   return (
     <div className="grid gap-4 p-5">

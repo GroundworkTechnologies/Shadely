@@ -17,7 +17,8 @@ import { previewScales } from "@/lib/preview-theme";
 import { ColorInput } from "./color-input";
 import { ContrastPanel } from "./contrast-panel";
 import { ExportPanel } from "./export-panel";
-import { ScaleStrip } from "./scale-strip";
+import { ColorInfoPanel } from "./color-info-panel";
+import { ScaleTiles } from "./scale-tiles";
 import { TuningPanel } from "./tuning-panel";
 import { oklchToHex } from "@/engine";
 
@@ -60,25 +61,30 @@ export function Workspace({ initial }: { initial: PaletteState }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [shuffle]);
 
-  const brand = scales[0]!;
-  const anchor = brand.steps.find((s) => s.isAnchor)!;
-  const limited = brand.steps.some((s) => s.clipped);
+  const [selected, setSelected] = useState(initial.name);
+  const current = scales.find((x) => x.name === selected) ?? scales[0]!;
+  const limited = scales[0]!.steps.some((x) => x.clipped);
   const [justSaved, setJustSaved] = useState(false);
 
+  const exportShadcn = useCallback(() => {
+    patch({ format: "shadcn" });
+    requestAnimationFrame(() => document.getElementById("export")?.scrollIntoView({ block: "start" }));
+  }, [patch]);
+
   return (
-    <div className="mx-auto max-w-[1400px] px-4 py-8">
-      <div className="mb-8 max-w-3xl">
+    <div className="mx-auto max-w-[1500px] px-4 py-8">
+      <div className="mb-6 max-w-3xl">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Tailwind color palette generator</h1>
         <p className="mt-2 text-muted">
-          One brand color in, an accessible 50–950 scale out. Built in OKLCH, checked for contrast, previewed on real UI, exported for Tailwind v4 and v3.
+          One brand color in, an accessible 50–950 scale out. Built in OKLCH, checked for contrast, previewed on real UI, exported for Tailwind v4, v3 and shadcn/ui.
         </p>
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[400px_minmax(0,1fr)]">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
         <div className="grid grid-cols-[minmax(0,1fr)] content-start gap-4">
-          <div className="grid gap-4 rounded-lg border border-border bg-surface p-4">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-2xl border border-border bg-surface p-4">
             <ColorInput value={state.base} onChange={(base) => patch({ base })} onShuffle={shuffle} />
-            <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-3 text-sm">
               <label className="grid min-w-0 gap-1">
                 <span className="font-medium">Palette name</span>
                 <input
@@ -105,25 +111,13 @@ export function Workspace({ initial }: { initial: PaletteState }) {
                 Include status scales (success, warning, danger, info)
               </label>
             </div>
-          </div>
-
-          <div className="grid gap-4 rounded-lg border border-border bg-surface p-4">
-            <p className="text-sm text-muted">
-              Your color lands on stop <strong className="text-foreground">{anchor.stop}</strong>, not always 500, so the scale keeps its natural light and dark balance.
-              {limited && " Some shades were limited to fit the sRGB gamut."}
-            </p>
-            {scales.map((s) => (
-              <ScaleStrip key={s.name} scale={s} onCopy={copy} />
-            ))}
+            {limited && <p className="text-xs text-muted">Some shades were limited to fit the sRGB gamut (marked ~).</p>}
           </div>
 
           <TuningPanel tuning={state.tuning} onChange={(tuning) => patch({ tuning })} />
 
           <div className="flex flex-wrap gap-2">
-            <Button
-              variant="primary"
-              onClick={() => copy(window.location.href, "Link copied")}
-            >
+            <Button variant="primary" onClick={() => copy(window.location.href, "Link copied")}>
               <Link2 className="size-4" aria-hidden /> Copy share link
             </Button>
             <Button
@@ -138,13 +132,18 @@ export function Workspace({ initial }: { initial: PaletteState }) {
           </div>
         </div>
 
-        <Preview scales={pscales} theme={state.theme} onTheme={(theme) => patch({ theme })} />
+        <div className="grid min-w-0 content-start gap-6">
+          <ScaleTiles scales={scales} selected={current.name} onSelect={setSelected} onCopy={copy} />
+          <Preview scales={pscales} name={state.name} theme={state.theme} onTheme={(theme) => patch({ theme })} onExportShadcn={exportShadcn} />
+        </div>
       </div>
 
       <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6">
-        <ContrastPanel scales={scales} />
+        <ContrastPanel scale={current} />
+        <ColorInfoPanel scale={current} onCopy={copy} />
         <ExportPanel
           scales={scales}
+          fullScales={pscales}
           format={state.format}
           syntax={state.syntax}
           shareUrl={shareUrl}

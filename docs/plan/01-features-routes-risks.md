@@ -73,3 +73,9 @@
 5. **Package manager**: npm (as required). **Repo**: git not initialized; *default: `git init` at Phase 3 start, conventional commits.*
 6. **Node**: local is 22.23 (OK for Next.js current).
 7. **Fonts**: *Default: Geist Sans + Geist Mono via `next/font` (self-hosted, no third-party request).*
+
+## 5. Build log: scope pulled forward from v2
+
+- **All 11 preview pages** (Cards, Website, Branding, Dashboard, Components, Shadcn/ui, Apps, Charts, Gradients, Logos, Headings), all drawn with SVG/CSS (no stock photos), themed by CSS variables, light and dark.
+- **shadcn/ui theme export** (`:root`, `.dark`, `@theme inline`) with semantic tokens whose text/background pairs are guaranteed to reach WCAG AA (unit-tested across 12 base colors in both themes). This delivers the "dark-mode semantic mapping" item early.
+- **Workspace layout** reworked after studying the reference's interaction patterns: large labeled scale tiles, role tabs (brand / neutral / status), a tool row (contrast matrix, color info, export), and a color-info table with every value copyable.

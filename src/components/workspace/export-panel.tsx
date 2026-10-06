@@ -15,10 +15,12 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { useState } from "react";
 
+const SHADCN_NOTE = "Uses OKLCH or hex. Paste into your globals.css; it includes :root, .dark and the @theme inline mapping.";
 const SYNTAX_LABELS: Record<ColorSyntax, string> = { oklch: "OKLCH", hex: "Hex", hsl: "HSL", rgb: "RGB", p3: "Display-P3" };
 
 export function ExportPanel({
   scales,
+  fullScales,
   format,
   syntax,
   shareUrl,
@@ -27,6 +29,8 @@ export function ExportPanel({
   onCopy,
 }: {
   scales: NamedScale[];
+  /** Always includes neutral and status scales; used by the shadcn theme. */
+  fullScales: NamedScale[];
   format: ExportFormat;
   syntax: ColorSyntax;
   shareUrl: string;
@@ -38,8 +42,8 @@ export function ExportPanel({
   const [reset, setReset] = useState(false);
 
   const code = useMemo(
-    () => exportScales(scales, { format, syntax, v3Module, resetDefaults: reset, sourceUrl: shareUrl || undefined }),
-    [scales, format, syntax, v3Module, reset, shareUrl],
+    () => exportScales(format === "shadcn" ? fullScales : scales, { format, syntax, v3Module, resetDefaults: reset, sourceUrl: shareUrl || undefined }),
+    [scales, fullScales, format, syntax, v3Module, reset, shareUrl],
   );
 
   const download = () => {
@@ -50,12 +54,14 @@ export function ExportPanel({
   };
 
   const warn =
-    format === "tailwind-v3" && (syntax === "oklch" || syntax === "p3")
+    format === "shadcn"
+      ? SHADCN_NOTE
+      : format === "tailwind-v3" && (syntax === "oklch" || syntax === "p3")
       ? "Tailwind v3 does not handle OKLCH/P3 colors reliably with opacity modifiers. Hex is safest."
       : null;
 
   return (
-    <section aria-labelledby="export-h" className="rounded-lg border border-border bg-surface">
+    <section aria-labelledby="export-h" id="export" className="scroll-mt-4 rounded-2xl border border-border bg-surface">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
         <h2 id="export-h" className="text-base font-semibold">
           Export

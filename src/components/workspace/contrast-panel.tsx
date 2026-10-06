@@ -12,10 +12,8 @@ function firstStop(scale: NamedScale, metric: ContrastMetric, textOnShade: boole
   return scale.steps.find((s) => (textOnShade ? scorePair(other, s.hex, metric) : scorePair(s.hex, other, metric)).pass);
 }
 
-export function ContrastPanel({ scales }: { scales: NamedScale[] }) {
+export function ContrastPanel({ scale }: { scale: NamedScale }) {
   const [metric, setMetric] = useState<ContrastMetric>("wcag");
-  const [selected, setSelected] = useState(scales[0]?.name ?? "");
-  const scale = scales.find((s) => s.name === selected) ?? scales[0]!;
   const hexes = scale.steps.map((s) => s.hex);
   const matrix = contrastMatrix(hexes, metric);
   const onWhite = firstStop(scale, metric, false, "#ffffff");
@@ -23,11 +21,11 @@ export function ContrastPanel({ scales }: { scales: NamedScale[] }) {
   const threshold = metric === "wcag" ? "4.5:1 (AA)" : "Lc 75";
 
   return (
-    <section aria-labelledby="contrast-h" className="rounded-lg border border-border bg-surface">
+    <section aria-labelledby="contrast-h" id="contrast" className="scroll-mt-4 rounded-2xl border border-border bg-surface">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
         <div>
           <h2 id="contrast-h" className="text-base font-semibold">
-            Accessibility
+            Accessibility <span className="font-normal text-muted">· {scale.name}</span>
           </h2>
           <p className="text-sm text-muted">
             Body-text threshold: {threshold}.{" "}
@@ -44,18 +42,6 @@ export function ContrastPanel({ scales }: { scales: NamedScale[] }) {
               { value: "apca", label: "APCA" },
             ]}
           />
-          <select
-            aria-label="Scale to inspect"
-            value={scale.name}
-            onChange={(e) => setSelected(e.target.value)}
-            className="h-9 rounded-md border border-border bg-surface px-2 text-sm"
-          >
-            {scales.map((s) => (
-              <option key={s.name} value={s.name}>
-                {s.name}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
 

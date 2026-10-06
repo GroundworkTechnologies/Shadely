@@ -25,7 +25,7 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
       <label htmlFor={id} className="mb-1.5 block text-sm font-medium">
         Base color
       </label>
-      <div className="flex items-center gap-2">
+      <div className="flex min-w-0 items-center gap-2">
         <input
           type="color"
           aria-label="Pick base color"
@@ -51,7 +51,7 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
           className="h-10 min-w-0 flex-1 rounded-md border border-border bg-surface px-3 font-mono text-sm aria-invalid:border-red-600"
           placeholder="#3b82f6, rgb(), hsl(), oklch()"
         />
-        <Button onClick={onShuffle} aria-label="Random color" title="Random color (Space)" className="h-10 px-3">
+        <Button onClick={onShuffle} aria-label="Random color" title="Random color (Space)" className="h-10 shrink-0 px-3">
           <Shuffle className="size-4" aria-hidden />
           <kbd className="hidden rounded border border-border px-1 font-mono text-[11px] text-muted sm:inline">Space</kbd>
         </Button>
