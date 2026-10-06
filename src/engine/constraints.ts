@@ -42,6 +42,12 @@ export function describeRule(r: ContrastRule): string {
   return `${name(r.fg)} on ${name(r.bg)} ≥ ${r.min}:1`;
 }
 
+/** The one-click "pass AA" rule set the UI offers. */
+export const AA_RULES: ContrastRule[] = [
+  { fg: "white", bg: 600, min: 4.5 },
+  { fg: 900, bg: 100, min: 4.5 },
+];
+
 /** Common starting points. */
 export const RULE_PRESETS: { id: string; label: string; rules: ContrastRule[] }[] = [
   { id: "aa-600", label: "White text on 600 passes AA", rules: [{ fg: "white", bg: 600, min: 4.5 }] },

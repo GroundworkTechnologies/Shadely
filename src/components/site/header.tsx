@@ -5,7 +5,6 @@ const NAV = [
   { href: "/", label: "Generate" },
   { href: "/palettes", label: "Saved" },
   { href: "/tailwind-colors", label: "Tailwind colors" },
-  { href: "/about", label: "About" },
 ];
 
 export function Logo() {

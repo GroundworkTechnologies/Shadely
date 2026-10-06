@@ -16,7 +16,11 @@ OKLCH scale engine with the base color anchored at its natural stop; chroma, hue
 
 ---
 
-## Build status (updated)
+## Simplification pass (latest)
+
+The UI was cut back to what most people need: base color, name and one collapsed **Options** box; scale tiles; the 11 previews; contrast; export. Removed from the interface: command palette, contrast-rule editor (replaced by one "Make shades pass AA" switch), shade pinning editor, color-vision check panel, color-info table, call-to-action card, 14 export tabs (now one grouped picker). The engine keeps pinning, anchors, rules and vision checks so a CLI or API can use them later; they are simply not in the UI.
+
+## Build status (earlier, before the simplification pass)
 
 **Phase 1 is built.** Done: undo and redo (6.2), command palette and shortcuts (8.1), anchor control (1.5), lock and edit shades with re-flow (1.3), harmony secondary, accent and tertiary scales (1.6), neutral families and tint (1.7), ZIP download (5.2), Style Dictionary, Flutter, Android, Compose and iOS exports (5.3 to 5.5), modern CSS output (5.7), color-vision simulation with a distinguishability check (2.3, 4.7), usage-aware pass/fail (2.2), on-palette text picker (2.5), CI gates for end-to-end tests, axe accessibility and a JS budget (10.1 to 10.3), and a Groundwork call to action (9.6, link only).
 

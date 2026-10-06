@@ -22,11 +22,10 @@ for (const scheme of ["light", "dark"] as const) {
     }
 
     test("panels in their open and populated states have no violations", async ({ page }) => {
-      await page.goto("/?b=3b82f6&hm=triadic&ct=w~600~7,400~100~7&lk=300:aabbcc");
+      await page.goto("/?b=3b82f6&hm=triadic&ct=w~600~4.5,900~100~4.5");
       await page.waitForLoadState("networkidle");
-      await page.getByText("Edit shades").click();
-      await page.getByText("Fine-tune").click().catch(() => {});
-      for (const id of ["contrast", "vision", "color-info", "export"]) await page.locator(`#${id}`).scrollIntoViewIfNeeded();
+      await page.getByText("Options").first().click();
+      for (const id of ["contrast", "export"]) await page.locator(`#${id}`).scrollIntoViewIfNeeded();
       await page.waitForTimeout(300);
       expect(await scan(page)).toEqual([]);
     });

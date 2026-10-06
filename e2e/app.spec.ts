@@ -44,30 +44,10 @@ test.describe("generator", () => {
     await expect.poll(() => search(page.url())).toBe(shuffled);
   });
 
-  test("pinning a shade keeps it exact and is shareable", async ({ page }) => {
-    await open(page, "/?b=505cc6");
-    await page.getByText("Edit shades").click();
-    await page.getByLabel("brand 200 hex").fill("#c9d7f3");
-    await expect.poll(() => decodeURIComponent(search(page.url()))).toContain("lk=200:c9d7f3");
-    await page.reload();
-    await expect(page.getByLabel("brand 200 hex")).toHaveValue("#c9d7f3");
-  });
-
-  test("command palette runs a command from the keyboard", async ({ page }) => {
-    await open(page);
-    await page.mouse.click(700, 60);
-    await page.keyboard.press("Control+k");
-    await expect(page.getByRole("dialog", { name: "Command palette" })).toBeVisible();
-    await page.keyboard.type("export as scss");
-    await page.keyboard.press("Enter");
-    await expect(page.getByRole("dialog")).toBeHidden();
-    await expect.poll(() => search(page.url())).toContain("f=scss");
-  });
-
   test("ZIP bundle downloads", async ({ page }) => {
     await open(page);
     await page.locator("#export").scrollIntoViewIfNeeded();
-    const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: /Download all/ }).click()]);
+    const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: /All formats \(ZIP\)/ }).click()]);
     expect(download.suggestedFilename()).toMatch(/^tintwork-.*\.zip$/);
   });
 
@@ -120,29 +100,31 @@ test.describe("performance budget", () => {
   });
 });
 
-test.describe("contrast rules", () => {
-  test("a rule adjusts shades, is shareable, and can be added from the matrix", async ({ page }) => {
-    await open(page, "/?b=3b82f6");
-    await page.getByText("Contrast rules").click();
-    await page.getByRole("button", { name: "Add rule" }).click();
-    await page.getByLabel("Rule 1 minimum ratio").fill("7");
-    await expect(page.getByText(/Adjusted: moved 600/)).toBeVisible();
-    await expect.poll(() => decodeURIComponent(search(page.url()))).toContain("ct=w~600~7");
-    // The moved shade, plus any neighbor nudged to keep the lightness order.
-    expect(await page.locator("section[aria-label='Color scales'] button[aria-label*='adjusted to meet']").count()).toBeGreaterThanOrEqual(1);
-
+test.describe("options and export", () => {
+  test("the AA toggle adjusts shades and is shareable", async ({ page }) => {
+    await open(page, "/?b=facc15");
+    await page.getByText("Options").click();
+    await page.getByLabel("Make shades pass AA contrast").check();
+    await expect.poll(() => decodeURIComponent(search(page.url()))).toContain("ct=w~600~4.5");
     await page.reload({ waitUntil: "networkidle" });
-    await expect(page.getByLabel("Rule 1 minimum ratio")).toHaveValue("7");
-
-    await page.locator("#contrast").scrollIntoViewIfNeeded();
-    await page.getByLabel("Text shade to fix").selectOption("800");
-    await page.getByLabel("Background shade to fix").selectOption("100");
-    await page.getByRole("button", { name: "Make it pass" }).click();
-    await expect(page.getByLabel("Rule 2 minimum ratio")).toHaveValue("4.5");
+    await page.getByText("Options").click();
+    await expect(page.getByLabel("Make shades pass AA contrast")).toBeChecked();
   });
 
-  test("a rule that would need to move the base color says so", async ({ page }) => {
-    await open(page, "/?b=3b82f6&ct=400~100~7"); // panel opens by itself when rules exist
-    await expect(page.getByText(/Can't fix/)).toBeVisible();
+  test("neutral and extra-scale options change the scales", async ({ page }) => {
+    await open(page, "/?b=505cc6");
+    await page.getByText("Options").click();
+    await page.getByLabel("Extra scales from the brand hue").selectOption("triadic");
+    await expect(page.getByRole("tablist", { name: "Scale" }).getByRole("tab")).toHaveCount(8);
+    await page.getByLabel("Status scales (success, warning, danger, info)").uncheck();
+    await expect(page.getByRole("tablist", { name: "Scale" }).getByRole("tab")).toHaveCount(4);
+  });
+
+  test("the export format picker switches the code", async ({ page }) => {
+    await open(page);
+    await page.locator("#export").scrollIntoViewIfNeeded();
+    await page.getByLabel("Format").selectOption("flutter");
+    await expect(page.locator("pre code")).toContainText("MaterialColor");
+    await expect.poll(() => search(page.url())).toContain("f=fl");
   });
 });

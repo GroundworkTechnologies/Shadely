@@ -36,7 +36,6 @@ const TABS = [
 ] as const;
 
 export type PreviewTabId = (typeof TABS)[number][0];
-export const PREVIEW_TABS = TABS.map(([id, label]) => ({ id, label }));
 
 export function Preview({
   scales,
