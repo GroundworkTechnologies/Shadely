@@ -28,7 +28,7 @@ OKLCH scale engine with the base color anchored at its natural stop; chroma, hue
 2. **Complete semantic tokens for light and dark, exported to every platform** (1.9, 5.x). One palette becomes `background / surface / text / border / primary / ring` for light and dark with AA guaranteed, then exports to shadcn (built), Tailwind v4, Flutter, iOS, Android and Style Dictionary. No competitor does design-to-platform tokens from one color.
 3. **Import and migrate** (6.4, 6.5). Paste your existing `tailwind.config.js`, `@theme` block or token JSON. Tintwork shows how it differs from a perceptually even scale, contrast failures per pair, and offers a regenerated version side by side. This is the adoption lever for teams that already have a palette.
 4. **Palette as code** (7.1 to 7.5). A published zero-dependency engine, `npx tintwork` CLI, REST API, an MCP server for AI coding agents, and a GitHub Action that fails a pull request when brand colors stop meeting contrast. uicolors.app offers a paid API with terms that forbid competing tools; we ship open tooling.
-5. **Local-first with regional reach** (3.2, 8.5, 8.2). Logo and image color extraction that never leaves the browser, offline PWA, and an interface in English, Somali, Swahili and Arabic (with right-to-left). Privacy and language are real gaps for East Africa and the Gulf, and a natural fit for Groundwork Technologies.
+5. **Local-first and private** (3.2, 8.2). Logo and image color extraction that never leaves the browser, an offline PWA, no account and no uploads.
 
 Honorable mentions: color-vision simulation across the whole preview (2.3), a custom curve editor with lock and edit per shade (1.2, 1.3), and "live on your own site" injection (4.2).
 
@@ -77,7 +77,6 @@ Honorable mentions: color-vision simulation across the whole preview (2.3), a cu
 | 3.4 | **AI suggestions from a prompt or industry** ("calm fintech for farmers"). The model proposes 3 to 5 base colors with rationale; the engine validates contrast and generates scales. Prompts are not stored | uicolors.app has none; Shader markets AI *(verify)* | Non-designers | L | Should | Pro (free curated industry presets) |
 | 3.5 | **Role mapping editor.** Map stops to roles (primary, hover, active, disabled, border, text) with live AA guard | Nobody | Design-system teams | M | Should | Free |
 | 3.6 | **Preset library.** Curated palettes by industry and mood, Tailwind-ready, searchable by color name | Coolors has libraries but no scales | Beginners | M | Should | Free |
-| 3.7 | **Localized color names** (Somali, Swahili, Arabic alongside English) | Nobody | Regional users | S | Nice | Free |
 | 3.8 | **Logo contrast checks.** Test the logo on every background in the palette | Rare | Brand managers | M | Nice | Pro |
 
 ## 4. Preview
@@ -139,7 +138,6 @@ Honorable mentions: color-vision simulation across the whole preview (2.3), a cu
 | 8.2 | **PWA and offline.** Everything is client-side, so the app works offline once installed | Nobody | Travelers, low-bandwidth regions | M | Should | Free |
 | 8.3 | **Embed widget.** Web component or iframe showing a palette or contrast checker with "Made with Tintwork" | Nobody | Bloggers, docs sites | M | Nice | Free with badge; Pro removes it |
 | 8.4 | **Print and PDF brand sheet.** Palette, names, hex/OKLCH, contrast pairs, usage, optional logo, Groundwork-style template | Nobody | Agencies, clients | M | Should | Pro |
-| 8.5 | **Multi-language UI.** English, Somali, Swahili, Arabic with right-to-left, native-speaker review | Nobody | Regional users | L | Should | Free |
 | 8.6 | **Theming of the tool itself** (density, reduced motion presets) | Nice | Everyone | S | Nice | Free |
 
 ## 9. Product and growth
@@ -173,7 +171,7 @@ Honorable mentions: color-vision simulation across the whole preview (2.3), a cu
 Undo and redo (6.2), command palette and shortcuts (8.1), anchor control (1.5), lock and edit shades (1.3), harmony accent and secondary scales (1.6), neutral pairing options (1.7), ZIP download (5.2), Style Dictionary, Flutter, iOS and Android exports (5.3 to 5.5), modern CSS output (5.7), color-vision simulation (2.3, 4.7), policy-aware badges and non-text checks (2.2), palette-aware text picker (2.5), performance and accessibility CI gates (10.2, 10.3), privacy-friendly analytics (9.5), Groundwork CTA and lead capture (9.6).
 
 ### Phase 2: differentiators (the reasons people switch)
-Contrast-targeted generation and auto-fix (1.4, 2.4), full light and dark semantic token layer (1.9), import and migrate plus compare (6.4, 6.5), logo and image extraction (3.2), custom curve editor (1.2), P3 UI and export (1.10), published engine and CLI, plus the MCP server (7.1, 7.3), preset library (3.6), email preview (4.3), per-color SEO pages and docs (9.1, 9.4), PWA (8.2), multi-language UI (8.5), test and visual-regression coverage (10.1).
+Contrast-targeted generation and auto-fix (1.4, 2.4), full light and dark semantic token layer (1.9), import and migrate plus compare (6.4, 6.5), logo and image extraction (3.2), custom curve editor (1.2), P3 UI and export (1.10), published engine and CLI, plus the MCP server (7.1, 7.3), preset library (3.6), email preview (4.3), per-color SEO pages and docs (9.1, 9.4), PWA (8.2), test and visual-regression coverage (10.1).
 
 ### Phase 3: Pro and monetization
 Optional account with cloud sync and projects (6.7, 6.3), AI palette suggestions (3.4), URL extraction (3.3), public API keys and quotas (7.2), Figma plugin and variable sync (7.4, 5.8), GitHub Action (7.5), accessibility report and PDF brand sheet (2.6, 8.4), embed without badge (8.3), team libraries (6.8), live-on-your-site hosted previews (4.2), VS Code extension (7.6).
@@ -188,14 +186,12 @@ Suggested Pro bundle (a hypothesis to validate, not a committed price): cloud sy
 2. **AI cost and abuse:** needs rate limiting, no stored prompts, and a fallback when the model is unavailable. The engine, not the model, makes every final color decision.
 3. **URL extraction and any proxy:** SSRF, robots and copyright concerns; keep server-side, allow-listed, and rate limited.
 4. **Accounts versus local-first:** recommended default is no account for everything in Phases 1 and 2.
-5. **Translation quality:** Somali, Swahili and Arabic need native-speaker review, and Arabic needs a full right-to-left pass and a font decision, since the current design uses Manrope only (Manrope has no Arabic glyphs).
-6. **Competitor claims** marked *(verify)* need a manual check before any public comparison page (9.8).
-7. **Per-color SEO pages** must carry real content; thin programmatic pages can hurt rankings.
+5. **Competitor claims** marked *(verify)* need a manual check before any public comparison page (9.8).
+6. **Per-color SEO pages** must carry real content; thin programmatic pages can hurt rankings.
 
 ## Decisions I need from you before building
 
 1. Which tier boundary do you want for Pro, and is a free-forever core (no sign-in) a fixed rule?
-2. Arabic typeface: add one (breaks "Manrope only" for Arabic), or skip Arabic for now?
-3. Hosting and database: can we add small server features (API, short links, AI) in Phase 3, or must the product stay fully static?
-4. Do you want the engine published as an open-source package under the Groundwork name?
-5. Analytics choice: self-hosted Plausible/Umami, or none.
+2. Hosting and database: can we add small server features (API, short links, AI) in Phase 3, or must the product stay fully static?
+3. Do you want the engine published as an open-source package under the Groundwork name?
+4. Analytics choice: self-hosted Plausible/Umami, or none.
