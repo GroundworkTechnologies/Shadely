@@ -1,0 +1,145 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`reference scales (snapshot of hexes) > amber 1`] = `
+[
+  "#fef5ec",
+  "#fde2c4",
+  "#fac78d",
+  "#f59e0b",
+  "#cf8400",
+  "#ac6d00",
+  "#915b00",
+  "#7c4d00",
+  "#653e00",
+  "#563401",
+  "#372103",
+]
+`;
+
+exports[`reference scales (snapshot of hexes) > blue 1`] = `
+[
+  "#f3f7fd",
+  "#e2ecfb",
+  "#cbdbf5",
+  "#a6c5f5",
+  "#71a3f4",
+  "#3b82f6",
+  "#1667e3",
+  "#1157c1",
+  "#12469a",
+  "#113b7f",
+  "#0a244f",
+]
+`;
+
+exports[`reference scales (snapshot of hexes) > emerald 1`] = `
+[
+  "#e6fef1",
+  "#b6fdd9",
+  "#5ef8b9",
+  "#34dfa0",
+  "#10b981",
+  "#009a6a",
+  "#008158",
+  "#006d4a",
+  "#03583c",
+  "#0a4a32",
+  "#072e1f",
+]
+`;
+
+exports[`reference scales (snapshot of hexes) > gray 1`] = `
+[
+  "#f6f7f7",
+  "#eaebed",
+  "#d9dadd",
+  "#c1c4c9",
+  "#a0a4ac",
+  "#828894",
+  "#6b7280",
+  "#586070",
+  "#464d5b",
+  "#3a404c",
+  "#23262e",
+]
+`;
+
+exports[`reference scales (snapshot of hexes) > near-black 1`] = `
+[
+  "#f7f7f7",
+  "#e9e9e9",
+  "#d5d5d5",
+  "#b9b9b9",
+  "#949494",
+  "#737373",
+  "#5a5a5a",
+  "#464646",
+  "#313131",
+  "#242424",
+  "#0a0a0a",
+]
+`;
+
+exports[`reference scales (snapshot of hexes) > near-white 1`] = `
+[
+  "#fafaf9",
+  "#eeeeeb",
+  "#ddddda",
+  "#c5c5c2",
+  "#a4a4a2",
+  "#888885",
+  "#71716f",
+  "#5f5f5d",
+  "#4c4c4b",
+  "#3f3f3e",
+  "#262626",
+]
+`;
+
+exports[`reference scales (snapshot of hexes) > rose 1`] = `
+[
+  "#fdf5f5",
+  "#fae6e6",
+  "#f5d2d3",
+  "#f4b2b5",
+  "#f38089",
+  "#f43f5e",
+  "#d02a4a",
+  "#af223e",
+  "#8b1f32",
+  "#731d2a",
+  "#461118",
+]
+`;
+
+exports[`reference scales (snapshot of hexes) > violet 1`] = `
+[
+  "#f7f6fd",
+  "#eae8fb",
+  "#d9d4f5",
+  "#c2b7f5",
+  "#a38bf4",
+  "#8b5cf6",
+  "#7b29f4",
+  "#691dd4",
+  "#541da9",
+  "#461d8c",
+  "#2b1259",
+]
+`;
+
+exports[`reference scales (snapshot of hexes) > yellow 1`] = `
+[
+  "#fff7de",
+  "#ffe699",
+  "#facc15",
+  "#e0b600",
+  "#bc9800",
+  "#9c7e00",
+  "#836900",
+  "#6f5900",
+  "#5a4800",
+  "#4c3c00",
+  "#302500",
+]
+`;
