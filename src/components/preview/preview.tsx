@@ -72,26 +72,9 @@ export function Preview({
   };
 
   return (
-    <section aria-labelledby="preview-h" className="min-w-0">
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-        <h2 id="preview-h" className="text-base font-medium">
-          Live preview
-        </h2>
-        <div className="flex flex-wrap items-center gap-3">
-          <VisionSelect value={vision} onChange={onVision} />
-          <Segmented
-          label="Preview theme"
-          value={theme}
-          onChange={onTheme}
-          options={[
-            { value: "light", label: "Light" },
-            { value: "dark", label: "Dark" },
-          ]}
-        />
-        </div>
-      </div>
-
-      <div role="tablist" aria-label="Preview pages" onKeyDown={onKey} className="mb-3 flex gap-1 overflow-x-auto pb-1">
+    <section aria-label="Live preview" className="min-w-0 lg:flex lg:min-h-0 lg:flex-col">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 lg:flex-nowrap">
+      <div role="tablist" aria-label="Preview pages" onKeyDown={onKey} className="flex min-w-0 flex-1 gap-5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {TABS.map(([id, label]) => (
           <button
             key={id}
@@ -102,20 +85,34 @@ export function Preview({
             aria-controls="preview-panel"
             tabIndex={id === tab ? 0 : -1}
             onClick={() => setTab(id)}
-            className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm", id === tab ? "bg-foreground font-medium text-background" : "text-muted hover:bg-surface-muted hover:text-foreground")}
+            className={cn("shrink-0 py-1 text-base", id === tab ? "font-medium text-foreground" : "text-muted hover:text-foreground")}
           >
             {label}
           </button>
         ))}
       </div>
+      <div className="flex shrink-0 items-center gap-3">
+        <VisionSelect value={vision} onChange={onVision} />
+        <Segmented
+          label="Preview theme"
+          value={theme}
+          onChange={onTheme}
+          options={[
+            { value: "light", label: "Light" },
+            { value: "dark", label: "Dark" },
+          ]}
+        />
+      </div>
+      </div>
 
       <PreviewContext.Provider value={{ name, theme, scales, onExportShadcn }}>
         <div
           id="preview-panel"
+          tabIndex={0}
           role="tabpanel"
           aria-labelledby={`ptab-${tab}`}
           style={{ ...previewVars(scales, theme), colorScheme: theme, ...visionStyle(vision) } as React.CSSProperties}
-          className="@container overflow-hidden rounded-card border border-border bg-(--p-bg) text-(--p-fg)"
+          className="@container overflow-hidden rounded-3xl border border-border bg-(--p-bg) text-(--p-fg) lg:min-h-0 lg:flex-1 lg:overflow-y-auto"
         >
           <Active />
         </div>

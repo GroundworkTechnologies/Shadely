@@ -2,7 +2,9 @@
 
 import { Check, Link2, Redo2, Save, Undo2 } from "lucide-react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Modal } from "@/components/ui/modal";
 import { Preview, type PreviewTabId } from "@/components/preview/preview";
 import { Button } from "@/components/ui/button";
 import { buildScales, colorName, encodeState, gamutMap, isValidName, oklchToHex, type PaletteState, type VisionMode } from "@/engine";
@@ -11,14 +13,14 @@ import { useHistory } from "@/hooks/use-history";
 import { useSavedPalettes } from "@/hooks/use-saved-palettes";
 import { previewScales } from "@/lib/preview-theme";
 import { ColorInput } from "./color-input";
-import { LazySection } from "./lazy-section";
 import { OptionsPanel } from "./options-panel";
 import { ScaleTiles } from "./scale-tiles";
 import { VisionFilters } from "./vision";
 
-// Below-the-fold panels load when they near the viewport.
+// Contrast and export stay hidden until asked for, and load only then.
 const ContrastPanel = dynamic(() => import("./contrast-panel").then((m) => m.ContrastPanel));
 const ExportPanel = dynamic(() => import("./export-panel").then((m) => m.ExportPanel));
+type PanelId = "contrast" | "export";
 
 const isTyping = (t: EventTarget | null) =>
   t instanceof HTMLElement && (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A", "SUMMARY"].includes(t.tagName));
@@ -34,6 +36,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
   const [shareUrl, setShareUrl] = useState("");
   const [tab, setTab] = useState<PreviewTabId>("cards");
   const [vision, setVision] = useState<VisionMode>("normal");
+  const [panel, setPanel] = useState<PanelId | null>(null);
   const [selected, setSelected] = useState(initial.name);
   const [justSaved, setJustSaved] = useState(false);
   const { copy, notify, message } = useCopy();
@@ -63,7 +66,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
 
   const exportShadcn = useCallback(() => {
     patch({ format: "shadcn" });
-    requestAnimationFrame(() => document.getElementById("export")?.scrollIntoView({ block: "start" }));
+    setPanel("export");
   }, [patch]);
 
   // Space = random color, Ctrl/Cmd+Z = undo, Shift+Ctrl/Cmd+Z or Ctrl+Y = redo.
@@ -85,25 +88,20 @@ export function Workspace({ initial }: { initial: PaletteState }) {
   }, [shuffle, undo, redo]);
 
   return (
-    <div className="page-container py-8">
+    <div className="page-container lg:h-full lg:overflow-hidden">
       <VisionFilters />
-      <div className="mb-6 max-w-2xl">
-        <h1 className="text-3xl font-normal sm:text-4xl">Tailwind color palette generator</h1>
-        <p className="mt-2 text-muted">Turn one brand color into a full Tailwind color palette, from 50 to 950, with contrast checked and ready to export. Built for developers and designers using Tailwind. Free, no sign-up.</p>
-      </div>
+      <div className="grid grid-cols-[minmax(0,1fr)] lg:h-full lg:grid-cols-12">
+        <div className="grid min-h-0 grid-cols-[minmax(0,1fr)] content-start gap-5 border-border py-5 lg:col-span-4 lg:overflow-y-auto lg:border-r lg:pr-6 xl:col-span-3">
+          <div>
+            <h1 className="text-xl font-semibold">Tailwind CSS Color Generator</h1>
+            <p className="mt-3 text-base text-muted">Turn any color into a perfect <Link href="/tailwind-colors" className="underline underline-offset-2 hover:text-foreground">Tailwind palette</Link>, then preview it on real components and designs.</p>
+          </div>
 
-      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
-        <div className="grid grid-cols-[minmax(0,1fr)] content-start gap-4">
-          <div className="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-card border border-border bg-surface p-5">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
             <ColorInput value={state.base} onChange={(base) => patch({ base })} onShuffle={shuffle} />
             <label className="grid gap-1 text-sm">
               <span className="font-medium">Palette name</span>
-              <input
-                value={state.name}
-                onChange={(e) => isValidName(e.target.value) && patch({ name: e.target.value })}
-                spellCheck={false}
-                className="h-9 rounded-control border border-control bg-surface px-2"
-              />
+              <input value={state.name} onChange={(e) => isValidName(e.target.value) && patch({ name: e.target.value })} spellCheck={false} className="h-12 rounded-xl border border-border bg-surface px-3" />
             </label>
           </div>
 
@@ -127,20 +125,18 @@ export function Workspace({ initial }: { initial: PaletteState }) {
           </div>
         </div>
 
-        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-6">
-          <ScaleTiles scales={scales} selected={current.name} onSelect={setSelected} onCopy={copy} vision={vision} />
+        <div className="grid min-h-0 min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-4 py-5 lg:col-span-8 lg:grid-rows-[auto_minmax(0,1fr)] lg:overflow-y-auto lg:pl-6 xl:col-span-9">
+          <ScaleTiles scales={scales} selected={current.name} onSelect={setSelected} onCopy={copy} vision={vision} onOpen={setPanel} />
           <Preview scales={pscales} name={state.name} theme={state.theme} onTheme={(theme) => patch({ theme })} onExportShadcn={exportShadcn} tab={tab} onTab={setTab} vision={vision} onVision={setVision} />
         </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6">
-        <LazySection id="contrast" minHeight={520}>
-          <ContrastPanel scale={current} />
-        </LazySection>
-        <LazySection id="export" minHeight={420}>
-          <ExportPanel scales={scales} fullScales={pscales} format={state.format} syntax={state.syntax} shareUrl={shareUrl} onFormat={(format) => patch({ format })} onSyntax={(syntax) => patch({ syntax })} onCopy={copy} onNotify={notify} />
-        </LazySection>
-      </div>
+      <Modal open={panel === "contrast"} title="Contrast" onClose={() => setPanel(null)}>
+        <ContrastPanel scale={current} />
+      </Modal>
+      <Modal open={panel === "export"} title="Export" onClose={() => setPanel(null)}>
+        <ExportPanel scales={scales} fullScales={pscales} format={state.format} syntax={state.syntax} shareUrl={shareUrl} onFormat={(format) => patch({ format })} onSyntax={(syntax) => patch({ syntax })} onCopy={copy} onNotify={notify} />
+      </Modal>
 
       <div role="status" aria-live="polite" className={message ? "fixed bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-control bg-foreground px-4 py-2 text-sm text-background shadow-float" : "sr-only-live"}>
         {message}

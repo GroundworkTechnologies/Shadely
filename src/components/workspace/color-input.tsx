@@ -23,7 +23,7 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
 
   return (
     <div>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-medium">
+      <label htmlFor={id} className="mb-2 block text-base font-medium">
         Base color
       </label>
       <div className="flex min-w-0 items-center gap-2">
@@ -32,7 +32,7 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
           aria-label="Pick base color"
           value={value}
           onChange={(e) => onChange(e.target.value.toLowerCase())}
-          className="size-10 shrink-0 cursor-pointer rounded-control border border-control bg-surface p-1"
+          className="size-12 shrink-0 cursor-pointer rounded-xl border border-border bg-surface p-1"
         />
         <input
           id={id}
@@ -49,14 +49,14 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
             setDraft(null);
             setInvalid(false);
           }}
-          className="h-10 min-w-0 flex-1 rounded-control border border-control bg-surface px-3 tabular-nums text-sm aria-invalid:border-danger"
+          className="h-12 min-w-0 flex-1 rounded-xl border border-border bg-surface px-4 tabular-nums text-base aria-invalid:border-danger"
           placeholder="Hex, rgb(), hsl() or oklch()"
         />
-        <Button onClick={onShuffle} aria-label="Random color" title="Random color (Space)" className="h-10 shrink-0 px-3">
-          <Shuffle className="size-4" aria-hidden />
-          <kbd className="hidden rounded-control border border-border px-1 tabular-nums text-xs text-muted sm:inline">Space</kbd>
-        </Button>
       </div>
+      <Button onClick={onShuffle} title="Random color (Space)" className="mt-3 h-12 w-full">
+        <Shuffle className="size-4" aria-hidden /> Random colors
+        <kbd className="rounded-md bg-surface-muted px-2 py-0.5 text-xs text-muted">Spacebar</kbd>
+      </Button>
       <p id={`${id}-hint`} className={invalid ? "mt-1.5 text-xs text-danger" : "mt-1.5 text-xs text-muted"}>
         {invalid ? "Not a valid color. Try #3b82f6, rgb(59 130 246), hsl(217 91% 60%) or oklch(62% 0.2 260)." : `${named.family} · nearest named color ${named.specific}. You can paste a Tailwind config or @theme block.`}
       </p>

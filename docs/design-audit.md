@@ -6,7 +6,7 @@ Measured with `grep` over `src/` on 2026-10-06. Scope: app chrome and all 11 pre
 
 | Area | Current state | Problem |
 |---|---|---|
-| Typefaces | Geist Sans + Geist Mono (two families). `font-mono` in 13 places; Tailwind preflight also forces a monospace stack on `code`, `kbd`, `pre`. OG images use Satori's built-in fallback font. | Brief: Manrope only, everywhere. |
+| Typefaces | Geist Sans + Geist Mono (two families). `font-mono` in 13 places; Tailwind preflight also forces a monospace stack on `code`, `kbd`, `pre`. OG images use Satori's built-in fallback font. | Brief: Inter only, everywhere. |
 | Font weights | 74 `font-medium`, **46 `font-semibold`**, **5 `font-bold`**, 5 `font-normal`. Browser defaults add bold to `strong` and `th`. OG images set `fontWeight: 700`. | Brief (updated): only regular 400, medium 500, semibold 600. Nothing lighter or heavier. Semibold is overused as a default emphasis; large headings are bold/semibold instead of light. |
 | Radii | 9+ distinct values: `rounded-md` 39, `-full` 30, `-2xl` 25, `-xl` 12, `-lg` 11, `-3xl` 11, `-sm`, `rounded`, `[3px]`, `[2.5rem]`. Controls use md (6px); panels use 2xl (16px); preview cards use 3xl (24px). | Brief: one radius family, 8 to 12 px. |
 | Shadows | `shadow-sm` ×4, `shadow-xs`, `shadow-md`, `shadow-lg` (toast, popover-like cards). | Brief: 1px borders over shadows. Keep one elevation for floating UI only. |
@@ -24,7 +24,7 @@ Measured with `grep` over `src/` on 2026-10-06. Scope: app chrome and all 11 pre
 
 ## 2. Decisions
 
-1. **One family, Manrope**, weights 400/500/600 via `next/font/google`. `--font-mono` is aliased to Manrope so nothing can fall back to a monospace face; numeric alignment uses `tabular-nums`. `strong`, `b`, `th` default weights are reset to 500/600 in base CSS.
+1. **One family, Inter**, weights 400/500/600 via `next/font/google`. `--font-mono` is aliased to Inter so nothing can fall back to a monospace face; numeric alignment uses `tabular-nums`. `strong`, `b`, `th` default weights are reset to 500/600 in base CSS.
 2. **Weights by role:** display and large headings (≥ 24 px) 400 with tighter tracking; body 400; labels, buttons, nav, panel titles 500; 600 only for brand wordmarks. Nothing lighter than 400 or heavier than 600.
 3. **Tracking from tokens:** `--text-*--letter-spacing` on `2xl` and up (-0.01em to -0.025em); per-element `tracking-tight` removed.
 4. **Radius tokens:** `--radius-control` 8 px (buttons, inputs, tabs, tiles), `--radius-card` 12 px (panels, preview cards). Pills and avatars stay fully round; phone frames keep their device radius.
@@ -37,7 +37,7 @@ Measured with `grep` over `src/` on 2026-10-06. Scope: app chrome and all 11 pre
 
 ## 3. Outcome
 
-- Manrope 400/500/600 is the only face in the app and in generated OG images (WOFF files in `src/assets/fonts`, SIL OFL licence alongside). A test fails the build if any other weight class or typeface appears.
+- Inter 400/500/600 is the only face in the app and in generated OG images (WOFF files in `src/assets/fonts`, SIL OFL licence alongside). A test fails the build if any other weight class or typeface appears.
 - Chrome is neutral: pure gray tokens, near-black primary action, neutral focus ring. Only generated palettes (and the small logo mark) carry color.
 - Radius is 8 px (controls) and 12 px (cards); one floating shadow; icons at 1.5 px stroke; 150 ms transitions.
 - Contrast: `src/lib/__tests__/design-tokens.test.ts` checks every text/background pair at 4.5:1 and control borders and focus ring at 3:1, light and dark.

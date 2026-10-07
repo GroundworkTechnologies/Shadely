@@ -12,12 +12,14 @@ export function ScaleTiles({
   onSelect,
   onCopy,
   vision = "normal",
+  onOpen,
 }: {
   scales: NamedScale[];
   selected: string;
   onSelect: (name: string) => void;
   onCopy: (hex: string, label: string) => void;
   vision?: VisionMode;
+  onOpen: (panel: "contrast" | "export") => void;
 }) {
   const scale = scales.find((s) => s.name === selected) ?? scales[0]!;
   const named = colorName((scale.steps.find((s) => s.isAnchor) ?? scale.steps[5]!).hex);
@@ -33,22 +35,19 @@ export function ScaleTiles({
   };
 
   return (
-    <section aria-label="Color scales" className="rounded-card border border-border bg-surface p-5">
+    <section aria-label="Color scales">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <h2 className="text-base font-medium">{named.family}</h2>
+          <h2 className="text-xl font-medium">{named.family}</h2>
           <span className="rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-medium text-muted">{ROLE[scale.kind]}</span>
         </div>
-        <nav aria-label="Jump to" className="flex gap-1 text-sm">
-          {[
-            ["#contrast", "Contrast"],
-            ["#export", "Export"],
-          ].map(([href, label]) => (
-            <a key={href} href={href} className="rounded-control px-2.5 py-1.5 text-muted hover:bg-surface-muted hover:text-foreground">
-              {label}
-            </a>
+        <div className="flex gap-5 text-base">
+          {(["contrast", "export"] as const).map((k) => (
+            <button key={k} type="button" onClick={() => onOpen(k)} className="text-muted hover:text-foreground">
+              {k === "contrast" ? "Contrast" : "Export"}
+            </button>
           ))}
-        </nav>
+        </div>
       </div>
 
       {scales.length > 1 && (
@@ -71,7 +70,7 @@ export function ScaleTiles({
         </div>
       )}
 
-      <ul style={visionStyle(vision)} className="grid grid-cols-4 gap-1.5 sm:grid-cols-6 lg:grid-cols-11">
+      <ul style={visionStyle(vision)} className="grid grid-cols-3 gap-2 min-[480px]:grid-cols-4 sm:grid-cols-6 xl:grid-cols-11">
         {scale.steps.map((s) => {
           const fg = bestText(s.hex).color;
           return (
@@ -82,11 +81,11 @@ export function ScaleTiles({
                 aria-label={`${named.family} ${s.stop}, ${scale.name}-${s.stop}, ${s.hex}${s.isAnchor ? ", your base color" : ""}. Copy hex`}
                 title={`${scale.name}-${s.stop} · ${s.hex}`}
                 style={{ backgroundColor: s.hex, color: fg }}
-                className="relative flex h-24 w-full flex-col justify-end rounded-card p-2.5 text-left outline-offset-2 hover:brightness-95"
+                className="relative flex h-20 w-full sm:h-[100px] flex-col justify-end rounded-xl p-3 text-left outline-offset-2 hover:brightness-95"
               >
                 {s.isAnchor && <span aria-hidden className="absolute left-2.5 top-2.5 size-2 rounded-full" style={{ backgroundColor: fg }} />}
-                <span className="text-sm font-medium leading-tight">{s.stop}</span>
-                <span className="text-xs uppercase leading-tight tabular-nums">{s.hex.slice(1)}</span>
+                <span className="text-[13px] font-semibold leading-tight">{s.stop}</span>
+                <span className="text-[13px] uppercase leading-tight tabular-nums">{s.hex.slice(1)}</span>
               </button>
             </li>
           );

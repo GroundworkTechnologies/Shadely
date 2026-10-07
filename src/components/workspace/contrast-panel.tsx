@@ -17,9 +17,9 @@ export function ContrastPanel({ scale }: { scale: NamedScale }) {
     <section aria-labelledby="contrast-h" className="rounded-card border border-border bg-surface">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
         <div>
-          <h2 id="contrast-h" className="text-base font-medium">
+          <h3 id="contrast-h" className="text-base font-medium">
             Contrast <span className="font-normal text-muted">· {scale.name}</span>
-          </h2>
+          </h3>
           <p className="text-sm text-muted">Body text needs {threshold}.</p>
         </div>
         <Segmented

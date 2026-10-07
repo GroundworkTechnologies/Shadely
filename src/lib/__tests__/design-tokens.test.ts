@@ -51,10 +51,10 @@ describe.each([":root", ".dark"] as const)("design tokens in %s", (sel) => {
 });
 
 describe("typography rules", () => {
-  it("loads Manrope with only the three allowed weights (400, 500, 600)", () => {
+  it("loads Inter with only the three allowed weights (400, 500, 600)", () => {
     const layout = readFileSync(path.join(process.cwd(), "src/app/layout.tsx"), "utf8");
     expect(layout).toMatch(/weight: \["400", "500", "600"\]/);
-    expect(layout).not.toMatch(/Geist|Inter|Roboto|Mono\(/);
+    expect(layout).not.toMatch(/Geist|Roboto|Mono\(/);
   });
   it("uses no weight classes outside normal, medium and semibold", () => {
     const bad = /font-(thin|extralight|light|bold|extrabold|black)\b/;

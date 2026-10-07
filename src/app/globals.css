@@ -9,9 +9,9 @@
  * exception is the small logo mark, which uses the accent scale.
  * ------------------------------------------------------------------ */
 @theme {
-  /* Type: Manrope only. Mono is aliased so no monospace face can appear. */
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  /* Type: Inter only. Mono is aliased so no monospace face can appear. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;

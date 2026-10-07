@@ -51,9 +51,9 @@ export function ExportPanel({
   return (
     <section aria-labelledby="export-h" className="rounded-card border border-border bg-surface">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
-        <h2 id="export-h" className="text-base font-medium">
-          Export
-        </h2>
+        <h3 id="export-h" className="text-base font-medium">
+          Export code
+        </h3>
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <label className="sr-only" htmlFor="export-format">
             Format

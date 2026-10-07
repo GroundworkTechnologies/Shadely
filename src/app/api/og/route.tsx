@@ -9,7 +9,7 @@ export async function GET(req: Request) {
   const brand = buildScales({ ...state, neutral: "off", status: false })[0]!;
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 64, background: "#ffffff", color: "#1a1a1a", fontFamily: "Manrope" }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 64, background: "#ffffff", color: "#1a1a1a", fontFamily: "Inter" }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 28, color: "#5e5e5e" }}>{`${SITE.name} · ${SITE.company}`}</div>
           <div style={{ fontSize: 76, fontWeight: 600, marginTop: 16 }}>{`${state.name} palette`}</div>

@@ -24,13 +24,18 @@ for (const scheme of ["light", "dark"] as const) {
       });
     }
 
-    test("panels in their open and populated states have no violations", async ({ page }) => {
+    test("the options and both dialogs have no violations", async ({ page }) => {
       await page.goto("/?b=3b82f6&hm=triadic&ct=w~600~4.5,900~100~4.5");
       await page.waitForLoadState("networkidle");
       await page.getByText("Options").first().click();
-      for (const id of ["contrast", "export"]) await page.locator(`#${id}`).scrollIntoViewIfNeeded();
-      await page.waitForTimeout(300);
-      expect(await scan(page)).toEqual([]);
+      expect(await scan(page), "options").toEqual([]);
+      await page.getByRole("button", { name: "Contrast", exact: true }).click();
+      await expect(page.getByText("Pairing matrix")).toBeVisible();
+      expect(await scan(page), "contrast dialog").toEqual([]);
+      await page.keyboard.press("Escape");
+      await page.getByRole("button", { name: "Export", exact: true }).click();
+      await expect(page.getByRole("heading", { name: "Export code" })).toBeVisible();
+      expect(await scan(page), "export dialog").toEqual([]);
     });
 
     test("every preview page has no WCAG A/AA violations", async ({ page }) => {

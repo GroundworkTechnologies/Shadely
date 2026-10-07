@@ -3,8 +3,8 @@ import { SITE } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="mt-16 border-t border-border bg-surface">
-      <div className="page-container flex flex-wrap items-center justify-between gap-4 py-6 text-sm text-muted">
+    <footer className="border-t border-border bg-surface">
+      <div className="page-container flex flex-wrap items-center justify-between gap-4 py-3 text-sm text-muted">
         <p>
           <span className="font-medium text-foreground">{SITE.name}</span> is a product of{" "}
           <a href={SITE.companyUrl} className="underline underline-offset-2 hover:text-foreground" rel="noopener">

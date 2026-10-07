@@ -12,7 +12,7 @@ test.describe("generator", () => {
     page.on("pageerror", (e) => errors.push(e.message));
     page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
     await open(page);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Tailwind color palette generator");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Tailwind CSS Color Generator");
     await expect(page.getByRole("tablist", { name: "Scale" }).getByRole("tab")).toHaveCount(6);
     expect(errors).toEqual([]);
   });
@@ -46,7 +46,7 @@ test.describe("generator", () => {
 
   test("ZIP bundle downloads", async ({ page }) => {
     await open(page);
-    await page.locator("#export").scrollIntoViewIfNeeded();
+    await page.getByRole("button", { name: "Export", exact: true }).click();
     const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: /all formats \(ZIP\)/i }).click()]);
     expect(download.suggestedFilename()).toMatch(/^shadely-.*\.zip$/);
   });
@@ -122,7 +122,7 @@ test.describe("options and export", () => {
 
   test("the export format picker switches the code", async ({ page }) => {
     await open(page);
-    await page.locator("#export").scrollIntoViewIfNeeded();
+    await page.getByRole("button", { name: "Export", exact: true }).click();
     await page.getByLabel("Format").selectOption("flutter");
     await expect(page.locator("pre code")).toContainText("MaterialColor");
     await expect.poll(() => search(page.url())).toContain("f=fl");
@@ -160,5 +160,48 @@ test.describe("rename migration", () => {
     expect(keys.old).toBeNull();
     expect(keys.now).toContain("legacy-1");
     expect(keys.theme).toBe("dark");
+  });
+});
+
+test.describe("hidden panels and no page scroll", () => {
+  test("contrast and export are hidden until asked for", async ({ page }) => {
+    await open(page);
+    await expect(page.getByRole("heading", { name: /^Contrast/ })).toBeHidden();
+    await expect(page.getByRole("heading", { name: "Export code" })).toBeHidden();
+    await page.getByRole("button", { name: "Contrast", exact: true }).click();
+    await expect(page.getByRole("dialog", { name: "Contrast" })).toBeVisible();
+    await expect(page.getByText("Pairing matrix")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog")).toBeHidden();
+    await page.getByRole("button", { name: "Export", exact: true }).click();
+    await expect(page.getByRole("dialog", { name: "Export" })).toBeVisible();
+    await page.getByRole("button", { name: "Close Export" }).click();
+    await expect(page.getByRole("dialog")).toBeHidden();
+  });
+
+  for (const [width, height] of [[1280, 720], [1440, 900], [1920, 1080]] as const) {
+    test(`the page does not scroll at ${width}x${height}`, async ({ page }) => {
+      await page.setViewportSize({ width, height });
+      await open(page, "/?b=505cc6&hm=triadic");
+      const tabs = page.getByRole("tablist", { name: "Preview pages" }).getByRole("tab");
+      for (let i = 0; i < (await tabs.count()); i++) {
+        await tabs.nth(i).click();
+        const m = await page.evaluate(() => {
+          const main = document.querySelector("main")!;
+          return { doc: document.documentElement.scrollHeight - innerHeight, main: main.scrollHeight - main.clientHeight, footerBottom: document.querySelector("body > footer")!.getBoundingClientRect().bottom - innerHeight };
+        });
+        expect(m.doc, `tab ${i} document`).toBeLessThanOrEqual(0);
+        expect(m.main, `tab ${i} main`).toBeLessThanOrEqual(1);
+        expect(m.footerBottom, `tab ${i} footer on screen`).toBeLessThanOrEqual(1);
+      }
+    });
+  }
+
+  test("the preview scrolls inside its own frame", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 800 });
+    await open(page);
+    const frame = await page.locator("#preview-panel").evaluate((e) => ({ scrolls: e.scrollHeight > e.clientHeight, overflowY: getComputedStyle(e).overflowY }));
+    expect(frame.overflowY).toBe("auto");
+    expect(frame.scrolls).toBe(true);
   });
 });

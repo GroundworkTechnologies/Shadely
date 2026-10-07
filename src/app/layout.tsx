@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { THEME_SCRIPT } from "@/components/site/theme-toggle";
@@ -7,7 +7,7 @@ import { PAGES } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
-const manrope = Manrope({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-manrope", display: "swap" });
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -52,17 +52,17 @@ const jsonLd = [
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={manrope.variable} suppressHydrationWarning>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
-      <body>
+      <body className="flex h-dvh flex-col overflow-hidden">
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-control focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-fg">
           Skip to main content
         </a>
         <Header />
-        <main id="main">{children}</main>
+        <main id="main" className="min-h-0 flex-1 overflow-y-auto">{children}</main>
         <Footer />
       </body>
     </html>

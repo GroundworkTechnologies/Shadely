@@ -24,17 +24,17 @@ function Arcs({ className }: { className?: string }) {
 
 export function Cards() {
   return (
-    <div className="grid gap-4 p-5 @2xl:grid-cols-2 @5xl:grid-cols-3">
-      <div className="relative flex min-h-[26rem] flex-col justify-between gap-5 overflow-hidden rounded-xl bg-(--p-tint) p-5 text-(--p-tint-fg)">
+    <div className="flex gap-5 overflow-x-auto p-5 [&>*]:w-[min(340px,82vw)] [&>*]:shrink-0 [&>*]:min-h-[26rem] snap-x [&>*]:snap-start">
+      <div className="relative flex flex-col justify-between gap-5 overflow-hidden rounded-3xl border border-(--p-tint-2) bg-(--p-tint) p-5 text-(--p-tint-fg)">
         <Arcs className="absolute -bottom-6 -right-6 size-64 opacity-30" />
-        <Photo name="phone" w={420} h={300} className="relative h-56 w-full rounded-lg" />
+        <Photo name="phone" w={420} h={300} className="relative h-56 w-full rounded-2xl" />
         <div className="relative">
-          <h3 className="text-3xl font-normal leading-tight">Track your expenses</h3>
+          <h3 className="text-4xl font-normal leading-[1.05] tracking-tight sm:text-5xl">Track your expenses</h3>
           <p className="mt-1 text-sm">See every shilling at a glance.</p>
         </div>
       </div>
 
-      <PCard className="flex flex-col rounded-xl">
+      <PCard className="flex flex-col rounded-3xl">
         <p className="text-sm text-(--p-muted)">Expenses</p>
         <p className="mt-1 text-3xl font-normal tabular-nums">$12,543</p>
         <div className="mt-6 flex flex-1 items-end justify-between gap-2" role="img" aria-label="Stacked bar chart of monthly expenses">
@@ -51,16 +51,16 @@ export function Cards() {
         </div>
       </PCard>
 
-      <div className="relative flex min-h-[26rem] flex-col justify-between gap-5 overflow-hidden rounded-xl bg-(--p-primary) p-5 text-(--p-primary-fg)">
+      <div className="relative flex flex-col justify-between gap-5 overflow-hidden rounded-3xl bg-(--p-primary) p-5 text-(--p-primary-fg)">
         <Arcs className="absolute -bottom-6 -right-6 size-64 opacity-25" />
         <div className="relative">
           <div className="mb-4 flex items-center gap-2 text-sm font-medium">
             <Sparkles className="size-4" aria-hidden /> Premium
           </div>
-          <Photo name="analytics" w={420} h={260} className="h-44 w-full rounded-lg" />
+          <Photo name="analytics" w={420} h={260} className="h-56 w-full rounded-2xl" />
         </div>
         <div className="relative">
-          <h3 className="text-3xl font-normal leading-tight">Gain control</h3>
+          <h3 className="text-4xl font-normal leading-[1.05] tracking-tight sm:text-5xl">Gain control</h3>
           <p className="mt-1 text-sm">Budgets, goals and alerts in one place.</p>
           <span className="mt-4 inline-flex h-9 items-center gap-1.5 rounded-full bg-(--p-primary-fg) px-4 text-sm font-medium text-(--p-primary)">
             Upgrade <ArrowUpRight className="size-4" aria-hidden />
@@ -68,7 +68,7 @@ export function Cards() {
         </div>
       </div>
 
-      <PCard className="rounded-xl">
+      <PCard className="rounded-3xl">
         <div className="flex items-center gap-3">
           <Photo name="woman1" w={88} h={88} className="size-11 rounded-full" />
           <div>
@@ -98,7 +98,7 @@ export function Cards() {
         </div>
       </PCard>
 
-      <PCard className="rounded-xl">
+      <PCard className="rounded-3xl">
         <div className="mb-3 flex items-center justify-between">
           <p className="font-medium">Notifications</p>
           <Bell className="size-4 text-(--p-muted)" aria-hidden />
@@ -117,7 +117,7 @@ export function Cards() {
         </ul>
       </PCard>
 
-      <PCard className="rounded-xl">
+      <PCard className="rounded-3xl">
         <p className="text-sm text-(--p-muted)">Customer reviews</p>
         <p className="mt-1 text-xl font-normal">Cut my admin time in half.</p>
         <div className="mt-2 flex gap-0.5 text-(--p-soft-fg)" role="img" aria-label="Rated 5 out of 5 stars">
@@ -135,7 +135,7 @@ export function Cards() {
         </div>
       </PCard>
 
-      <PCard className="rounded-xl">
+      <PCard className="rounded-3xl">
         <div className="flex items-center justify-between">
           <p className="text-sm text-(--p-muted)">Goal progress</p>
           <Heart className="size-4 text-(--p-soft-fg)" aria-hidden />
@@ -162,7 +162,7 @@ export function Cards() {
         </ul>
       </PCard>
 
-      <figure className="relative min-h-60 overflow-hidden rounded-xl @5xl:col-span-2">
+      <figure className="relative overflow-hidden rounded-3xl !w-[min(560px,90vw)]">
         <Photo name="team" w={900} h={420} className="absolute inset-0 size-full" />
         <figcaption className="absolute inset-x-0 bottom-0 bg-(--p-primary) p-5 text-(--p-primary-fg)">
           <p className="text-xl font-normal">Built with your whole team</p>
