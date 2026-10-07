@@ -2,7 +2,7 @@
 
 import { Shuffle } from "lucide-react";
 import { useId, useState } from "react";
-import { colorName, normalizeHex } from "@/engine";
+import { colorName, extractBaseColor, normalizeHex } from "@/engine";
 import { Button } from "@/components/ui/button";
 
 export function ColorInput({ value, onChange, onShuffle }: { value: string; onChange: (hex: string) => void; onShuffle: () => void }) {
@@ -14,7 +14,7 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
   const named = colorName(value);
 
   const commit = (raw: string) => {
-    const hex = normalizeHex(raw);
+    const hex = normalizeHex(raw) ?? (raw.length > 12 ? extractBaseColor(raw) : null);
     if (hex) {
       setInvalid(false);
       onChange(hex);
@@ -58,7 +58,7 @@ export function ColorInput({ value, onChange, onShuffle }: { value: string; onCh
         </Button>
       </div>
       <p id={`${id}-hint`} className={invalid ? "mt-1.5 text-xs text-danger" : "mt-1.5 text-xs text-muted"}>
-        {invalid ? "Not a valid color. Try #3b82f6, rgb(59 130 246), hsl(217 91% 60%) or oklch(62% 0.2 260)." : `${named.family} · nearest named color ${named.specific}`}
+        {invalid ? "Not a valid color. Try #3b82f6, rgb(59 130 246), hsl(217 91% 60%) or oklch(62% 0.2 260)." : `${named.family} · nearest named color ${named.specific}. You can paste a Tailwind config or @theme block.`}
       </p>
     </div>
   );
