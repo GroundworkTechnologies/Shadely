@@ -20,7 +20,7 @@
 [![No accounts](https://img.shields.io/badge/accounts-none-27272e?style=flat-square)](#privacy)
 [![Made by Groundwork Technologies](https://img.shields.io/badge/by-Groundwork_Technologies-27272e?style=flat-square)](https://groundwork.co.ke)
 
-[Features](#features) &nbsp;·&nbsp; [How it works](#how-it-works) &nbsp;·&nbsp; [Export](#export-everywhere) &nbsp;·&nbsp; [Quick start](#quick-start) &nbsp;·&nbsp; [Project layout](#project-layout) &nbsp;·&nbsp; [Brand](docs/brand.md)
+[Live site](https://shadely.groundwork.co.ke) &nbsp;·&nbsp; [Features](#features) &nbsp;·&nbsp; [How it works](#how-it-works) &nbsp;·&nbsp; [Export](#export-everywhere) &nbsp;·&nbsp; [Quick start](#quick-start) &nbsp;·&nbsp; [Project layout](#project-layout) &nbsp;·&nbsp; [Brand](docs/brand.md)
 
 <br>
 
@@ -118,7 +118,7 @@ Open <http://localhost:3000>.
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript, strict |
 
-Set `NEXT_PUBLIC_SITE_URL` to your own address so canonical links, the sitemap and share images are correct. See `.env.example`.
+The site address defaults to https://shadely.groundwork.co.ke. Set `NEXT_PUBLIC_SITE_URL` to use a different one for canonical links, the sitemap and share images. See `.env.example`.
 
 ### Keyboard
 
