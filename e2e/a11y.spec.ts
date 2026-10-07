@@ -11,7 +11,10 @@ async function scan(page: import("@playwright/test").Page) {
 for (const scheme of ["light", "dark"] as const) {
   test.describe(`axe, ${scheme} mode`, () => {
     // Reduced motion removes color transitions, so axe never samples a half-faded color.
-    test.use({ colorScheme: scheme, reducedMotion: "reduce" });
+    test.use({ reducedMotion: "reduce" });
+    test.beforeEach(async ({ page }) => {
+      await page.addInitScript((m) => localStorage.setItem("tintwork-theme", m), scheme);
+    });
 
     for (const route of ROUTES) {
       test(`${route} has no WCAG A/AA violations`, async ({ page }) => {

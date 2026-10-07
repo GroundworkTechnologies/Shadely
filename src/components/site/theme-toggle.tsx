@@ -1,38 +1,26 @@
 "use client";
 
-import { Monitor, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useEffect, useSyncExternalStore } from "react";
 import { createLocalStore } from "@/hooks/local-store";
 
-type Mode = "system" | "light" | "dark";
-const ORDER: Mode[] = ["system", "light", "dark"];
+type Mode = "light" | "dark";
 const KEY = "tintwork-theme";
-const store = createLocalStore(KEY, "system");
-
-function apply(mode: Mode) {
-  const dark = mode === "dark" || (mode === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-  document.documentElement.classList.toggle("dark", dark);
-}
+const store = createLocalStore(KEY, "light");
 
 function useMode(): Mode {
-  const raw = useSyncExternalStore(store.subscribe, store.get, () => "system");
-  return (ORDER as string[]).includes(raw) ? (raw as Mode) : "system";
+  return useSyncExternalStore(store.subscribe, store.get, () => "light") === "dark" ? "dark" : "light";
 }
 
 export function ThemeToggle() {
   const mode = useMode();
 
   useEffect(() => {
-    apply(mode);
-    if (mode !== "system") return;
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const onChange = () => apply("system");
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+    document.documentElement.classList.toggle("dark", mode === "dark");
   }, [mode]);
 
-  const next = ORDER[(ORDER.indexOf(mode) + 1) % ORDER.length]!;
-  const Icon = mode === "system" ? Monitor : mode === "light" ? Sun : Moon;
+  const next: Mode = mode === "dark" ? "light" : "dark";
+  const Icon = mode === "dark" ? Moon : Sun;
 
   return (
     <button
@@ -47,5 +35,5 @@ export function ThemeToggle() {
   );
 }
 
-/** Runs before hydration to avoid a flash of the wrong theme. */
-export const THEME_SCRIPT = `try{var m=localStorage.getItem("${KEY}")||"system";var d=m==="dark"||(m==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d)}catch(e){}`;
+/** Runs before hydration: light unless the visitor chose dark. */
+export const THEME_SCRIPT = `try{document.documentElement.classList.toggle("dark",localStorage.getItem("${KEY}")==="dark")}catch(e){}`;

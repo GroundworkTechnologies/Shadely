@@ -128,3 +128,19 @@ test.describe("options and export", () => {
     await expect.poll(() => search(page.url())).toContain("f=fl");
   });
 });
+
+test.describe("theme", () => {
+  test("is light by default, even when the system prefers dark, and toggles between light and dark only", async ({ browser }) => {
+    const page = await (await browser.newContext({ colorScheme: "dark" })).newPage();
+    await page.goto("/", { waitUntil: "networkidle" });
+    const html = page.locator("html");
+    await expect(html).not.toHaveClass(/dark/);
+    const toggle = page.getByRole("button", { name: /^Theme:/ });
+    await toggle.click();
+    await expect(html).toHaveClass(/dark/);
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(html).toHaveClass(/dark/);
+    await toggle.click();
+    await expect(html).not.toHaveClass(/dark/);
+  });
+});
