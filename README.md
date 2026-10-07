@@ -24,10 +24,7 @@
 
 <br>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/images/hero-dark.png">
-  <img src="docs/images/hero-light.png" alt="The Shadely generator: a color input on the left, the 50 to 950 scale across the top, and a live preview below" width="900">
-</picture>
+<img src="docs/images/hero-light.png" alt="The Shadely generator in light mode: a color input on the left, the 50 to 950 scale across the top, and a live preview below" width="900">
 
 </div>
 
