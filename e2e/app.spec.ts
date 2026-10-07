@@ -205,3 +205,26 @@ test.describe("hidden panels and no page scroll", () => {
     expect(frame.scrolls).toBe(true);
   });
 });
+
+test.describe("open source link", () => {
+  test("links to the GitHub repo from the header and the footer", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await open(page);
+    const repo = "https://github.com/GroundworkTechnologies/Shadely";
+    const header = page.locator("header").getByRole("link", { name: /Shadely on GitHub/ });
+    const footer = page.locator("body > footer").getByRole("link", { name: /Open source on GitHub/ });
+    for (const link of [header, footer]) {
+      await expect(link).toHaveAttribute("href", repo);
+      await expect(link).toHaveAttribute("target", "_blank");
+      await expect(link).toHaveAttribute("rel", /noopener/);
+    }
+  });
+
+  test("on a phone the footer link is there and the header stays uncrowded", async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await open(page);
+    await expect(page.locator("header").getByRole("link", { name: /Shadely on GitHub/ })).toBeHidden();
+    await expect(page.locator("body > footer").getByRole("link", { name: /Open source on GitHub/ })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+  });
+});

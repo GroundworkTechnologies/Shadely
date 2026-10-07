@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SITE } from "@/lib/site";
+import { GitHubIcon } from "./github-icon";
 
 export function Footer() {
   return (
@@ -13,6 +14,9 @@ export function Footer() {
           . © {new Date().getFullYear()}
         </p>
         <nav aria-label="Footer" className="flex gap-4">
+          <a href={SITE.repoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">
+            <GitHubIcon className="size-4" /> Open source on GitHub
+          </a>
           <Link href="/about" className="hover:text-foreground">About</Link>
           <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
           <a href={SITE.companyUrl} className="hover:text-foreground" rel="noopener">groundwork.co.ke</a>

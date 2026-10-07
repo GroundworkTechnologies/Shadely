@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { SITE } from "@/lib/site";
+import { GitHubIcon } from "./github-icon";
 import { ThemeToggle } from "./theme-toggle";
 
 const NAV = [
@@ -34,6 +36,16 @@ export function Header() {
               </Link>
             ))}
           </nav>
+          <a
+            href={SITE.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Shadely on GitHub (opens in a new tab)"
+            title="Open source on GitHub"
+            className="hidden size-9 items-center justify-center rounded-control border border-border bg-surface text-muted hover:text-foreground sm:inline-flex"
+          >
+            <GitHubIcon className="size-4" />
+          </a>
           <ThemeToggle />
         </div>
       </div>

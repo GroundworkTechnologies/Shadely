@@ -38,6 +38,8 @@ const jsonLd = [
     operatingSystem: "Any",
     inLanguage: "en",
     isAccessibleForFree: true,
+    codeRepository: SITE.repoUrl,
+    license: "https://opensource.org/license/mit",
     featureList: [
       "OKLCH color scales from 50 to 950",
       "WCAG 2.2 and APCA contrast checks",
