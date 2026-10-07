@@ -2,10 +2,8 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="public/brand/shadely-logo-dark.svg">
-  <img src="public/brand/shadely-logo.svg" alt="Shadely" height="72">
+  <img src="public/brand/shadely-logo.svg" alt="Shadely" height="64">
 </picture>
-
-<br><br>
 
 **Turn any color into a perfect Tailwind palette, then preview it on real components and designs.**
 
@@ -77,35 +75,7 @@ Picking one brand color is easy. Turning it into eleven shades that look even, p
 
 ### Preview on real designs
 
-Cards, website, branding, dashboard, components, shadcn/ui, apps, charts, gradients, logos and headings. Each page is built from your palette and switches between light and dark.
-
-<table>
-<tr>
-<td width="33%"><img src="docs/images/preview-website.png" alt="A landing page themed with the generated palette"></td>
-<td width="33%"><img src="docs/images/preview-dashboard.png" alt="A dashboard themed with the generated palette"></td>
-<td width="33%"><img src="docs/images/preview-shadcn.png" alt="shadcn/ui components themed with the generated palette"></td>
-</tr>
-<tr>
-<td align="center"><sub>Website</sub></td>
-<td align="center"><sub>Dashboard</sub></td>
-<td align="center"><sub>shadcn/ui</sub></td>
-</tr>
-</table>
-
-### Contrast and export on demand
-
-Contrast and export stay out of the way until you ask for them.
-
-<table>
-<tr>
-<td width="50%"><img src="docs/images/contrast.png" alt="The contrast dialog with best text per shade and the pairing matrix"></td>
-<td width="50%"><img src="docs/images/export.png" alt="The export dialog showing a Tailwind v4 theme block"></td>
-</tr>
-<tr>
-<td align="center"><sub>Contrast: best text per shade, plus the pairing matrix</sub></td>
-<td align="center"><sub>Export: pick a format, copy, download, or get everything as a ZIP</sub></td>
-</tr>
-</table>
+Cards, website, branding, dashboard, components, shadcn/ui, apps, charts, gradients, logos and headings. Each page is built from your palette and switches between light and dark. Contrast and export stay out of the way until you ask for them.
 
 ## How it works
 
