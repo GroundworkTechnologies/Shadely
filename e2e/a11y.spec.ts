@@ -13,7 +13,7 @@ for (const scheme of ["light", "dark"] as const) {
     // Reduced motion removes color transitions, so axe never samples a half-faded color.
     test.use({ reducedMotion: "reduce" });
     test.beforeEach(async ({ page }) => {
-      await page.addInitScript((m) => localStorage.setItem("tintwork-theme", m), scheme);
+      await page.addInitScript((m) => localStorage.setItem("shadely-theme", m), scheme);
     });
 
     for (const route of ROUTES) {

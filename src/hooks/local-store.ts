@@ -1,8 +1,22 @@
 "use client";
 
-/** Minimal localStorage-backed external store for useSyncExternalStore. */
-export function createLocalStore(key: string, fallback: string) {
-  const event = `tintwork:${key}`;
+/**
+ * Moves a value saved under an old key to the new one, once. The old entry is removed only after
+ * the new one is written, so nothing is lost if storage fails halfway.
+ */
+export function migrateLocalKey(oldKey: string, newKey: string): void {
+  try {
+    if (localStorage.getItem(newKey) !== null) return;
+    const old = localStorage.getItem(oldKey);
+    if (old === null) return;
+    localStorage.setItem(newKey, old);
+    localStorage.removeItem(oldKey);
+  } catch {}
+}
+
+/** Minimal localStorage-backed external store for useSyncExternalStore. `legacyKey` is migrated on first read. */
+export function createLocalStore(key: string, fallback: string, legacyKey?: string) {
+  const event = `shadely:${key}`;
   return {
     subscribe(cb: () => void) {
       const onStorage = (e: StorageEvent) => (e.key === key || e.key === null) && cb();
@@ -14,6 +28,7 @@ export function createLocalStore(key: string, fallback: string) {
       };
     },
     get(): string {
+      if (legacyKey) migrateLocalKey(legacyKey, key);
       try {
         return localStorage.getItem(key) ?? fallback;
       } catch {

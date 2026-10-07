@@ -23,7 +23,7 @@ Runtime deps estimate: next, react, react-dom, ~6 Radix packages, cva, clsx, tai
 ## 3. Folder structure
 
 ```
-tintwork/
+shadely/
 ├─ docs/{research,plan}/
 ├─ public/                      # icons, static assets
 ├─ src/

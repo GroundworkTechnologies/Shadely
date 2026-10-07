@@ -43,8 +43,8 @@ describe("platform exports", () => {
   it("Compose has palette values and both schemes", () => {
     const kt = run("compose");
     expect(kt).toContain("val Brand500 = Color(0xFF");
-    expect(kt).toContain("val TintworkLightColors = lightColorScheme(");
-    expect(kt).toContain("val TintworkDarkColors = darkColorScheme(");
+    expect(kt).toContain("val ShadelyLightColors = lightColorScheme(");
+    expect(kt).toContain("val ShadelyDarkColors = darkColorScheme(");
   });
   it("SwiftUI exposes every shade", () => {
     const swift = run("ios");
@@ -64,7 +64,7 @@ describe("platform exports", () => {
     for (const f of ["flutter", "android", "compose", "ios", "css-modern"] as const) {
       expect(() => exportScales(brand, { format: f, syntax: "hex" })).not.toThrow();
     }
-    expect(exportScales(brand, { format: "flutter", syntax: "hex" })).not.toContain("TintworkSchemes");
+    expect(exportScales(brand, { format: "flutter", syntax: "hex" })).not.toContain("ShadelySchemes");
   });
 });
 
@@ -72,7 +72,7 @@ describe("export bundle", () => {
   const files = exportFiles(brand, { syntax: "oklch", full, sourceUrl: "https://x.test/?v=1" });
   it("contains every format in a sensible tree", () => {
     const paths = files.map((f) => f.path);
-    for (const p of ["tailwind/theme.css", "tailwind/tailwind.config.js", "css/modern.css", "css/shadcn-theme.css", "flutter/tintwork_colors.dart", "android/values/colors.xml", "android/values-night/colors.xml", "ios/TintworkColors.swift", "ios/Tintwork.xcassets/Contents.json", "tokens/style-dictionary/config.json", "README.md"]) {
+    for (const p of ["tailwind/theme.css", "tailwind/tailwind.config.js", "css/modern.css", "css/shadcn-theme.css", "flutter/shadely_colors.dart", "android/values/colors.xml", "android/values-night/colors.xml", "ios/ShadelyColors.swift", "ios/Shadely.xcassets/Contents.json", "tokens/style-dictionary/config.json", "README.md"]) {
       expect(paths, p).toContain(p);
     }
     expect(new Set(paths).size).toBe(paths.length);

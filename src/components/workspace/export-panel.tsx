@@ -89,18 +89,18 @@ export function ExportPanel({
       <div className="p-5">
         <div className="mb-3 flex flex-wrap gap-2">
           <Button variant="primary" onClick={() => onCopy(code, "Copied")}>
-            <Copy className="size-4" aria-hidden /> Copy
+            <Copy className="size-4" aria-hidden /> Copy code
           </Button>
           <Button onClick={() => save(code, "text/plain", FORMAT_FILES[format])} aria-label={`Download ${FORMAT_FILES[format]}`}>
             <Download className="size-4" aria-hidden /> Download
           </Button>
           <Button
             onClick={() => {
-              save(exportZip(scales, { syntax, sourceUrl: shareUrl || undefined, full: fullScales }) as BlobPart, "application/zip", `tintwork-${scales[0]?.name ?? "palette"}.zip`);
+              save(exportZip(scales, { syntax, sourceUrl: shareUrl || undefined, full: fullScales }) as BlobPart, "application/zip", `shadely-${scales[0]?.name ?? "palette"}.zip`);
               onNotify("ZIP downloaded");
             }}
           >
-            <FolderArchive className="size-4" aria-hidden /> All formats (ZIP)
+            <FolderArchive className="size-4" aria-hidden /> Download all formats (ZIP)
           </Button>
         </div>
         <pre tabIndex={0} aria-label="Export code" className="max-h-96 overflow-auto rounded-control bg-surface-muted p-4 text-sm leading-relaxed">

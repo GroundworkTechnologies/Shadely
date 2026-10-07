@@ -119,10 +119,8 @@ export function Cards() {
 
       <PCard className="rounded-xl">
         <p className="text-sm text-(--p-muted)">Customer reviews</p>
-        <p className="mt-1 text-3xl font-normal">
-          4.9 <span className="text-sm text-(--p-muted)">/ 5</span>
-        </p>
-        <div className="mt-1 flex gap-0.5 text-(--p-soft-fg)" role="img" aria-label="Rated 4.9 out of 5 stars">
+        <p className="mt-1 text-xl font-normal">Cut my admin time in half.</p>
+        <div className="mt-2 flex gap-0.5 text-(--p-soft-fg)" role="img" aria-label="Rated 5 out of 5 stars">
           {Array.from({ length: 5 }, (_, i) => (
             <Star key={i} className="size-4 fill-current" aria-hidden />
           ))}
@@ -133,7 +131,7 @@ export function Cards() {
               <Photo key={n} name={n} w={72} h={72} decorative className="size-9 rounded-full border-2 border-(--p-surface)" />
             ))}
           </div>
-          <span className="ml-3 text-sm text-(--p-muted)">2,300+ happy customers</span>
+          <span className="ml-3 text-sm text-(--p-muted)">From customers like these</span>
         </div>
       </PCard>
 

@@ -12,7 +12,8 @@ export interface SavedPalette {
   createdAt: number;
 }
 
-const store = createLocalStore("tintwork:palettes:v1", "[]");
+// "tintwork:palettes:v1" is the key from before the rename to Shadely; it is migrated on first read.
+const store = createLocalStore("shadely:palettes:v1", "[]", "tintwork:palettes:v1");
 
 function parse(raw: string): SavedPalette[] {
   try {

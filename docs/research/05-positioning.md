@@ -1,8 +1,8 @@
 # 05 — Positioning
 
-**One-liner:** *Tintwork turns one brand color into an accessible, Tailwind-ready system — scales, semantic tokens, dark mode and real UI previews — free, no sign-in, shareable by link.*
+**One-liner:** *Shadely turns one brand color into an accessible, Tailwind-ready system — scales, semantic tokens, dark mode and real UI previews — free, no sign-in, shareable by link.*
 
-## Where Tintwork wins
+## Where Shadely wins
 
 | Lever | What we do | Beats | Phase |
 |---|---|---|---|
@@ -16,7 +16,7 @@
 | **Color-vision simulation** | Protan/deutan/tritan/achromat preview toggle | everyone | v2 |
 | **Image / logo → palette** | Client-side dominant-color extraction (median cut) → pick brand color → full scale. No upload to a server | Coolors (no scales) | v2 |
 | **AI suggestions** | LLM-assisted: describe brand ("calm fintech for farmers") → candidate base colors with rationale, validated by our engine | all | later |
-| **Open API / CLI** | `GET /api/v1/scale/{hex}` plus `npx tintwork` (thin wrapper on the engine package) | UI Colors (paid, anti-competitive terms) | v2 |
+| **Open API / CLI** | `GET /api/v1/scale/{hex}` plus `npx shadely` (thin wrapper on the engine package) | UI Colors (paid, anti-competitive terms) | v2 |
 | **Speed & weight** | Static-first Next.js, system+one variable font, no third-party trackers by default | UI Colors (~230 KB HTML, third-party fonts/analytics) | MVP |
 
 ## Principles

@@ -89,7 +89,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
       <VisionFilters />
       <div className="mb-6 max-w-2xl">
         <h1 className="text-3xl font-normal sm:text-4xl">Tailwind color palette generator</h1>
-        <p className="mt-2 text-muted">One brand color in, an accessible 50–950 scale out.</p>
+        <p className="mt-2 text-muted">Turn one brand color into a full Tailwind color palette, from 50 to 950, with contrast checked and ready to export. Built for developers and designers using Tailwind. Free, no sign-up.</p>
       </div>
 
       <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
@@ -111,10 +111,10 @@ export function Workspace({ initial }: { initial: PaletteState }) {
 
           <div className="flex flex-wrap gap-2">
             <Button variant="primary" onClick={() => copy(window.location.href, "Link copied")}>
-              <Link2 className="size-4" aria-hidden /> Share link
+              <Link2 className="size-4" aria-hidden /> Copy share link
             </Button>
             <Button onClick={savePalette}>
-              {justSaved ? <Check className="size-4" aria-hidden /> : <Save className="size-4" aria-hidden />} {justSaved ? "Saved" : "Save"}
+              {justSaved ? <Check className="size-4" aria-hidden /> : <Save className="size-4" aria-hidden />} {justSaved ? "Saved" : "Save palette"}
             </Button>
             <div className="ml-auto flex gap-1">
               <Button variant="ghost" className="size-9 px-0" onClick={undo} disabled={!canUndo} aria-label="Undo" title="Undo (Ctrl/Cmd+Z)">

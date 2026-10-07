@@ -1,6 +1,6 @@
 # Phase 2 — Plan (part 3): design system
 
-Direction: **calm, precise, workshop-like** — a tool that feels like a well-made instrument. Neutral canvas so the user's colors are the loudest thing on screen. Tintwork's own accent is generated *by Tintwork* (dogfooding).
+Direction: **calm, precise, workshop-like** — a tool that feels like a well-made instrument. Neutral canvas so the user's colors are the loudest thing on screen. Shadely's own accent is generated *by Shadely* (dogfooding).
 
 ## 1. Color
 Defined as Tailwind v4 `@theme` tokens in `globals.css`, with semantic aliases switched by `.dark` / `prefers-color-scheme`.
@@ -35,7 +35,7 @@ Rule: color is never the only signal (icon + text for status and pass/fail).
 
 ## 4. Layout of the workspace
 ```
-┌ Header: Tintwork · Generate · Saved · Tailwind colors · theme · GitHub?        ┐
+┌ Header: Shadely · Generate · Saved · Tailwind colors · theme · GitHub?        ┐
 │ ┌ Controls (left, 360px) ────────┐ ┌ Preview (right, flexible) ──────────────┐ │
 │ │ Base color [#______] [picker] ⟳ │ │ [Light|Dark] [Vision: normal ▾]         │ │
 │ │ Palettes: Brand · Neutral · Status│ │ ┌ Landing ┐ Dashboard Form Charts ┐   │ │

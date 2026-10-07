@@ -28,12 +28,12 @@ Measured with `grep` over `src/` on 2026-10-06. Scope: app chrome and all 11 pre
 2. **Weights by role:** display and large headings (≥ 24 px) 400 with tighter tracking; body 400; labels, buttons, nav, panel titles 500; 600 only for brand wordmarks. Nothing lighter than 400 or heavier than 600.
 3. **Tracking from tokens:** `--text-*--letter-spacing` on `2xl` and up (-0.01em to -0.025em); per-element `tracking-tight` removed.
 4. **Radius tokens:** `--radius-control` 8 px (buttons, inputs, tabs, tiles), `--radius-card` 12 px (panels, preview cards). Pills and avatars stay fully round; phone frames keep their device radius.
-5. **Neutral chrome:** pure gray (chroma 0) generated with the Tintwork engine, white page in light, near-black (≈ #111) in dark. Primary action is near-black (light) / near-white (dark).
+5. **Neutral chrome:** pure gray (chroma 0) generated with the Shadely engine, white page in light, near-black (≈ #111) in dark. Primary action is near-black (light) / near-white (dark).
 6. **Borders:** panels, dividers, secondary buttons use a subtle 1 px border (decorative, text identifies the control). **Form fields, checkboxes and range tracks use a control border at ≥ 3:1** (WCAG 1.4.11), so low-contrast styling never costs accessibility.
 7. **Elevation:** none, except one `--shadow-float` for the toast.
 8. **Icons:** lucide, stroke 1.5 px, enforced in base CSS.
 9. **Contrast guard:** a unit test parses the tokens in `globals.css` and fails the build if any text/background pair is below 4.5:1 or any control border below 3:1, in light and dark.
-10. **Exceptions kept on purpose:** the base-color row is 40 px tall (primary field); Tintwork's logo keeps a small teal accent (it is a brand mark, not UI chrome); the 11 previews keep their own illustrative colors, driven by the user's palette.
+10. **Exceptions kept on purpose:** the base-color row is 40 px tall (primary field); Shadely's logo keeps a small teal accent (it is a brand mark, not UI chrome); the 11 previews keep their own illustrative colors, driven by the user's palette.
 
 ## 3. Outcome
 

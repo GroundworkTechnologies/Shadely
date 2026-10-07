@@ -42,7 +42,7 @@ Takeaways:
 
 **APCA** (WCAG 3 draft, Lc ‑108…+106, polarity-aware, font-size/weight dependent). Rough guidance: Lc 90 preferred body text; Lc 75 min body text (≥16px regular); Lc 60 large/semi-bold content text; Lc 45 large headlines; Lc 30 absolute minimum for non-text; Lc 15 invisible-ish. Rough equivalents: Lc 60 ≈ 3:1, 75 ≈ 4.5:1, 90 ≈ 7:1 — "functionally similar, not backward compatible". APCA is a **draft**, not legally recognized; WCAG 2.2 AA remains the compliance baseline.
 
-**How Tintwork should show it** (each scale):
+**How Shadely should show it** (each scale):
 1. **Per-shade chip**: best of white/black text, ratio, badge `AA`/`AAA`/`AA Large`/`Fail`, and APCA Lc — toggle metric (WCAG | APCA | both).
 2. **Pairing matrix** 11×11: row = background, col = foreground; cell colored by pass level; hover for numbers. This is what designers actually need ("what text color on 100/700?").
 3. **Guided picks**: automatically list "Safe text on 50/100", "Min shade for AA text on white", "Min for 3:1 UI on white".

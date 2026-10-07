@@ -15,7 +15,7 @@ export function Logo() {
         <rect x="8" y="1" width="6" height="20" rx="2" className="fill-accent-500" />
         <rect x="15" y="1" width="6" height="20" rx="2" className="fill-accent-800 dark:fill-accent-200" />
       </svg>
-      Tintwork
+      Shadely
     </span>
   );
 }
@@ -24,7 +24,7 @@ export function Header() {
   return (
     <header className="border-b border-border bg-background">
       <div className="page-container flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-3">
-        <Link href="/" aria-label="Tintwork home" className="rounded-control">
+        <Link href="/" aria-label="Shadely home" className="rounded-control">
           <Logo />
         </Link>
         <div className="flex items-center gap-2">

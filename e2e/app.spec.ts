@@ -47,8 +47,8 @@ test.describe("generator", () => {
   test("ZIP bundle downloads", async ({ page }) => {
     await open(page);
     await page.locator("#export").scrollIntoViewIfNeeded();
-    const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: /All formats \(ZIP\)/ }).click()]);
-    expect(download.suggestedFilename()).toMatch(/^tintwork-.*\.zip$/);
+    const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: /all formats \(ZIP\)/i }).click()]);
+    expect(download.suggestedFilename()).toMatch(/^shadely-.*\.zip$/);
   });
 
   test("every preview page renders", async ({ page }) => {
@@ -142,5 +142,23 @@ test.describe("theme", () => {
     await expect(html).toHaveClass(/dark/);
     await toggle.click();
     await expect(html).not.toHaveClass(/dark/);
+  });
+});
+
+test.describe("rename migration", () => {
+  test("saved palettes and the theme saved as Tintwork carry over to Shadely", async ({ page }) => {
+    await page.addInitScript(() => {
+      if (sessionStorage.getItem("seeded")) return;
+      sessionStorage.setItem("seeded", "1");
+      localStorage.setItem("tintwork:palettes:v1", JSON.stringify([{ id: "legacy-1", name: "Old indigo #505cc6", query: "v=1&b=505cc6", base: "#505cc6", createdAt: 1 }]));
+      localStorage.setItem("tintwork-theme", "dark");
+    });
+    await page.goto("/palettes", { waitUntil: "networkidle" });
+    await expect(page.getByLabel("Palette name")).toHaveValue("Old indigo #505cc6");
+    await expect(page.locator("html")).toHaveClass(/dark/);
+    const keys = await page.evaluate(() => ({ old: localStorage.getItem("tintwork:palettes:v1"), now: localStorage.getItem("shadely:palettes:v1"), theme: localStorage.getItem("shadely-theme") }));
+    expect(keys.old).toBeNull();
+    expect(keys.now).toContain("legacy-1");
+    expect(keys.theme).toBe("dark");
   });
 });

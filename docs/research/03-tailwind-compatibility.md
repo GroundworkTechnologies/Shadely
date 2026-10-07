@@ -15,7 +15,7 @@ Sample palette named `brand`, base `#3b82f6`. Values below are illustrative.
 }
 ```
 - Generates `bg-brand-500`, `text-brand-700`, `ring-brand-400/50`, etc.
-- Options Tintwork exposes: `@theme` (default) vs `@theme inline` (when values reference other vars, e.g. dark-mode semantic tokens), and an optional `--color-*: initial;` line to drop the default palette.
+- Options Shadely exposes: `@theme` (default) vs `@theme inline` (when values reference other vars, e.g. dark-mode semantic tokens), and an optional `--color-*: initial;` line to drop the default palette.
 - Semantic layer (v2): `:root { --primary: var(--color-brand-600) }` + `.dark { … }` + `@theme inline { --color-primary: var(--primary) }`, which is the shadcn/ui convention.
 - Value format choices: `oklch()` (default; lossless), hex, hsl, rgb, and `color(display-p3 …)` with sRGB fallback.
 - Number formatting: L as percent, C 3 decimals, H 1–3 decimals, trailing zeros trimmed — same style as Tailwind's own theme.
@@ -62,7 +62,7 @@ with `:root { --brand-500: 59 130 246; }`. v3 does not parse `oklch()` for opaci
 - Stops fixed: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950.
 - Names: kebab-case, validated against `[a-z][a-z0-9-]*`; reject collisions with Tailwind reserved color names unless the user opts in (warn, don't block).
 - Multi-palette export (brand + neutral + success/warning/danger/info) as one file.
-- Every export is deterministic and round-trippable: the output embeds a header comment with the Tintwork share URL so it can be regenerated.
+- Every export is deterministic and round-trippable: the output embeds a header comment with the Shadely share URL so it can be regenerated.
 
 ## 5. Tailwind default palettes
-Tintwork ships the full default v3 and v4 palettes as static data (for the reference page, "start from Tailwind color" and comparisons). v4.2 added `mauve`, `olive`, `mist`, `taupe`. Source of truth should be generated from the official `tailwindcss` package at build time (dev dependency) to avoid hand-copied values.
+Shadely ships the full default v3 and v4 palettes as static data (for the reference page, "start from Tailwind color" and comparisons). v4.2 added `mauve`, `olive`, `mist`, `taupe`. Source of truth should be generated from the official `tailwindcss` package at build time (dev dependency) to avoid hand-copied values.

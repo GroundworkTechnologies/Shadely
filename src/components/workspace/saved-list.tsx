@@ -25,7 +25,7 @@ export function SavedList() {
 
   const exportJson = () => {
     const url = URL.createObjectURL(new Blob([JSON.stringify(items, null, 2)], { type: "application/json" }));
-    Object.assign(document.createElement("a"), { href: url, download: "tintwork-palettes.json" }).click();
+    Object.assign(document.createElement("a"), { href: url, download: "shadely-palettes.json" }).click();
     URL.revokeObjectURL(url);
   };
 
@@ -38,7 +38,7 @@ export function SavedList() {
       replaceAll([...items, ...ok.filter((p) => !ids.has(p.id))]);
       setError("");
     } catch {
-      setError("That file is not a Tintwork palette backup.");
+      setError("That file is not a Shadely palette backup.");
     }
   };
 

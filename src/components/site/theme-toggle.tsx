@@ -5,8 +5,10 @@ import { useEffect, useSyncExternalStore } from "react";
 import { createLocalStore } from "@/hooks/local-store";
 
 type Mode = "light" | "dark";
-const KEY = "tintwork-theme";
-const store = createLocalStore(KEY, "light");
+const KEY = "shadely-theme";
+// "tintwork-theme" is the key from before the rename to Shadely; it is migrated on first read.
+const LEGACY_KEY = "tintwork-theme";
+const store = createLocalStore(KEY, "light", LEGACY_KEY);
 
 function useMode(): Mode {
   return useSyncExternalStore(store.subscribe, store.get, () => "light") === "dark" ? "dark" : "light";
@@ -36,4 +38,4 @@ export function ThemeToggle() {
 }
 
 /** Runs before hydration: light unless the visitor chose dark. */
-export const THEME_SCRIPT = `try{document.documentElement.classList.toggle("dark",localStorage.getItem("${KEY}")==="dark")}catch(e){}`;
+export const THEME_SCRIPT = `try{var v=localStorage.getItem("${KEY}");if(v===null){v=localStorage.getItem("${LEGACY_KEY}")}document.documentElement.classList.toggle("dark",v==="dark")}catch(e){}`;

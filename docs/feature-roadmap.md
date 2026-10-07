@@ -1,4 +1,4 @@
-# Tintwork feature roadmap
+# Shadely feature roadmap
 
 Status: proposal, nothing here is built yet. Current design, fonts and color engine stay as they are.
 
@@ -26,12 +26,12 @@ The UI was cut back to what most people need: base color, name and one collapsed
 
 **Deliberately not done in Phase 1:** privacy-friendly analytics (9.5, waiting on your hosting decision) and a lead-capture form (9.6, needs a backend). Everything else in Phase 2 and 3 is still open.
 
-## The 5 features that make Tintwork clearly unique
+## The 5 features that make Shadely clearly unique
 
-1. **Contrast-first scales with auto-fix** (1.4, 2.4). Say "every 600 must pass AA on white, every 100 must pass AA with 900" and Tintwork builds and repairs the scale to meet it, changing the minimum amount. uicolors.app shows contrast per shade; Leonardo does contrast-driven generation but has no Tailwind output or previews. Nobody combines all three.
+1. **Contrast-first scales with auto-fix** (1.4, 2.4). Say "every 600 must pass AA on white, every 100 must pass AA with 900" and Shadely builds and repairs the scale to meet it, changing the minimum amount. uicolors.app shows contrast per shade; Leonardo does contrast-driven generation but has no Tailwind output or previews. Nobody combines all three.
 2. **Complete semantic tokens for light and dark, exported to every platform** (1.9, 5.x). One palette becomes `background / surface / text / border / primary / ring` for light and dark with AA guaranteed, then exports to shadcn (built), Tailwind v4, Flutter, iOS, Android and Style Dictionary. No competitor does design-to-platform tokens from one color.
-3. **Import and migrate** (6.4, 6.5). Paste your existing `tailwind.config.js`, `@theme` block or token JSON. Tintwork shows how it differs from a perceptually even scale, contrast failures per pair, and offers a regenerated version side by side. This is the adoption lever for teams that already have a palette.
-4. **Palette as code** (7.1 to 7.5). A published zero-dependency engine, `npx tintwork` CLI, REST API, an MCP server for AI coding agents, and a GitHub Action that fails a pull request when brand colors stop meeting contrast. uicolors.app offers a paid API with terms that forbid competing tools; we ship open tooling.
+3. **Import and migrate** (6.4, 6.5). Paste your existing `tailwind.config.js`, `@theme` block or token JSON. Shadely shows how it differs from a perceptually even scale, contrast failures per pair, and offers a regenerated version side by side. This is the adoption lever for teams that already have a palette.
+4. **Palette as code** (7.1 to 7.5). A published zero-dependency engine, `npx shadely` CLI, REST API, an MCP server for AI coding agents, and a GitHub Action that fails a pull request when brand colors stop meeting contrast. uicolors.app offers a paid API with terms that forbid competing tools; we ship open tooling.
 5. **Local-first and private** (3.2, 8.2). Logo and image color extraction that never leaves the browser, an offline PWA, no account and no uploads.
 
 Honorable mentions: color-vision simulation across the whole preview (2.3), a custom curve editor with lock and edit per shade (1.2, 1.3), and "live on your own site" injection (4.2).
@@ -65,7 +65,7 @@ Honorable mentions: color-vision simulation across the whole preview (2.3), a cu
 | 2.1 | **WCAG 2.2 and APCA matrix** (built) with pass/fail per pair | uicolors.app: per-shade only, white background | Everyone | Done | Done | Free |
 | 2.2 | **Policy-aware pass/fail.** Choose text size and weight (body, large, UI, non-text) and standard (AA, AAA, APCA Lc tiers); badges adapt. Non-text 3:1 check for borders and focus rings | Competitors show one threshold | Accessibility leads | S | Should | Free |
 | 2.3 | **Color-vision simulation.** Protanopia, deuteranopia, tritanopia, achromatopsia across the scale and every preview page, plus a status-color distinguishability check (are success and danger separable?) | Absent in uicolors.app *(verify others)* | Designers, QA | M | Must | Free |
-| 2.4 | **Auto-fix.** Click a failing pair; Tintwork nudges lightness (keeping hue and chroma) to the nearest passing value and shows the change | Nobody | Developers who just want it to pass | M | Must | Free |
+| 2.4 | **Auto-fix.** Click a failing pair; Shadely nudges lightness (keeping hue and chroma) to the nearest passing value and shows the change | Nobody | Developers who just want it to pass | M | Must | Free |
 | 2.5 | **Accessible text picker per shade.** Built: best of white or black. Extend to palette-aware picks (for example `brand-900` on `brand-100`) with ratio and copyable class | uicolors.app suggests usage hints only | Everyone | S | Must | Free |
 | 2.6 | **Accessibility report.** One-page PDF, markdown or JSON: every pair, results, remediation, standard and date | Nobody | Agencies, procurement | M | Should | Pro |
 | 2.7 | **Forced-colors and low-vision previews.** Windows high contrast, 200% zoom and reduced-transparency views of the preview | Nobody | Accessibility teams | M | Nice | Free |
@@ -88,7 +88,7 @@ Honorable mentions: color-vision simulation across the whole preview (2.3), a cu
 | # | Feature | Beats | User value | Effort | Priority | Tier |
 |---|---|---|---|---|---|---|
 | 4.1 | **11 preview pages, light and dark** (built) | Realtime Colors has one page; tints.dev none | Everyone | Done | Done | Free |
-| 4.2 | **Live on your own site.** A one-line script, bookmarklet or `npx tintwork dev` overlay injects the palette as CSS variables into your running Tailwind v4 site. Cross-origin iframes cannot be recolored, so a proxy is not the answer | Nobody | Developers | L | Should | Free for localhost; hosted shareable previews Pro |
+| 4.2 | **Live on your own site.** A one-line script, bookmarklet or `npx shadely dev` overlay injects the palette as CSS variables into your running Tailwind v4 site. Cross-origin iframes cannot be recolored, so a proxy is not the answer | Nobody | Developers | L | Should | Free for localhost; hosted shareable previews Pro |
 | 4.3 | **Email preview.** Table-based, inline-hex email with dark-mode behavior | Nobody | Marketers | M | Should | Free |
 | 4.4 | **Paste your own markup.** Sandboxed iframe renders your HTML/Tailwind with the palette | Nobody | Developers | L | Nice | Free |
 | 4.5 | **Responsive device frames and side-by-side light and dark** | Nobody | Designers | S | Should | Free |
@@ -126,13 +126,13 @@ Honorable mentions: color-vision simulation across the whole preview (2.3), a cu
 
 | # | Feature | Beats | User value | Effort | Priority | Tier |
 |---|---|---|---|---|---|---|
-| 7.1 | **Published engine package + CLI.** `@groundwork/tintwork-engine` (zero dependencies) and `npx tintwork generate #505cc6 --format v4`, `check` (contrast gate), `import` | uicolors.app API terms forbid competing tools | Developers, CI | M | Must | Free |
+| 7.1 | **Published engine package + CLI.** `@groundwork/shadely-engine` (zero dependencies) and `npx shadely generate #505cc6 --format v4`, `check` (contrast gate), `import` | uicolors.app API terms forbid competing tools | Developers, CI | M | Must | Free |
 | 7.2 | **Public REST API with OpenAPI.** Scale, contrast, name, export; CORS; free rate-limited tier | uicolors.app API is paid-only | Tool builders | M | Should | Free tier; keys Pro |
 | 7.3 | **MCP server** so AI coding agents (Claude Code and others) can generate and validate palettes | Nobody | Developers using AI tools | S | Should | Free |
 | 7.4 | **Figma plugin.** Create styles and variables, two-way sync | uicolors.app has one | Designers | L | Should | Pro |
-| 7.5 | **GitHub Action.** Fail PRs when brand tokens drop below contrast, or when tokens drift from a Tintwork palette; sync tokens by PR | Nobody | Teams | M | Should | Pro |
+| 7.5 | **GitHub Action.** Fail PRs when brand tokens drop below contrast, or when tokens drift from a Shadely palette; sync tokens by PR | Nobody | Teams | M | Should | Pro |
 | 7.6 | **VS Code extension.** Inline swatches, "generate scale from color under cursor" | Nobody | Developers | L | Nice | Free |
-| 7.7 | **Vite/Tailwind plugin** generating theme from a `tintwork.config` | Nobody | Developers | M | Nice | Free |
+| 7.7 | **Vite/Tailwind plugin** generating theme from a `shadely.config` | Nobody | Developers | M | Nice | Free |
 
 ## 8. Pro polish
 
@@ -140,7 +140,7 @@ Honorable mentions: color-vision simulation across the whole preview (2.3), a cu
 |---|---|---|---|---|---|---|
 | 8.1 | **Command palette (Cmd/Ctrl+K) and shortcuts.** Space shuffles (built); add arrows to move stops, L lock, C copy, E export, D dark, Z undo | Spacebar only elsewhere | Power users | S | Must | Free |
 | 8.2 | **PWA and offline.** Everything is client-side, so the app works offline once installed | Nobody | Travelers, low-bandwidth regions | M | Should | Free |
-| 8.3 | **Embed widget.** Web component or iframe showing a palette or contrast checker with "Made with Tintwork" | Nobody | Bloggers, docs sites | M | Nice | Free with badge; Pro removes it |
+| 8.3 | **Embed widget.** Web component or iframe showing a palette or contrast checker with "Made with Shadely" | Nobody | Bloggers, docs sites | M | Nice | Free with badge; Pro removes it |
 | 8.4 | **Print and PDF brand sheet.** Palette, names, hex/OKLCH, contrast pairs, usage, optional logo, Groundwork-style template | Nobody | Agencies, clients | M | Should | Pro |
 | 8.6 | **Theming of the tool itself** (density, reduced motion presets) | Nice | Everyone | S | Nice | Free |
 

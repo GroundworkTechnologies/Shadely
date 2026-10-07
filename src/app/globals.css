@@ -4,7 +4,7 @@
 
 /* ------------------------------------------------------------------ *
  * Design tokens. Single source of truth for the app chrome.
- * Neutrals are pure gray (chroma 0), generated with the Tintwork engine.
+ * Neutrals are pure gray (chroma 0), generated with the Shadely engine.
  * The generated palettes are the only strong color on screen; the one
  * exception is the small logo mark, which uses the accent scale.
  * ------------------------------------------------------------------ */

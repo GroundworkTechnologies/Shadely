@@ -20,7 +20,7 @@
 - **Image/logo → palette** (client-side median-cut), pick color → scale.
 - **Color-vision simulation** toggle on preview.
 - **P3** preview with gamut badge.
-- **Public API** `GET /api/v1/scale/{hex}` and `npx tintwork` CLI (engine published as `@groundwork/tintwork-engine`).
+- **Public API** `GET /api/v1/scale/{hex}` and `npx shadely` CLI (engine published as `@groundwork/shadely-engine`).
 - Pairing-matrix **report export** (PNG/PDF/markdown).
 - `/contrast` standalone checker; `/tailwind-colors/[name]` SEO pages.
 - Playwright e2e + axe a11y CI.
@@ -65,7 +65,7 @@
 
 ## 4. Open questions (need your input; defaults chosen if you don't answer)
 
-1. **Groundwork brand assets**: logo, brand color, preferred footer wording? *Default: text wordmark "Tintwork", accent derived from a teal-green base `#2f8f6b`, footer "A Groundwork Technologies product" linking to groundwork.co.ke.*
+1. **Groundwork brand assets**: logo, brand color, preferred footer wording? *Default: text wordmark "Shadely", accent derived from a teal-green base `#2f8f6b`, footer "A Groundwork Technologies product" linking to groundwork.co.ke.*
 2. **Domain / deploy target**? *Default: Vercel-compatible, `metadataBase` from env `NEXT_PUBLIC_SITE_URL`.*
 3. **Analytics**? *Default: none in MVP.*
 4. **License**: engine open source (MIT) or private? *Default: private repo, engine kept isolated so it can be opened later.*

@@ -1,4 +1,4 @@
-# Tintwork
+# Shadely
 
 Tailwind color palette generator by [Groundwork Technologies](https://groundwork.co.ke). One brand color in, an accessible 50–950 scale out.
 

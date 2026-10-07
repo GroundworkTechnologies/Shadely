@@ -13,7 +13,7 @@ export function ShadcnPreview() {
     <div className="grid gap-4 p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="max-w-xl text-sm text-(--p-muted)">
-          These components use the exact shadcn/ui variables Tintwork exports, in {theme} mode. Paste the theme into <code className="tabular-nums">globals.css</code> and every shadcn component picks it up.
+          These components use the exact shadcn/ui variables Shadely exports, in {theme} mode. Paste the theme into <code className="tabular-nums">globals.css</code> and every shadcn component picks it up.
         </p>
         <button type="button" onClick={onExportShadcn} className="inline-flex h-9 items-center rounded-lg bg-(--p-primary) px-4 text-sm font-medium text-(--p-primary-fg) hover:bg-(--p-primary-hover)">
           Get shadcn theme CSS

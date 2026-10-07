@@ -60,14 +60,14 @@ export function Landing() {
                 <Photo key={n} name={n} w={64} h={64} decorative className="size-8 rounded-full border-2 border-(--p-bg)" />
               ))}
             </div>
-            <span>Loved by 2,300+ teams</span>
+            <span>Trusted by teams worldwide</span>
           </div>
         </div>
         <Photo name="workspace" w={720} h={560} priority className="aspect-[9/7] w-full rounded-xl" />
       </Section>
 
       <Section className="border-y border-(--p-border) bg-(--p-surface) py-8 @2xl:py-8">
-        <p className="mb-5 text-center text-sm text-(--p-muted)">Trusted by growing teams</p>
+        <p className="mb-5 text-center text-sm text-(--p-muted)">Trusted by teams worldwide</p>
         <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-(--p-muted)">
           {[
             ["orbit", "Savanna"],
