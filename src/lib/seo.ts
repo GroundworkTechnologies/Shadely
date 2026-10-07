@@ -14,8 +14,8 @@ export interface PageSeo {
 export const PAGES = {
   home: {
     path: "/",
-    title: "Tailwind CSS Color Generator",
-    description: "Turn one brand color into a Tailwind color palette that passes contrast. Free, with live previews and exports for Tailwind, shadcn/ui and Flutter.",
+    title: "Shadely: Tailwind Color Palette Generator",
+    description: "Turn any color into a Tailwind color palette that passes contrast. Free, with live previews on real components and exports for Tailwind and shadcn/ui.",
     keyword: "Tailwind color palette",
     index: true,
   },

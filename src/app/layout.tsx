@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   creator: SITE.company,
   publisher: SITE.company,
   keywords: ["Tailwind color palette generator", "Tailwind CSS colors", "OKLCH color scales", "WCAG contrast checker", "shadcn/ui theme generator", "design tokens"],
-  alternates: { canonical: "/" },
   openGraph: { type: "website", siteName: SITE.name, locale: "en_US", title: PAGES.home.title, description: PAGES.home.description, url: "/" },
   twitter: { card: "summary_large_image", title: PAGES.home.title, description: PAGES.home.description },
 };
@@ -47,9 +46,18 @@ const jsonLd = [
       "Export to Tailwind v4, Tailwind v3, CSS, SCSS, design tokens, shadcn/ui, Flutter, Android and iOS",
     ],
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    image: `${SITE.url}/brand/png/shadely-app-icon-512.png`,
     publisher: { "@type": "Organization", name: SITE.company, url: SITE.companyUrl },
   },
-  { "@context": "https://schema.org", "@type": "Organization", name: SITE.company, url: SITE.companyUrl, brand: { "@type": "Brand", name: SITE.name } },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE.company,
+    url: SITE.companyUrl,
+    logo: `${SITE.url}/brand/png/shadely-app-icon-512.png`,
+    sameAs: [SITE.repoUrl],
+    brand: { "@type": "Brand", name: SITE.name, logo: `${SITE.url}/brand/png/shadely-app-icon-512.png` },
+  },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

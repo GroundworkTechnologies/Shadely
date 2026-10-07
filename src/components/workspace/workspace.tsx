@@ -93,7 +93,7 @@ export function Workspace({ initial }: { initial: PaletteState }) {
       <div className="grid grid-cols-[minmax(0,1fr)] lg:h-full lg:grid-cols-12">
         <div className="grid min-h-0 grid-cols-[minmax(0,1fr)] content-start gap-5 border-border py-5 lg:col-span-4 lg:overflow-y-auto lg:border-r lg:pr-6 xl:col-span-3">
           <div>
-            <h1 className="text-xl font-semibold">Tailwind CSS Color Generator</h1>
+            <h1 className="text-xl font-semibold">Tailwind color palette generator</h1>
             <p className="mt-3 text-base text-muted">Turn any color into a perfect <Link href="/tailwind-colors" className="underline underline-offset-2 hover:text-foreground">Tailwind palette</Link>, then preview it on real components and designs.</p>
           </div>
 

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { PAGES } from "@/lib/seo";
+import { pageMetadata } from "@/lib/page-metadata";
 import { SavedList } from "@/components/workspace/saved-list";
 
-const P = PAGES.palettes;
-export const metadata: Metadata = { title: P.title, description: P.description, robots: { index: false }, alternates: { canonical: P.path } };
+export const metadata: Metadata = pageMetadata("palettes");
 
 export default function PalettesPage() {
   return (

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PAGES } from "@/lib/seo";
+import { pageMetadata } from "@/lib/page-metadata";
 import { SITE } from "@/lib/site";
 
-const P = PAGES.about;
-export const metadata: Metadata = { title: P.title, description: P.description, alternates: { canonical: P.path } };
+export const metadata: Metadata = pageMetadata("about");
 
 const FAQ = [
   ["Is Shadely free?", "Yes. Every feature works without paying or signing up."],

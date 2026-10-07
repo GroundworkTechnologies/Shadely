@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { PAGES } from "@/lib/seo";
+import { pageMetadata } from "@/lib/page-metadata";
 import { SITE } from "@/lib/site";
 
-const P = PAGES.privacy;
-export const metadata: Metadata = { title: P.title, description: P.description, alternates: { canonical: P.path } };
+export const metadata: Metadata = pageMetadata("privacy");
 
 export default function Privacy() {
   return (

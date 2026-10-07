@@ -7,9 +7,8 @@ const pages = Object.entries(PAGES);
 
 /** SEO.md rules, checked for every page. */
 describe("page SEO (SEO.md)", () => {
-  it.each(pages)("%s: title is 'Shadely: Tagline' and short enough", (k, p) => {
-    // The home title is set explicitly to "Tailwind CSS Color Generator".
-    if (k !== "home") expect(p.title).toMatch(/^Shadely: .+/);
+  it.each(pages)("%s: title is 'Shadely: Tagline' and short enough", (_k, p) => {
+    expect(p.title).toMatch(/^Shadely: .+/);
     expect(p.title.length).toBeLessThanOrEqual(60);
   });
   it.each(pages)("%s: description is under 160 characters", (_k, p) => {

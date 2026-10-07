@@ -12,7 +12,7 @@ test.describe("generator", () => {
     page.on("pageerror", (e) => errors.push(e.message));
     page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
     await open(page);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Tailwind CSS Color Generator");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Tailwind color palette generator");
     await expect(page.getByRole("tablist", { name: "Scale" }).getByRole("tab")).toHaveCount(6);
     expect(errors).toEqual([]);
   });
